@@ -9,6 +9,7 @@ CREATE TABLE car_info (
 CREATE TABLE monthly_parking (
     id INT AUTO_INCREMENT PRIMARY KEY COMMENT 'PK: 월주차 등록 번호',
     plate_number VARCHAR(20) NOT NULL COMMENT '차량번호',
+    begin_date DATE NOT NULL COMMENT '시작날짜',
     expiry_date DATE NOT NULL COMMENT '만료날짜'
 ) COMMENT='월주차 정기권 등록 명단';
 
@@ -40,17 +41,17 @@ CREATE TABLE fee_policy (
     max_cap_amount INT DEFAULT 15000 COMMENT '최대 비용(cap)'
 ) COMMENT='주차 요금 산정 정책';
 
--- [기타 관리용 쿼리] -----------------------------------------
+-- 아래는 유사 시 사용 ------------------------------------
 
--- 강제로 테이블 지우기 전에 외래키 체크 해제
+-- 강제로 테이블 지우기 전에 사용
 SET FOREIGN_KEY_CHECKS = 0;
 
--- 테이블 삭제 (역순 삭제 권장)
-DROP TABLE IF EXISTS fee_policy;
-DROP TABLE IF EXISTS discount_info;
-DROP TABLE IF EXISTS parking_times;
-DROP TABLE IF EXISTS monthly_parking;
+-- 테이블 삭제
 DROP TABLE IF EXISTS car_info;
+DROP TABLE IF EXISTS monthly_parking;
+DROP TABLE IF EXISTS parking_times;
+DROP TABLE IF EXISTS discount_info;
+DROP TABLE IF EXISTS fee_policy;
 
--- 외래키 체크 원상복구
+-- 테이블을 지웠으면 원상복구
 SET FOREIGN_KEY_CHECKS = 1;
