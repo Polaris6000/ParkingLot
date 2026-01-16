@@ -23,7 +23,7 @@ CREATE TABLE parking_times (
 /* 4. 할인정보: 차량별 할인 대상 여부 (순화된 표현 반영) */
 CREATE TABLE discount_info (
     id INT PRIMARY KEY COMMENT 'PK: car_info의 id와 매칭',
-    is_need_help CHAR(1) DEFAULT 'N' COMMENT '도움 필요(장애인) 할인 대상 ("Y"|"N")',
+    is_disability_discount CHAR(1) DEFAULT 'N' COMMENT '장애인 할인 대상 ("Y"|"N")',
     is_compact_car CHAR(1) DEFAULT 'N' COMMENT '경차 여부 ("Y"|"N")',
     CONSTRAINT fk_car_discount FOREIGN KEY (id) REFERENCES car_info(id)
 ) COMMENT='차량별 할인 대상 정보';
