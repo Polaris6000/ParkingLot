@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주차 관리 시스템</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/css/dashboard.css">
+</head>
+<body>
+    <div class="container">
+        <header class="dashboard-header">
+            <h1>주차 관리 시스템</h1>
+            <div class="header-buttons">
+                <button class="icon-btn"><i class="fa-solid fa-bell"></i></button>
+                <button class="exit-btn">차량 출고</button>
+            </div>
+        </header>
+
+        <main class="main-content">
+
+            <section class="left-panel">
+                <div class="stats-container">
+                    <div class="card mini">
+                        <div class="value" id="occupancy-rate">0/20</div>
+                        <div class="label">현재 주차 점유</div>
+                    </div>
+                    <div class="card mini">
+                        <div class="value" id="ev-rate">0/2</div>
+                        <div class="label">전기차 충전 점유</div>
+                    </div>
+                    <div class="card full">
+                        <div class="value">74</div>
+                        <div class="label">오늘 총 방문자 수</div>
+                    </div>
+                </div>
+
+                <div class="occupancy-section">
+                    <div class="section-header">
+                        <h2>실시간 주차 현황</h2>
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <label for="searchInput"></label><input type="text" id="searchInput" placeholder="주차 번호 검색">
+                        </div>
+                    </div>
+
+                    <div class="row-group">
+                        <div class="row-label">1번 구역 (Row 1)</div>
+                        <div id="row1" class="parking-row"></div>
+                    </div>
+
+                    <div class="row-group">
+                        <div class="row-label">2번 구역 (Row 2)</div>
+                        <div id="row2" class="parking-row"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="right-panel">
+                <div class="detail-placeholder">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <p>상세 정보를 보려면<br>주차 칸을 선택하세요.</p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
