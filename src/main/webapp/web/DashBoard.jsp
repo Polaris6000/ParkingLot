@@ -9,14 +9,16 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="../static/css/DashBoard.css">
 </head>
 <body>
     <main>
         <div>
-        <%-- 주은씨 위쪽 구역 --%>
+        <%-- 민종씨 왼쪽 구역 --%>
         </div>
         <div>
-        <%-- 혜윰 아래쪽 구역 --%>
+        <%-- 종현씨 오른쪽 구역 --%>
+            <%@include file="common/CarInfo.jsp"%>
         </div>
     </main>
 </body>

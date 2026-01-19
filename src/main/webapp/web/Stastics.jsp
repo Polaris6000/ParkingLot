@@ -9,14 +9,15 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="../static/css/Statstics.css">
 </head>
 <body>
     <main>
         <div>
-        <%-- 민종씨 왼쪽 구역 --%>
+        <%-- 주은씨 위쪽 구역 --%>
         </div>
         <div>
-        <%-- 종현씨 오른쪽 구역 --%>
+        <%-- 혜윰 아래쪽 구역 --%>
         </div>
     </main>
 </body>
