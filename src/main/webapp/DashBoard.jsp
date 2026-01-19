@@ -11,6 +11,13 @@
     <title>Title</title>
 </head>
 <body>
-
+    <main>
+        <div>
+        <%-- 민종씨 왼쪽 구역 --%>
+        </div>
+        <div>
+        <%-- 종현씨 오른쪽 구역 --%>
+        </div>
+    </main>
 </body>
 </html>
