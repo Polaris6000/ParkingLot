@@ -18,7 +18,7 @@
         </div>
         <div>
         <%-- 종현씨 오른쪽 구역 --%>
-            <%@include file="common/CarInfo.jsp"%>
+            <%@include file="common/CarInfo.jsp"%>dd
         </div>
     </main>
 </body>
