@@ -1,3 +1,11 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: warmice8226
+  Date: 26. 1. 14.
+  Time: 오후 5:16
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -57,6 +65,8 @@
             </section>
 
             <section class="right-panel">
+
+<%--                종현님 오른쪽 구역 --%>
                 <div class="detail-placeholder">
                     <i class="fa-solid fa-circle-info"></i>
                     <p>상세 정보를 보려면<br>주차 칸을 선택하세요.</p>
