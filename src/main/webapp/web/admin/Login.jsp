@@ -12,7 +12,7 @@
 <main>
     <section class="site-name">
         <div>
-            <span class="site-name-span">차량 유지보수 관리 시스템</span>
+            <span class="site-name-span">주차장 관리 시스템</span>
         </div>
     </section>
 

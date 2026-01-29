@@ -58,26 +58,26 @@ findSummitBtn.onclick = () => {
         changePw(findPwInputId.value, findPwInputEmail.value);
     }
 
-
-    //모든 작업 종료 후 2초 뒤 다시 작업 가능하게 변경.
-    setTimeout(() => {
-        console.log('다시 실행 가능.');
-        isPorcessing = false;
-        console.log('버튼 활성화');
-        findSummitBtn.removeAttribute('disabled');
-        findSummitBtn.style.backgroundColor = 'skyblue';
-        findSummitBtn.textContent = '확인';
-    }, 2000);
 }
 
+function resetBtn(){
+    console.log('다시 실행 가능.');
+    isPorcessing = false;
+    console.log('버튼 활성화');
+    findSummitBtn.removeAttribute('disabled');
+    findSummitBtn.style.backgroundColor = '#1f2d3d';
+    findSummitBtn.textContent = '찾기';
+}
 
 //아이디 찾기에 정보를 입력했을 때 처리
 function findId(email) {
     // console.log(findIdInputEmail.value)
     if (email === '') {
-        alert("빈칸을 입력하셨습니다.")
+        alert("빈칸을 입력하셨습니다.");
+        resetBtn();
         return;
     }
+
     // fetch(`http://localhost:8080/authentication/findid?email=${email}`)
     //     .then(response => {
     //             // console.log(response.json()); //왜 이거 있으면 오류 나냐
@@ -99,12 +99,14 @@ function changePw(id, email) {
     // console.log(findPwInputId.value)
     // console.log(findPwInputEmail.value)
     if (id === '') {
-        alert("아이디칸이 비었습니다.")
+        alert("아이디칸이 비었습니다.");
+        resetBtn();
         return;
     }
 
     if (email === '') {
-        alert("이메일칸이 비었습니다.")
+        alert("이메일칸이 비었습니다.");
+        resetBtn();
         return;
     }
 
