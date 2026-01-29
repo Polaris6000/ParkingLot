@@ -1,1 +1,88 @@
 @import "../public.css";
+
+@import "public.css";
+
+
+main{
+    position: absolute;
+    display: inline-block;
+    top: calc(50% - 145px);
+    left: calc(50% - 250px);
+    width: 500px;
+    height: 290px;
+    /*background-color: brown;*/
+}
+
+.select-section{
+    display: flex;
+}
+
+.select-section div{
+    /*background-color: green;*/
+}
+
+.select-section button{
+
+    width: 250px;
+    height: 56px;
+    background-color: white;
+    outline: unset;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border : 2px solid #1f2d3d;
+    &:hover{
+        cursor: pointer;
+    }
+}
+
+.select-section .find_id button{
+    background-color: #1f2d3d;
+    color: white;
+}
+
+.input-section{
+    height: 228px;
+    text-align: center;
+    border : 2px solid #1f2d3d;
+    border-top: unset;
+    background-color: white;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.input-section p{
+    font-size: x-large;
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+
+.input-section div{
+    height: 100px;
+    font-size: x-large;
+
+}
+
+.input-section input{
+    padding: 2px 5px;
+    border : 1px solid black;
+    border-radius: 10px;
+    font-size: x-large;
+    margin-bottom: 10px;
+    &:focus{
+        outline: unset;
+    }
+}
+
+.input-section button{
+    background-color: #1f2d3d;
+    color: white;
+    border: unset;
+    border-radius: 8px;
+    width: 100px;
+    height: 40px;
+    font-size: large;
+    &:hover{
+        outline: unset;
+        cursor: pointer;
+    }
+}
