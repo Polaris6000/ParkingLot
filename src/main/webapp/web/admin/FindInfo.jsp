@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../../static/css/admin/FindInfo.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/public.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/admin/FindInfo.css">
+    <script defer src="${pageContext.request.contextPath}/static/js/admin/FindInfo.js"></script>
+
 </head>
 <body>
 <main>

@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../../static/css/admin/Login.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/public.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/admin/Login.css">
+    <script defer src="${pageContext.request.contextPath}/static/js/admin/Login.js"></script>
 </head>
 <body>
 <main>
@@ -139,7 +141,7 @@
                 <li>
                     <a
                             target="_blank"
-                            href="/user/signup"
+                            href="/web/admin/Signup.jsp"
                             id="join"
                             class="find_text"
                     >회원가입</a
@@ -148,7 +150,7 @@
                 <li>
                     <a
                             target="_blank"
-                            href="/user/findidpw"
+                            href="/web/admin/FindInfo.jsp"
                             id="pwinquiry"
                             class="find_text"
                     >아이디/비밀번호 찾기</a
