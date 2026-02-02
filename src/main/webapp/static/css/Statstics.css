@@ -1,20 +1,6 @@
 @import "public.css";
 /* Statstics.css - Statistics Page Styles */
 
-@font-face {
-    font-family: 'Bookk Gothic';
-    src: url('../font/BookkGothic_Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Bookk Gothic';
-    src: url('../font/BookkGothic_Light.ttf') format('truetype');
-    font-weight: 300;
-    font-style: normal;
-}
-
 * {
     margin: 0;
     padding: 0;
