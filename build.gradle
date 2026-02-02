@@ -38,8 +38,8 @@ dependencies {
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.5.7'
 
     // Log4j2 라이브러리 추가
-    implementation 'org.apache.logging.log4j:log4j-api:2.24.3'
-    implementation 'org.apache.logging.log4j:log4j-core:2.24.3'
+    implementation 'org.apache.logging.log4j:log4j-api:2.25.3'
+    implementation 'org.apache.logging.log4j:log4j-core:2.25.3'
 }
 
 test {

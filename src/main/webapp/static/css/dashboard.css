@@ -1,0 +1,196 @@
+:root {
+    --bg-color: #f8f9fc;
+    --accent-blue: #5c7cfa;
+    --occupied-blue: #3b5bdb;
+    --ev-green: #52c41a;
+    --empty-gray: #dee2e6;
+    --white: #ffffff;
+}
+
+/* 기본 세팅 */
+body {
+    background: var(--bg-color);
+    font-family: 'Pretendard', sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    width: 1200px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 헤더 */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.exit-btn {
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.icon-btn {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    color: var(--accent-blue);
+    cursor: pointer;
+}
+
+/* 메인 레이아웃 (좌/우 분할) */
+.main-content {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.left-panel {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.right-panel {
+    flex: 1;
+    background: var(--white);
+    border-radius: 15px;
+    border: 1px solid #eee;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 통계 카드 */
+.stats-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.card {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #eee;
+}
+
+.card.full {
+    grid-column: span 2;
+}
+
+.card .value {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--occupied-blue);
+}
+
+.card .label {
+    color: #888;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* 주차 현황판 */
+.occupancy-section {
+    background: var(--white);
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid #eee;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-box {
+    border: 1px solid #ddd;
+    padding: 5px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    margin-left: 8px;
+    font-size: 14px;
+}
+
+.row-label {
+    background: #e7f0ff;
+    color: var(--accent-blue);
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.parking-row {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* 주차 아이콘 스타일 */
+.spot {
+    font-size: 40px;
+    color: var(--empty-gray);
+    text-align: center;
+    padding: 5px;
+    transition: 0.2s;
+}
+
+.spot.occupied {
+    color: var(--occupied-blue);
+}
+
+/* 점유된 일반차: 파랑 */
+.spot.occupied.ev-spot {
+    color: var(--ev-green);
+}
+
+/* 점유된 전기차: 초록 */
+
+/* 검색 강조 */
+.spot.search-hit {
+    border: 2px solid #ff4d4f;
+    border-radius: 8px;
+    transform: scale(1.1);
+}
+
+/* 우측 빈 공간 안내 */
+.detail-placeholder {
+    text-align: center;
+    color: #adb5bd;
+}
+
+.detail-placeholder i {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
