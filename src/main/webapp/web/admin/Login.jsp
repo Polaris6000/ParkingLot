@@ -20,7 +20,7 @@
         <!-- content -->
         <div class="content">
             <div class="login_wrap">
-                <form id="frmNIDLogin" th:action="@{/user/login}" method="POST">
+                <form id="frmNIDLogin" action="${pageContext.request.contextPath}/web/dash_board.jsp" method="POST">
                     <div class="panel_inner">
                         <div class="login_box">
                             <!--                                        아이디 입력 공간-->

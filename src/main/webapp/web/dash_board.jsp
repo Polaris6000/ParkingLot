@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="../static/css/dashboard.css">
 </head>
 <body>
+    <%@include file="common/header.jsp"%>
     <div class="container">
         <header class="dashboard-header">
             <h1>주차 관리 시스템</h1>

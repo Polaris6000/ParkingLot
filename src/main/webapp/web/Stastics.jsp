@@ -13,6 +13,7 @@
 
 </head>
 <body>
+<%@include file="common/header.jsp"%>
 <main>
     <div>
         <div class="top-section">
