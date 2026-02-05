@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/test_data.css">
 </head>
 <body>
+
+<%@include file="common/header.jsp" %>
+
 <div class="container">
     <!-- 헤더: 대시보드로 돌아가기 버튼 -->
     <header class="page-header">

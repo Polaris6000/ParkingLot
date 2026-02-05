@@ -12,10 +12,7 @@
 </head>
 <body>
 
-<%-- header include (선택사항) --%>
-<c:catch var="headerError">
-    <%@include file="common/header.jsp" %>
-</c:catch>
+<%@include file="common/header.jsp" %>
 
 <div class="container">
     <header class="dashboard-header">
@@ -118,15 +115,17 @@
     // 주차 구역 데이터를 JavaScript 배열로 변환
     let parkingSpotsData = [
         <c:if test="${parkingSpots != null && parkingSpots.size() > 0}">
-            <c:forEach var="spot" items="${parkingSpots}" varStatus="status">
+        <c:forEach var="spot" items="${parkingSpots}" varStatus="status">
         {
             spotNumber: "${spot.spotNumber}",
             occupied: ${spot.occupied},
-            plateNumber: <c:choose><c:when test="${spot.plateNumber != null}">"${spot.plateNumber}"</c:when><c:otherwise>null</c:otherwise></c:choose>,
-            entryTime: <c:choose><c:when test="${spot.entryTime != null}">"${spot.entryTime}"</c:when><c:otherwise>null</c:otherwise></c:choose>,
+            plateNumber: <c:choose><c:when test="${spot.plateNumber != null}">"${spot.plateNumber}"
+            </c:when><c:otherwise>null</c:otherwise></c:choose>,
+            entryTime: <c:choose><c:when test="${spot.entryTime != null}">"${spot.entryTime}"
+            </c:when><c:otherwise>null</c:otherwise></c:choose>,
             carId: <c:choose><c:when test="${spot.carId != null}">${spot.carId}</c:when><c:otherwise>null</c:otherwise></c:choose>
-        }<c:if test="${!status.last}">,</c:if>
-            </c:forEach>
+        }<c:if test="${!status.last}">, </c:if>
+        </c:forEach>
         </c:if>
     ];
 
