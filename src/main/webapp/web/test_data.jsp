@@ -33,9 +33,9 @@
     </c:if>
 
 
-    <!-- 통계 -->
+    <!-- 현황 -->
     <div class="stats-box">
-        <i class="fa-solid fa-chart-simple"></i> 통계
+        <i class="fa-solid fa-chart-simple"></i> 현황
         <div class="stats-content">${statistics}</div>
     </div>
 
