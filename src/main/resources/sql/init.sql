@@ -9,7 +9,7 @@ use `parking_lot`;
 create user 'admin'@'localhost' identified by '8282';
 
 -- 사용자에게 데이터베이스 권한 부여
-grant all privileges on `parking_lot`.* to 'todo_user'@'localhost';
+grant all privileges on `parking_lot`.* to 'admin'@'localhost';
 
 
 -- 1. 차량 정보: 현재 주차장에 등록된 차량의 기본 정보 */

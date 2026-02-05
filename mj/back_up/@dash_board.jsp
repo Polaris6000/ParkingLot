@@ -13,10 +13,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주차 관리 시스템</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../static/css/dashboard.css">
+    <link rel="stylesheet" href="../../src/main/webapp/static/css/dashboard.css">
 </head>
 <body>
-    <%@include file="common/header.jsp"%>
+    <%@include file="../../src/main/webapp/web/common/header.jsp"%>
     <div class="container">
         <header class="dashboard-header">
             <h1>주차 관리 시스템</h1>
@@ -76,6 +76,6 @@
 
         </main>
     </div>
-    <script src="script.js"></script>
+    <script src="@dashboard.js"></script>
 </body>
 </html>

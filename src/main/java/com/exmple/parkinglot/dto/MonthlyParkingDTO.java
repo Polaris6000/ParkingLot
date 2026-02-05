@@ -5,12 +5,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CarInfoDTO {
+public class MonthlyParkingDTO {
     private Integer id;
     private String plateNumber;
-    private String parkingSpot;
+    private String name;
+    private String phoneNumber;
+    private LocalDate beginDate;
+    private LocalDate expiryDate;
 }
