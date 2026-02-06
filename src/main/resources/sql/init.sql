@@ -74,4 +74,12 @@ create table if not exists admin
     email          varchar(50) not null comment '이메일 정보',
     authorization  enum ('user','master') default 'user' comment '권한정보',
     authentication boolean comment '로그인 가능 여부'
-)
+);
+
+create table if not exists pay_logs
+(
+    id               int auto_increment primary key comment '관리번호',
+    pay_time         datetime not null comment '결제 시간',
+    kind_of_discount enum ('normal','light','disabled','monthly') comment '차종 유형',
+    pay_log          int comment '결제 금액'
+) comment ='차량 1대 결제에 대한 기록';
