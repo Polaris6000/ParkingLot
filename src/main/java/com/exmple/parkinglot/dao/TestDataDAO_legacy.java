@@ -1,21 +1,17 @@
 package com.exmple.parkinglot.dao;
 
-import com.exmple.parkinglot.domain.FeePolicyVO;
-import com.exmple.parkinglot.dto.FeePolicyDTO;
-import com.exmple.parkinglot.util.ConnectionUtil;
 import lombok.Cleanup;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class TestDataDAO {
+public class TestDataDAO_legacy {
 
     private static final Random random = new Random();
 
@@ -35,14 +31,14 @@ public class TestDataDAO {
     // 전화번호 생성
     private String generatePhoneNumber() {
         return String.format("010-%04d-%04d",
-                random.nextInt(10000),
-                random.nextInt(10000));
+            random.nextInt(10000),
+            random.nextInt(10000));
     }
 
     // 이름 생성
     private String generateName() {
         return LAST_NAMES[random.nextInt(LAST_NAMES.length)] +
-                FIRST_NAMES[random.nextInt(FIRST_NAMES.length)];
+               FIRST_NAMES[random.nextInt(FIRST_NAMES.length)];
     }
 
     // 1. 대량 입차 데이터 생성 (최대 20개, 중복 위치 방지)
@@ -165,7 +161,7 @@ public class TestDataDAO {
         int insertedCount = 0;
 
         String sql = "INSERT INTO monthly_parking (plate_number, name, phone_number, begin_date, expiry_date) " +
-                "VALUES (?, ?, ?, ?, ?)";
+                    "VALUES (?, ?, ?, ?, ?)";
 
         for (int i = 0; i < count; i++) {
             try {
@@ -186,28 +182,30 @@ public class TestDataDAO {
         return insertedCount;
     }
 
-    // 4. 요금 정책 추가
-    public void insertFeePolicy(FeePolicyVO feePolicyVO) {
-        String sql ="insert into fee_policy (base_fee, basic_unit_minute, unit_fee, billing_unit_minutes, help_discount_rate, compact_discount_rate, grace_period_minutes, max_cap_amount) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    // 4. 요금 정책 대량 등록 (히스토리)
+    public int bulkInsertFeePolicies(Connection conn, int count) throws Exception {
+        int insertedCount = 0;
 
-        try {
-            @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
-            @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, feePolicyVO.getBaseFee());
-            preparedStatement.setInt(2, feePolicyVO.getBasicUnitMinute());
-            preparedStatement.setInt(3, feePolicyVO.getUnitFee());
-            preparedStatement.setInt(4, feePolicyVO.getBillingUnitMinutes());
-            preparedStatement.setInt(5, feePolicyVO.getHelpDiscountRate());
-            preparedStatement.setInt(6, feePolicyVO.getCompactDiscountRate());
-            preparedStatement.setInt(7, feePolicyVO.getGracePeriodMinutes());
-            preparedStatement.setInt(8, feePolicyVO.getMaxCapAmount());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        String sql = "INSERT INTO fee_policy (base_fee, basic_unit_minute, unit_fee, billing_unit_minutes, " +
+                    "help_discount_rate, compact_discount_rate, grace_period_minutes, max_cap_amount) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        for (int i = 0; i < count; i++) {
+            @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, 2000 + random.nextInt(1000) * 500); // 2000-6500
+            pstmt.setInt(2, 60); // 기본 60분
+            pstmt.setInt(3, 500 + random.nextInt(10) * 100); // 500-1500
+            pstmt.setInt(4, 10 + random.nextInt(5) * 10); // 10-60
+            pstmt.setInt(5, 30 + random.nextInt(5) * 10); // 30-70
+            pstmt.setInt(6, 20 + random.nextInt(5) * 5); // 20-40
+            pstmt.setInt(7, 5 + random.nextInt(4) * 5); // 5-20
+            pstmt.setInt(8, 10000 + random.nextInt(5) * 5000); // 10000-30000
+            pstmt.executeUpdate();
+            insertedCount++;
         }
-    }
 
+        return insertedCount;
+    }
 
     // 5. 랜덤 데이터 삭제
     public int randomDeleteData(Connection conn, String tableName, int count) throws Exception {

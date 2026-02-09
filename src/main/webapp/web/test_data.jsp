@@ -95,23 +95,6 @@
                 </form>
             </div>
 
-            <!-- 요금 정책 등록 -->
-            <div class="action-card">
-                <div class="card-header">
-                    <i class="fa-solid fa-coins"></i>
-                    <h2>요금 정책</h2>
-                </div>
-                <form class="ajax-form" data-action="bulkFeePolicy">
-                    <input type="hidden" name="action" value="bulkFeePolicy">
-                    <div class="input-group">
-                        <input type="number" name="count" value="5" min="1" max="50" required>
-                        <span>개</span>
-                    </div>
-                    <button type="submit" class="btn btn-primary">등록</button>
-                    <p class="hint">랜덤 요금 정책 생성 (히스토리 테스트)</p>
-                </form>
-            </div>
-
             <!-- 회원 삭제 -->
             <div class="action-card">
                 <div class="card-header">
@@ -126,6 +109,23 @@
                     </div>
                     <button type="submit" class="btn btn-warning">삭제</button>
                     <p class="hint">월정액 회원 랜덤 삭제</p>
+                </form>
+            </div>
+
+            <!-- 요금 정책 등록 -->
+            <div class="action-card">
+                <div class="card-header">
+                    <i class="fa-solid fa-coins"></i>
+                    <h2>요금 정책</h2>
+                </div>
+                <form class="ajax-form" data-action="bulkFeePolicy">
+                    <input type="hidden" name="action" value="bulkFeePolicy">
+                    <div class="input-group">
+                        <input type="number" name="count" value="5" min="1" max="50" required>
+                        <span>개</span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">등록</button>
+                    <p class="hint">랜덤 요금 정책 생성 (히스토리 테스트)</p>
                 </form>
             </div>
 
