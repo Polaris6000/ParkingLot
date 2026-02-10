@@ -1,4 +1,4 @@
-package com.exmple.parkinglot.dao;
+package com.example.parkinglot.dao;
 
 public interface DIscountInfoDAO {
 

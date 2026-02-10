@@ -1,4 +1,4 @@
-package com.exmple.parkinglot.util;
+package com.example.parkinglot.util;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration;

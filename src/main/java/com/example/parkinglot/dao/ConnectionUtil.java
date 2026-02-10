@@ -1,4 +1,4 @@
-package com.exmple.parkinglot.dao;
+package com.example.parkinglot.dao;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
