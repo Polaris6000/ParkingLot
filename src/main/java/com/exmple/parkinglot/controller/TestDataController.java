@@ -126,5 +126,7 @@ public class TestDataController extends HttpServlet {
 
         request.getRequestDispatcher("/web/test_data.jsp")
                .forward(request, response);
+
+        // url을 레스트 방식으로
     }
 }

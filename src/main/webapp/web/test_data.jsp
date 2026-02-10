@@ -170,7 +170,8 @@
 </div>
 
 <!-- 로딩 오버레이 -->
-<div id="loadingOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;justify-content:center;align-items:center;">
+<div id="loadingOverlay"
+     style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;justify-content:center;align-items:center;">
     <div style="background:white;padding:30px;border-radius:15px;text-align:center;">
         <div style="border:4px solid #f3f3f3;border-top:4px solid #4e73df;border-radius:50%;width:50px;height:50px;animation:spin 1s linear infinite;margin:0 auto 15px;"></div>
         <p style="margin:0;color:#333;font-weight:bold;">처리 중...</p>
@@ -178,9 +179,11 @@
 </div>
 
 <!-- 결과 모달 -->
-<div id="resultModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:10000;justify-content:center;align-items:center;">
+<div id="resultModal"
+     style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:10000;justify-content:center;align-items:center;">
     <div style="background:white;padding:30px;border-radius:15px;max-width:500px;width:90%;box-shadow:0 10px 40px rgba(0,0,0,0.3);">
-        <div id="modalHeader" style="display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid #f0f0f0;">
+        <div id="modalHeader"
+             style="display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid #f0f0f0;">
             <i id="modalIcon" class="fa-solid fa-circle-check" style="font-size:24px;"></i>
             <h3 id="modalTitle" style="margin:0;font-size:20px;font-weight:bold;">처리 완료</h3>
         </div>
@@ -188,151 +191,163 @@
             <!-- 메시지 내용 -->
         </div>
         <div style="text-align:right;">
-            <button onclick="closeModal()" style="background:#4e73df;color:white;border:none;padding:10px 25px;border-radius:8px;cursor:pointer;font-weight:bold;">확인</button>
+            <button onclick="closeModal()"
+                    style="background:#4e73df;color:white;border:none;padding:10px 25px;border-radius:8px;cursor:pointer;font-weight:bold;">
+                확인
+            </button>
         </div>
     </div>
 </div>
 
 <style>
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 </style>
 
 <script>
-// URLSearchParams 방식으로 수정 (FormData 대신)
-document.addEventListener('DOMContentLoaded', function() {
-    const forms = document.querySelectorAll('.ajax-form');
-    
-    forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const action = this.dataset.action;
-            
-            // clearAll 액션인 경우 확인 메시지 표시
-            if (action === 'clearAll') {
-                if (!confirm('정말로 모든 주차 데이터를 삭제하시겠습니까?')) {
-                    return;
+    // URLSearchParams 방식으로 수정 (FormData 대신)
+    document.addEventListener('DOMContentLoaded', function () {
+        const forms = document.querySelectorAll('.ajax-form');
+
+        forms.forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const action = this.dataset.action;
+
+                // clearAll 액션인 경우 확인 메시지 표시
+                if (action === 'clearAll') {
+                    if (!confirm('정말로 모든 주차 데이터를 삭제하시겠습니까?')) {
+                        return;
+                    }
                 }
-            }
-            
-            // FormData 대신 URLSearchParams 사용
-            const formData = new FormData(this);
-            const params = new URLSearchParams();
-            
-            // FormData를 URLSearchParams로 변환
-            for (let pair of formData.entries()) {
-                params.append(pair[0], pair[1]);
-            }
-            
-            // 로딩 표시
-            showLoading();
-            
-            // AJAX 요청
-            fetch('${pageContext.request.contextPath}/test/data', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                },
-                body: params.toString()
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('서버 오류 (상태 코드: ' + response.status + ')');
+
+                // FormData 대신 URLSearchParams 사용
+                const formData = new FormData(this);
+                const params = new URLSearchParams();
+
+                // FormData를 URLSearchParams로 변환
+                for (let pair of formData.entries()) {
+                    params.append(pair[0], pair[1]);
                 }
-                return response.text();
-            })
-            .then(data => {
-                hideLoading();
-                
-                // 응답에서 메시지 추출
-                let message = '처리가 완료되었습니다.';
-                let isSuccess = true;
-                
-                // HTML 파싱하여 메시지 추출
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(data, 'text/html');
-                
-                // 성공 메시지 확인
-                const alertSuccess = doc.querySelector('.alert-success');
-                if (alertSuccess) {
-                    message = alertSuccess.textContent.trim().replace(/[✓✔]/g, '').trim();
-                }
-                
-                // 에러 메시지 확인 (있다면)
-                const alertDanger = doc.querySelector('.alert-danger');
-                if (alertDanger) {
-                    message = alertDanger.textContent.trim().replace(/[✗✘]/g, '').trim();
-                    isSuccess = false;
-                }
-                
-                showModal(isSuccess ? 'success' : 'error', isSuccess ? '처리 완료' : '처리 실패', message);
-                
-                // 성공 시 페이지 새로고침 (통계 업데이트)
-                if (isSuccess) {
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1500);
-                }
-            })
-            .catch(error => {
-                hideLoading();
-                showModal('error', '오류 발생', error.message || '요청 처리 중 오류가 발생했습니다.');
+
+                // 로딩 표시
+                showLoading();
+
+                // AJAX 요청
+                fetch('${pageContext.request.contextPath}/test/data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    body: params.toString()
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('서버 오류 (상태 코드: ' + response.status + ')');
+                        }
+                        console.log(response);
+                        return response.text();
+                    })
+                    .then(data => {
+                        hideLoading();
+
+                        let message = '처리가 완료되었습니다.';
+                        let isSuccess = true;
+
+                        // HTML 파싱하여 메시지 추출
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(data, 'text/html');
+
+                        // 성공 메시지 확인
+                        const alertSuccess = doc.querySelector('.alert-success');
+                        if (alertSuccess) {
+                            message = alertSuccess.textContent.trim().replace(/[✓✔]/g, '').trim();
+                            console.log(message); //
+
+                            // 1) 입출차 변동사항이라면
+                            // if (0 P{
+
+
+
+                        }
+
+                        //
+
+                        // 에러 메시지 확인 (있다면)
+                        const alertDanger = doc.querySelector('.alert-danger');
+                        if (alertDanger) {
+                            message = alertDanger.textContent.trim().replace(/[✗✘]/g, '').trim();
+                            isSuccess = false;
+                        }
+
+                        showModal(isSuccess ? 'success' : 'error', isSuccess ? '처리 완료' : '처리 실패', message);
+
+
+
+                    })
+                    .catch(error => {
+                        hideLoading();
+                        showModal('error', '오류 발생', error.message || '요청 처리 중 오류가 발생했습니다.');
+                    });
             });
         });
     });
-});
 
-// 로딩 표시
-function showLoading() {
-    const overlay = document.getElementById('loadingOverlay');
-    overlay.style.display = 'flex';
-}
-
-// 로딩 숨김
-function hideLoading() {
-    const overlay = document.getElementById('loadingOverlay');
-    overlay.style.display = 'none';
-}
-
-// 결과 모달 표시
-function showModal(type, title, message) {
-    const modal = document.getElementById('resultModal');
-    const modalIcon = document.getElementById('modalIcon');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalBody = document.getElementById('modalBody');
-    
-    // 아이콘 및 색상 설정
-    if (type === 'success') {
-        modalIcon.className = 'fa-solid fa-circle-check';
-        modalIcon.style.color = '#1cc88a';
-    } else {
-        modalIcon.className = 'fa-solid fa-circle-exclamation';
-        modalIcon.style.color = '#e74a3b';
+    // 로딩 표시
+    function showLoading() {
+        const overlay = document.getElementById('loadingOverlay');
+        overlay.style.display = 'flex';
     }
-    
-    modalTitle.textContent = title;
-    modalBody.textContent = message;
-    
-    // 모달 표시
-    modal.style.display = 'flex';
-}
 
-// 모달 닫기
-function closeModal() {
-    const modal = document.getElementById('resultModal');
-    modal.style.display = 'none';
-}
-
-// 모달 배경 클릭 시 닫기
-document.addEventListener('click', function(e) {
-    const modal = document.getElementById('resultModal');
-    if (e.target === modal) {
-        closeModal();
+    // 로딩 숨김
+    function hideLoading() {
+        const overlay = document.getElementById('loadingOverlay');
+        overlay.style.display = 'none';
     }
-});
+
+    // 결과 모달 표시
+    function showModal(type, title, message) {
+        const modal = document.getElementById('resultModal');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+
+        // 아이콘 및 색상 설정
+        if (type === 'success') {
+            modalIcon.className = 'fa-solid fa-circle-check';
+            modalIcon.style.color = '#1cc88a';
+        } else {
+            modalIcon.className = 'fa-solid fa-circle-exclamation';
+            modalIcon.style.color = '#e74a3b';
+        }
+
+        modalTitle.textContent = title;
+        modalBody.textContent = message;
+
+        // 모달 표시
+        modal.style.display = 'flex';
+    }
+
+    // 모달 닫기
+    function closeModal() {
+        const modal = document.getElementById('resultModal');
+        modal.style.display = 'none';
+    }
+
+    // 모달 배경 클릭 시 닫기
+    document.addEventListener('click', function (e) {
+        const modal = document.getElementById('resultModal');
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
 </script>
 
 </body>

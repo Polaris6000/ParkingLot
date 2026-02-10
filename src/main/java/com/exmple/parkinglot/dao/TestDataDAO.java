@@ -263,38 +263,30 @@ public class TestDataDAO {
     public String getStatistics(Connection conn) throws Exception {
         StringBuilder sb = new StringBuilder();
 
-        // 현재 주차중인 차량 수
-        String sql1 = "SELECT COUNT(*) as cnt FROM car_info WHERE parking_spot IS NOT NULL";
-        @Cleanup PreparedStatement pstmt1 = conn.prepareStatement(sql1);
-        @Cleanup ResultSet rs1 = pstmt1.executeQuery();
-        if (rs1.next()) {
-            sb.append("현재 주차중: ").append(rs1.getInt("cnt")).append("대\n");
+        // 1. 현재 주차중인 차량 수
+        try (PreparedStatement pstmt = conn.prepareStatement("SELECT COUNT(*) FROM car_info WHERE parking_spot IS NOT NULL");
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) sb.append("현재 주차중: ").append(rs.getInt(1)).append("대 | ");
         }
 
-        // 전체 차량 기록 수
-        String sql2 = "SELECT COUNT(*) as cnt FROM car_info";
-        @Cleanup PreparedStatement pstmt2 = conn.prepareStatement(sql2);
-        @Cleanup ResultSet rs2 = pstmt2.executeQuery();
-        if (rs2.next()) {
-            sb.append("전체 차량 기록: ").append(rs2.getInt("cnt")).append("건\n");
+        // 2. 전체 차량 기록 수
+        try (PreparedStatement pstmt = conn.prepareStatement("SELECT COUNT(*) FROM car_info");
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) sb.append("전체 기록: ").append(rs.getInt(1)).append("건 | ");
         }
 
-        // 월정액 회원 수
-        String sql3 = "SELECT COUNT(*) as cnt FROM monthly_parking";
-        @Cleanup PreparedStatement pstmt3 = conn.prepareStatement(sql3);
-        @Cleanup ResultSet rs3 = pstmt3.executeQuery();
-        if (rs3.next()) {
-            sb.append("월정액 회원: ").append(rs3.getInt("cnt")).append("명\n");
+        // 3. 월정액 회원 수
+        try (PreparedStatement pstmt = conn.prepareStatement("SELECT COUNT(*) FROM monthly_parking");
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) sb.append("월정액 회원: ").append(rs.getInt(1)).append("명 | ");
         }
 
-        // 요금 정책 수
-        String sql4 = "SELECT COUNT(*) as cnt FROM fee_policy";
-        @Cleanup PreparedStatement pstmt4 = conn.prepareStatement(sql4);
-        @Cleanup ResultSet rs4 = pstmt4.executeQuery();
-        if (rs4.next()) {
-            sb.append("요금 정책: ").append(rs4.getInt("cnt")).append("건");
+        // 4. 요금 정책 수
+        try (PreparedStatement pstmt = conn.prepareStatement("SELECT COUNT(*) FROM fee_policy");
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) sb.append("요금 정책: ").append(rs.getInt(1)).append("건");
         }
 
-        return sb.toString();
+        return sb.length() > 0 ? sb.toString() : "데이터가 없습니다.";
     }
 }
