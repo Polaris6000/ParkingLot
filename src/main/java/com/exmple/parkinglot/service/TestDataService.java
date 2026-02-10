@@ -1,6 +1,6 @@
 package com.exmple.parkinglot.service;
 
-import com.exmple.parkinglot.dao.TestDataDAO_legacy;
+import com.exmple.parkinglot.dao.TestDataDAO;
 import com.exmple.parkinglot.util.ConnectionUtil;
 import lombok.extern.log4j.Log4j2;
 
@@ -10,10 +10,10 @@ import java.sql.Connection;
 public enum TestDataService {
     INSTANCE;
 
-    private TestDataDAO_legacy dao;
+    private TestDataDAO dao;
 
     TestDataService() {
-        dao = new TestDataDAO_legacy();
+        dao = new TestDataDAO();
     }
 
     // 대량 입차 생성

@@ -1,17 +1,14 @@
 package com.exmple.parkinglot.dao;
 
-import com.exmple.parkinglot.domain.FeePolicyVO;
-import com.exmple.parkinglot.dto.FeePolicyDTO;
-import com.exmple.parkinglot.util.ConnectionUtil;
 import lombok.Cleanup;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -65,7 +62,12 @@ public class TestDataDAO {
             return 0; // 더 이상 입차 불가
         }
 
+
+        // [핵심 추가] 리스트의 순서를 무작위로 섞음
+        Collections.shuffle(availableSpots);
+
         // 실제 생성 가능한 수량 조정
+        // 이제 get(i)를 해도 랜덤한 자리가 뽑힘.
         count = Math.min(count, availableSpots.size());
 
         int insertedCount = 0;
@@ -127,37 +129,47 @@ public class TestDataDAO {
 
     // 2. 대량 출차 처리 (랜덤 또는 전체)
     public int bulkExitParking(Connection conn, int count) throws Exception {
-        // 현재 주차중인 차량 ID 조회
-        String sql1 = "SELECT id FROM car_info WHERE parking_spot IS NOT NULL LIMIT ?";
-        @Cleanup PreparedStatement pstmt1 = conn.prepareStatement(sql1);
-        pstmt1.setInt(1, count);
-        @Cleanup ResultSet rs = pstmt1.executeQuery();
-
+        // 1. 랜덤하게 출차할 차량 ID 조회
+        String selectSql = "SELECT id FROM car_info WHERE parking_spot IS NOT NULL ORDER BY RAND() LIMIT ?";
         List<Integer> carIds = new ArrayList<>();
-        while (rs.next()) {
-            carIds.add(rs.getInt("id"));
+
+        try (PreparedStatement pstmt = conn.prepareStatement(selectSql)) {
+            pstmt.setInt(1, count);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    carIds.add(rs.getInt("id"));
+                }
+            }
         }
 
-        int exitedCount = 0;
+        if (carIds.isEmpty()) return 0;
 
-        for (int carId : carIds) {
-            // parking_times 테이블의 exit_time 업데이트
-            String sql2 = "UPDATE parking_times SET exit_time = ? WHERE id = ? AND exit_time IS NULL";
-            @Cleanup PreparedStatement pstmt2 = conn.prepareStatement(sql2);
-            pstmt2.setObject(1, LocalDateTime.now());
-            pstmt2.setInt(2, carId);
-            pstmt2.executeUpdate();
+        // 2. 일괄 업데이트 (Batch Update) 준비
+        String updateTimeSql = "UPDATE parking_times SET exit_time = ? WHERE id = ? AND exit_time IS NULL";
+        String updateSpotSql = "UPDATE car_info SET parking_spot = NULL WHERE id = ?";
 
-            // car_info 테이블의 parking_spot을 NULL로 설정
-            String sql3 = "UPDATE car_info SET parking_spot = NULL WHERE id = ?";
-            @Cleanup PreparedStatement pstmt3 = conn.prepareStatement(sql3);
-            pstmt3.setInt(1, carId);
-            pstmt3.executeUpdate();
+        try (PreparedStatement pstmtTime = conn.prepareStatement(updateTimeSql);
+             PreparedStatement pstmtSpot = conn.prepareStatement(updateSpotSql)) {
 
-            exitedCount++;
+            LocalDateTime now = LocalDateTime.now();
+
+            for (int carId : carIds) {
+                // 시간 업데이트 배치 추가
+                pstmtTime.setObject(1, now);
+                pstmtTime.setInt(2, carId);
+                pstmtTime.addBatch();
+
+                // 구역 비우기 배치 추가
+                pstmtSpot.setInt(1, carId);
+                pstmtSpot.addBatch();
+            }
+
+            // 한 번에 실행
+            pstmtTime.executeBatch();
+            pstmtSpot.executeBatch();
         }
 
-        return exitedCount;
+        return carIds.size();
     }
 
     // 3. 월정액 회원 대량 등록
@@ -186,28 +198,30 @@ public class TestDataDAO {
         return insertedCount;
     }
 
-    // 4. 요금 정책 추가
-    public void insertFeePolicy(FeePolicyVO feePolicyVO) {
-        String sql ="insert into fee_policy (base_fee, basic_unit_minute, unit_fee, billing_unit_minutes, help_discount_rate, compact_discount_rate, grace_period_minutes, max_cap_amount) " +
+    // 4. 요금 정책 대량 등록 (히스토리)
+    public int bulkInsertFeePolicies(Connection conn, int count) throws Exception {
+        int insertedCount = 0;
+
+        String sql = "INSERT INTO fee_policy (base_fee, basic_unit_minute, unit_fee, billing_unit_minutes, " +
+                "help_discount_rate, compact_discount_rate, grace_period_minutes, max_cap_amount) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try {
-            @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
-            @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, feePolicyVO.getBaseFee());
-            preparedStatement.setInt(2, feePolicyVO.getBasicUnitMinute());
-            preparedStatement.setInt(3, feePolicyVO.getUnitFee());
-            preparedStatement.setInt(4, feePolicyVO.getBillingUnitMinutes());
-            preparedStatement.setInt(5, feePolicyVO.getHelpDiscountRate());
-            preparedStatement.setInt(6, feePolicyVO.getCompactDiscountRate());
-            preparedStatement.setInt(7, feePolicyVO.getGracePeriodMinutes());
-            preparedStatement.setInt(8, feePolicyVO.getMaxCapAmount());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        for (int i = 0; i < count; i++) {
+            @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, 2000 + random.nextInt(1000) * 500); // 2000-6500
+            pstmt.setInt(2, 60); // 기본 60분
+            pstmt.setInt(3, 500 + random.nextInt(10) * 100); // 500-1500
+            pstmt.setInt(4, 10 + random.nextInt(5) * 10); // 10-60
+            pstmt.setInt(5, 30 + random.nextInt(5) * 10); // 30-70
+            pstmt.setInt(6, 20 + random.nextInt(5) * 5); // 20-40
+            pstmt.setInt(7, 5 + random.nextInt(4) * 5); // 5-20
+            pstmt.setInt(8, 10000 + random.nextInt(5) * 5000); // 10000-30000
+            pstmt.executeUpdate();
+            insertedCount++;
         }
-    }
 
+        return insertedCount;
+    }
 
     // 5. 랜덤 데이터 삭제
     public int randomDeleteData(Connection conn, String tableName, int count) throws Exception {
