@@ -208,7 +208,7 @@ public class TestDataDAO {
 
         for (int i = 0; i < count; i++) {
             @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, 2000 + random.nextInt(1000) * 500); // 2000-6500
+            pstmt.setInt(1, 2000 + random.nextInt(50) * 100); // 2000-6500
             pstmt.setInt(2, 60); // 기본 60분
             pstmt.setInt(3, 500 + random.nextInt(10) * 100); // 500-1500
             pstmt.setInt(4, 10 + random.nextInt(5) * 10); // 10-60
