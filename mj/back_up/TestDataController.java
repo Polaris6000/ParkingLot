@@ -1,7 +1,6 @@
 package com.exmple.parkinglot.controller;
 
 import com.exmple.parkinglot.service.TestDataService;
-import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,39 +9,31 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 @Log4j2
-@WebServlet(name = "TestDataController", urlPatterns = {"/test/data", "/api/test/statistics"})
+@WebServlet(name = "TestDataController", value = "/test/data")
 public class TestDataController extends HttpServlet {
 
     private final TestDataService service = TestDataService.INSTANCE;
-    private final Gson gson = new Gson();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String servletPath = request.getServletPath();
-
-        // REST API 요청: /api/test/statistics
-        if ("/api/test/statistics".equals(servletPath)) {
-            handleGetStatistics(response);
-            return;
-        }
-
-        // 일반 JSP 페이지 요청: /test/data
         try {
+            // 현재 통계 조회 (null 체크 추가)
             String statistics = service.getStatistics();
             request.setAttribute("statistics", statistics != null ? statistics : "통계 없음");
-            request.getRequestDispatcher("/web/test_data.jsp").forward(request, response);
+
+            request.getRequestDispatcher("/web/test_data.jsp")
+                   .forward(request, response);
+
         } catch (Exception e) {
             log.error("테스트 페이지 로딩 중 오류", e);
             request.setAttribute("error", "페이지 로딩 중 오류가 발생했습니다.");
             request.setAttribute("statistics", "통계 조회 실패");
-            request.getRequestDispatcher("/web/test_data.jsp").forward(request, response);
+            request.getRequestDispatcher("/web/test_data.jsp")
+                   .forward(request, response);
         }
     }
 
@@ -55,6 +46,7 @@ public class TestDataController extends HttpServlet {
         boolean success = true;
 
         try {
+            // action이 null인지 먼저 체크
             if (action == null || action.trim().isEmpty()) {
                 message = "작업 유형이 지정되지 않았습니다.";
                 success = false;
@@ -121,7 +113,7 @@ public class TestDataController extends HttpServlet {
             success = false;
         }
 
-        // 결과 메시지와 통계 다시 조회
+        // 결과 메시지와 통계 다시 조회 (null 안전 처리)
         request.setAttribute("message", message);
 
         try {
@@ -132,31 +124,10 @@ public class TestDataController extends HttpServlet {
             request.setAttribute("statistics", "통계 조회 실패");
         }
 
-        request.getRequestDispatcher("/web/test_data.jsp").forward(request, response);
-    }
+        request.getRequestDispatcher("/web/test_data.jsp")
+               .forward(request, response);
 
-    /**
-     * REST API - 통계 조회
-     * GET /api/test/statistics
-     */
-    private void handleGetStatistics(HttpServletResponse response) throws IOException {
-        response.setContentType("application/json; charset=UTF-8");
-        PrintWriter out = response.getWriter();
 
-        Map<String, Object> result = new HashMap<>();
-
-        try {
-            String statistics = service.getStatistics();
-            result.put("success", true);
-            result.put("statistics", statistics != null ? statistics : "통계 없음");
-        } catch (Exception e) {
-            log.error("통계 조회 중 오류", e);
-            result.put("success", false);
-            result.put("message", "통계 조회 실패");
-            result.put("error", e.getMessage());
-        }
-
-        out.print(gson.toJson(result));
-        out.flush();
+        // url을 레스트 방식으로
     }
 }

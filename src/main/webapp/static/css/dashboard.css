@@ -342,6 +342,74 @@ h1 {
 }
 
 /* ========================================
+   13. 점유율 색상
+======================================== */
+.occupancy-low .value {
+    color: var(--accent-blue);
+}
+
+.occupancy-medium .value {
+    color: #faad14;
+}
+
+.occupancy-high .value {
+    color: #ff4d4f;
+}
+
+.spot-label {
+    font-size: 10px;
+    margin-top: 2px;
+    color: #666;
+}
+
+.status-occupied {
+    color: #ff4d4f;
+    font-weight: bold;
+}
+
+.status-available {
+    color: #52c41a;
+    font-weight: bold;
+}
+
+.detail-content {
+    padding: 20px;
+    text-align: left;
+}
+
+.detail-content p {
+    margin: 10px 0;
+}
+
+.detail-content hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-primary:hover {
+    background: #4c6cef;
+}
+
+.btn-primary i {
+    margin-right: 5px;
+}
+
+
+/* ========================================
    14. 반응형 디자인 (태블릿)
 ======================================== */
 @media (max-width: 1024px) {

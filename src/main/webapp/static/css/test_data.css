@@ -116,51 +116,65 @@ body {
 /* ========================================
    4. 알림 및 통계 박스
 ======================================== */
-.alert-success {
-    background-color: #d1e7dd;
-    color: #0f5132;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #badbcc;
+
+/* 통계 헤더: 제목과 버튼을 양 끝으로 배치 */
+.stats-header {
     display: flex;
+    justify-content: space-between; /* 좌우 끝으로 정렬 */
+    align-items: center;            /* 세로 중앙 정렬 */
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #555;  /* 헤더 구분선 */
+}
+
+/* 현황 제목 스타일 */
+.stats-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--warning-color);    /* 강조색 적용 */
+}
+
+/* 새로고침 버튼 전용 스타일 */
+.btn-refresh {
+    background-color: var(--warning-color);
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+
+    /* 핵심 설정: 너비를 글자 수만큼만 차지하도록 설정 */
+    width: auto;             /* 기존 button { width: 100% } 설정을 덮어씀 */
+    display: inline-flex;    /* 내부 아이콘과 텍스트 정렬 */
     align-items: center;
-    gap: 10px;
-    animation: slideDown 0.5s ease-out;
+    gap: 6px;                /* 아이콘과 글자 간격 */
+    transition: opacity 0.2s ease;
+}
+
+.btn-refresh:hover {
+    opacity: 0.8;            /* 호버 시 살짝 투명하게 효과 */
+    background-color: var(--warning-color); /* 기존 배경 유지 또는 다크닝 */
+}
+
+/* 회전 애니메이션 클래스 (나중에 JS에서 활용 가능) */
+.btn-refresh i.spinning {
+    animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 .stats-box {
-    background: var(--text-dark); /* 검정 배경 */
+    background: var(--text-dark);
     color: #fff;
     padding: 20px;
     border-radius: var(--radius-md);
-    /*font-family: 'Courier New', monospace; !* 코드 느낌 *!*/
     margin-bottom: 30px;
     box-shadow: var(--shadow-sm);
     line-height: 1.6;
-}
-
-.stats-box h3 {
-    margin-top: 0;
-    color: var(--warning-color);
-    font-size: 16px;
-    border-bottom: 1px solid #555;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
-
-.stats-grid {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.stat-item {
-    font-size: 14px;
-}
-
-.stat-item strong {
-    color: var(--success-color);
 }
 
 /* ========================================

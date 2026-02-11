@@ -75,6 +75,9 @@ dependencies {
     implementation 'org.glassfish.jersey.inject:jersey-hk2:3.1.6'
     implementation 'org.glassfish.jersey.media:jersey-media-json-jackson:3.1.6'
 
+    // JSON 처리를 위한 Gson 추가
+    implementation 'com.google.code.gson:gson:2.10.1'
+
 
 }
 

@@ -33,11 +33,17 @@
     </c:if>
 
 
-    <!-- 현황 -->
     <div class="stats-box">
-        <i class="fa-solid fa-chart-simple"></i> 현황
-        <div class="stats-content">${statistics}</div>
+    <div class="stats-header">
+        <span class="stats-title">
+            <i class="fa-solid fa-chart-simple"></i> 현황
+        </span>
+        <button onclick="refreshStatistics()" class="btn-refresh">
+            <i class="fa-solid fa-rotate"></i> 새로고침
+        </button>
     </div>
+    <div class="stats-content">${statistics}</div>
+</div>
 
     <main class="main-content">
 
@@ -211,8 +217,30 @@
 </style>
 
 <script>
+    // 통계 갱신 함수
+    function refreshStatistics() {
+        fetch('${pageContext.request.contextPath}/api/test/statistics')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const statsContent = document.querySelector('.stats-content');
+                    if (statsContent) {
+                        statsContent.textContent = data.statistics;
+                    }
+                } else {
+                    console.error('통계 조회 실패:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('통계 조회 오류:', error);
+            });
+    }
+
     // URLSearchParams 방식으로 수정 (FormData 대신)
     document.addEventListener('DOMContentLoaded', function () {
+        // 페이지 로드 시 통계 즉시 호출
+        refreshStatistics();
+
         const forms = document.querySelectorAll('.ajax-form');
 
         forms.forEach(form => {
@@ -252,7 +280,6 @@
                         if (!response.ok) {
                             throw new Error('서버 오류 (상태 코드: ' + response.status + ')');
                         }
-                        console.log(response);
                         return response.text();
                     })
                     .then(data => {
@@ -269,16 +296,7 @@
                         const alertSuccess = doc.querySelector('.alert-success');
                         if (alertSuccess) {
                             message = alertSuccess.textContent.trim().replace(/[✓✔]/g, '').trim();
-                            console.log(message); //
-
-                            // 1) 입출차 변동사항이라면
-                            // if (0 P{
-
-
-
                         }
-
-                        //
 
                         // 에러 메시지 확인 (있다면)
                         const alertDanger = doc.querySelector('.alert-danger');
@@ -287,10 +305,16 @@
                             isSuccess = false;
                         }
 
+                        // 통계 업데이트
+                        const statsContent = doc.querySelector('.stats-content');
+                        if (statsContent) {
+                            const currentStatsContent = document.querySelector('.stats-content');
+                            if (currentStatsContent) {
+                                currentStatsContent.textContent = statsContent.textContent;
+                            }
+                        }
+
                         showModal(isSuccess ? 'success' : 'error', isSuccess ? '처리 완료' : '처리 실패', message);
-
-
-
                     })
                     .catch(error => {
                         hideLoading();
@@ -339,6 +363,9 @@
     function closeModal() {
         const modal = document.getElementById('resultModal');
         modal.style.display = 'none';
+
+        // 모달 닫을 때 통계 한 번 더 갱신
+        refreshStatistics();
     }
 
     // 모달 배경 클릭 시 닫기
