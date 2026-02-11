@@ -9,6 +9,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.log4j.Log4j2;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -23,6 +25,7 @@ import java.util.Map;
  * - 일별 조회: /statistics?searchType=daily&startDate=2024-01-01&endDate=2024-01-31
  * - 월별 조회: /statistics?searchType=monthly&yearMonth=2024-01
  */
+@Log4j2
 @WebServlet("/statistics")
 public class StatisticsController extends HttpServlet {
     
@@ -78,10 +81,10 @@ public class StatisticsController extends HttpServlet {
             
             // JSP 페이지로 포워딩
             // WEB-INF 내부에 있는 경우
-            // request.getRequestDispatcher("/WEB-INF/views/statistics.jsp").forward(request, response);
+             request.getRequestDispatcher("/WEB-INF/views/statistics.jsp").forward(request, response);
             
             // webapp 루트에 있는 경우
-            request.getRequestDispatcher("/statistics.jsp").forward(request, response);
+//            request.getRequestDispatcher("/statistics.jsp").forward(request, response);
             
         } catch (SQLException e) {
             e.printStackTrace();
@@ -89,10 +92,10 @@ public class StatisticsController extends HttpServlet {
             
             // 에러 페이지로 포워딩
             // WEB-INF 내부에 있는 경우
-            // request.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(request, response);
+             request.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(request, response);
             
             // webapp 루트에 있는 경우
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+//            request.getRequestDispatcher("/error.jsp").forward(request, response);
             
         } finally {
             // DB 연결 종료

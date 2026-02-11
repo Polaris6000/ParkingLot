@@ -128,7 +128,8 @@ public class StatisticsDAO {
      * @return 한글 차종명
      */
     public static String getKindOfDiscountName(String code) {
-        if (code == null) return "미분류";
+        if (code == null)
+            return "미분류";
         
         switch (code) {
             case "normal":

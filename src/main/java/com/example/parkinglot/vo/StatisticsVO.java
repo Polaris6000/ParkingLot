@@ -7,7 +7,7 @@ package com.example.parkinglot.vo;
 public class StatisticsVO {
     private String date;           // 날짜 (일별/월별)
     private int totalAmount;       // 총 결제 금액 (pay_log 합계)
-    private int totalCount;        // 총 입차 대수
+    private int totalCount;        // 오늘 이용차량 대수
     private String kindOfDiscount; // 차종 유형 (normal, light, disabled, monthly)
     private int typeCount;         // 차종별 카운트
     private double typePercentage; // 차종별 비율
