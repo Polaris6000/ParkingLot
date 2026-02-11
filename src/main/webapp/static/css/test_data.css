@@ -309,7 +309,7 @@ button {
 .btn-info { background: #36b9cc; color: white; }
 .btn-info:hover { background: #2c9faf; }
 
-.btn-warning { background: #f6c23e; color: white; } /* 노란색 버튼은 글자색 흰색 */
+.btn-warning { background: #f6c23e; color: white; }
 .btn-warning:hover { background: #dda20a; }
 
 .hint {

@@ -63,7 +63,11 @@ public class TestDataController extends HttpServlet {
                     case "bulkEntry":
                         int entryCount = Integer.parseInt(request.getParameter("count"));
                         int inserted = service.bulkInsertParking(entryCount);
-                        message = inserted + "대 입차 완료";
+                        if (inserted != 0) {
+                            message = inserted + "대 입차 완료";
+                        } else {
+                            message = inserted + "대 입차 완료. 주차 구역이 만차 입니다. 빈 주차 구역이 있을 때 다시 실행해주세요.";
+                        }
                         break;
 
                     case "bulkExit":
