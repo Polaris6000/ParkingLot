@@ -30,19 +30,33 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 
+    // Jakarta WebSocket API
+    compileOnly 'jakarta.websocket:jakarta.websocket-api:2.0.0'
+
     // Source: https://mvnrepository.com/artifact/org.projectlombok/lombok
-    implementation 'org.projectlombok:lombok:1.18.30'
+//    implementation 'org.projectlombok:lombok:1.18.30'
+//    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+//    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+//    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    // Lombok - compileOnly로 변경 권장
+    compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 
+    // MariaDB Driver
     // Source: https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.5.7'
 
     // Log4j2 라이브러리 추가
-    implementation 'org.slf4j:slf4j-api:2.0.7'
-    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.25.0'
-    implementation 'org.apache.logging.log4j:log4j-api:2.25.3'
+//    implementation 'org.slf4j:slf4j-api:2.0.7'
+//    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.25.3'
+//    implementation 'org.apache.logging.log4j:log4j-api:2.25.3'
+//    implementation 'org.apache.logging.log4j:log4j-core:2.25.3'
+
+    // Log4j2 - 버전 통일 및 중복 제거
+    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.25.3'
     implementation 'org.apache.logging.log4j:log4j-core:2.25.3'
 
     //dto, vo 간에 전환을 해주는 어노테이션
@@ -51,6 +65,20 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
     implementation("com.zaxxer:HikariCP:5.0.1")
+
+    // JSTL 추가
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
+    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
+
+    // Source: https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-servlet
+    implementation 'org.glassfish.jersey.containers:jersey-container-servlet:3.1.6'
+    implementation 'org.glassfish.jersey.inject:jersey-hk2:3.1.6'
+    implementation 'org.glassfish.jersey.media:jersey-media-json-jackson:3.1.6'
+
+    // JSON 처리를 위한 Gson 추가
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+
 }
 
 test {

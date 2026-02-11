@@ -11,11 +11,11 @@ import java.sql.SQLException;
 public class FeePolicyDAOImpl implements FeePolicyDAO {
     @Override
     public FeePolicyDTO selectCurrentPolicy() throws SQLException {
-        String sql = "SELECT * FROM fee_policy ORDER BY created_at DESC LIMIT 1";
+        String sql = "SELECT * FROM fee_policy ORDER BY update_date DESC LIMIT 1";
 
         try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql) {
-            ResultSet resultSet = preparedStatement.executeQuery()){
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            ResultSet resultSet = preparedStatement.executeQuery();{
 
                 if (resultSet.next()) {
                     return FeePolicyDTO.builder()
@@ -26,7 +26,7 @@ public class FeePolicyDAOImpl implements FeePolicyDAO {
                             .billingUnitMinutes(resultSet.getInt("billing_unit_minutes"))
                             .helpDiscountRate(resultSet.getInt("help_discount_rate"))
                             .compactDiscountRate(resultSet.getInt("compact_discount_rate"))
-                            .createdAt(resultSet.getTimestamp("created_at").toLocalDateTime())
+                            .updateDate(resultSet.getTimestamp("update_date").toLocalDateTime())
                             .gracePeriodMinutes(resultSet.getInt("grace_period_minutes"))
                             .maxCapAmount(resultSet.getInt("max_cap_amount"))
                             .build();
@@ -59,7 +59,7 @@ public class FeePolicyDAOImpl implements FeePolicyDAO {
     }
 
     @Override
-    public void update(FeePolicyDTO feePolicyDTO) throws SQLException {
+    public void updateDate(FeePolicyDTO feePolicyDTO) throws SQLException {
         String sql = "UPDATE fee_policy SET base_fee = ?, basic_unit_minute = ?, " +
                 "unit_fee = ?, billing_unit_minutes = ?, help_discount_rate = ?, " +
                 "compact_discount_rate = ?, grace_period_minutes = ?, max_cap_amount = ? " +

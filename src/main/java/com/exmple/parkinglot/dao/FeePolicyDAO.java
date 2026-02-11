@@ -14,5 +14,5 @@ public interface FeePolicyDAO {
     void insert(FeePolicyDTO feePolicyDTO) throws SQLException;
 
     //요금 정책 수정
-    void update(FeePolicyDTO feePolicyDTO) throws  SQLException;
+    void updateDate(FeePolicyDTO feePolicyDTO) throws  SQLException;
 }

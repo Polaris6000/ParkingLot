@@ -2,5 +2,9 @@
 <project version="4">
   <component name="DataSourcePerFileMappings">
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/3a566a4f-a5f5-4777-b6d3-b1ac6e046317/console_2.sql" value="3a566a4f-a5f5-4777-b6d3-b1ac6e046317" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/4b9409b2-32b2-4511-bbf8-868661079563/console.sql" value="4b9409b2-32b2-4511-bbf8-868661079563" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/4b9409b2-32b2-4511-bbf8-868661079563/console_1.sql" value="4b9409b2-32b2-4511-bbf8-868661079563" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/exmple/parkinglot/dao/FeePolicyDAOImpl.java" value="4b9409b2-32b2-4511-bbf8-868661079563" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/sql/init.sql" value="4b9409b2-32b2-4511-bbf8-868661079563" />
   </component>
 </project>

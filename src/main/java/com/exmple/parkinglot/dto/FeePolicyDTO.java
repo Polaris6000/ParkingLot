@@ -19,7 +19,7 @@ public class FeePolicyDTO {
     private int billingUnitMinutes; //추과 과금 단위
     private int helpDiscountRate; //장애인 할인비율
     private int compactDiscountRate; //경차 할인비율
-    private LocalDateTime createdAt; //정책 등록 날짜
+    private LocalDateTime updateDate; //정책 등록 날짜
     private int gracePeriodMinutes; //회차 인정 시간
     private int maxCapAmount; //최대비용(cap)
 }
