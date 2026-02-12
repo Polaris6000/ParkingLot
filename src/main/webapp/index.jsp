@@ -170,7 +170,7 @@
         </div>
         
         <div class="footer">
-            <p>© 2024 스마트주차 반월당점. All rights reserved.</p>
+            <p>© 스마트주차 반월당점. All rights reserved.</p>
             <p style="margin-top: 5px; font-size: 12px;">
                 문의: 1588-0000 | 관리자 시스템 v1.0
             </p>
