@@ -6,21 +6,25 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/public.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/admin/Login.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <script defer src="${pageContext.request.contextPath}/static/js/admin/Login.js"></script>
 </head>
+<%
+    String error = (String) request.getAttribute("error");
+%>
 <body>
 <main>
     <section class="site-name">
         <div>
-            <span class="site-name-span">주차장 관리 시스템</span>
+            <span class="site-name-span">스마트 반월당 주차장</span>
         </div>
     </section>
-
     <section class="input-space">
         <!-- content -->
         <div class="content">
             <div class="login_wrap">
-                <form id="frmNIDLogin" action="${pageContext.request.contextPath}/web/dash_board.jsp" method="POST">
+                <form id="frmNIDLogin" action="/admin/login" method="POST">
                     <div class="panel_inner">
                         <div class="login_box">
                             <!--                                        아이디 입력 공간-->
@@ -36,6 +40,7 @@
                                 />
 
                                 <button
+                                        tabindex="-1"
                                         type="button"
                                         class="btn_delete"
                                         id="id_clear"
@@ -58,6 +63,7 @@
                                 />
 
                                 <button
+                                        tabindex="-1"
                                         type="button"
                                         class="btn_view hide"
                                         id="pw_hide"
@@ -67,6 +73,7 @@
                                 </button>
 
                                 <button
+                                        tabindex="-1"
                                         type="button"
                                         class="btn_delete"
                                         id="pw_clear"
@@ -84,13 +91,11 @@
                                     id="keep"
                                     role="checkbox"
                                     aria-checked="false"
-                                    tabindex="0"
                             >
                                 <input
                                         type="checkbox"
                                         id="remember-me"
                                         name="remember-me"
-                                        tabindex="-1"
                                         class="input_keep"
                                         value="true"
                                 />
@@ -114,10 +119,16 @@
                                 </div>
                             </div>
 
-                            <div id="err_wrong_data" style="display: none">
+                            <div id="err_wrong_data">
                                 <div class="error_message">
+                                    <%
+                                        if (error != null) {
+                                    %>
                                     <strong>아이디</strong> 혹은 <strong>비밀번호</strong>를
                                     잘못 입력하였습니다.
+                                    <%
+                                        }
+                                    %>
                                 </div>
                             </div>
                         </div>
@@ -139,23 +150,28 @@
             <!--            각종 찾기, 회원가입 묶음.-->
             <ul class="find_wrap" id="find_wrap">
                 <li>
-                    <a
-                            target="_blank"
-                            href="/web/admin/Signup.jsp"
-                            id="join"
-                            class="find_text"
-                    >회원가입</a
-                    >
+                    <a target="_blank"
+                       href="/admin/signup"
+                       id="join"
+                       class="find_text">
+                        회원가입</a>
                 </li>
                 <li>
-                    <a
-                            target="_blank"
-                            href="/web/admin/FindInfo.jsp"
-                            id="pwinquiry"
-                            class="find_text"
-                    >아이디/비밀번호 찾기</a
-                    >
+                    <a target="_blank"
+                       href="/admin/findinfo"
+                       id="pwinquiry"
+                       class="find_text">
+                        아이디/비밀번호 찾기
+                    </a>
                 </li>
+<%--                <li>--%>
+<%--                    <a target="_blank"--%>
+<%--                       href="/admin/changepw"--%>
+<%--                       id="11123"--%>
+<%--                       class="find_text">--%>
+<%--                        비밀번호 바꾸기(임시)--%>
+<%--                    </a>--%>
+<%--                </li>--%>
             </ul>
 
             <!--                <ul>-->

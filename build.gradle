@@ -51,6 +51,16 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
     implementation("com.zaxxer:HikariCP:5.0.1")
+
+    //메일 발송을 위한 api
+    // Source: https://mvnrepository.com/artifact/jakarta.mail/jakarta.mail-api
+    implementation 'jakarta.mail:jakarta.mail-api:2.1.3'
+    // Jakarta Mail API + Implementation (Angus Mail)
+    implementation 'org.eclipse.angus:jakarta.mail:2.0.3'
+
+    //암호화 기능
+    // Source: https://mvnrepository.com/artifact/org.mindrot/jbcrypt
+    implementation 'org.mindrot:jbcrypt:0.4'
 }
 
 test {

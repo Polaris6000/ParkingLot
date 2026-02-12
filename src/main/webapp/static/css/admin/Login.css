@@ -1,4 +1,3 @@
-@import "../public.css";
 
 /*전체 아이템 위치*/
 main{
@@ -9,6 +8,7 @@ main{
     flex: 1;
     text-align: center;
     align-items: center;
+    font-family: 'Bookk Gothic', sans-serif;
 }
 /************************************************************/
 
@@ -83,37 +83,39 @@ div[id="input_item_id"] input{
     border-radius: 10px;
     border : 1px solid black;
 
-    &:focus{
-        outline: none;
-    }
-
+}
+div[id="input_item_id"] input:focus{
+    outline: none;
 }
 
 button[id='id_clear'], button[id='pw_clear']{
     position: absolute;
-    top: calc(50% - 11px);
-    right: calc(50% - 120px);
+    top: calc(50% - 18px);
+    right: calc(50% - 115px);
     border : none;
     background-color : white;
     font-size: large;
-    &:hover{
-        cursor: pointer;
-    }
+}
+button[id='id_clear'], button[id='pw_clear']:hover{
+    cursor: pointer;
 }
 
 button[id='pw_hide']{
     position: absolute;
-    top: calc(50% - 11px);
-    right: calc(50% - 95px);
+    top: calc(50% - 18px );
+    right: calc(50% - 88px);
     border : none;
     background-color : white;
     font-size: large;
-    &:hover{
-        cursor: pointer;
-    }
+}
+button[id='pw_hide']:hover{
+    cursor: pointer;
 }
 
 /*********************************************************/
+input[type=password]{
+    font-family: sans-serif;
+}
 
 /*비밀번호 입력 공간*/
 div[id="input_item_pw"]{
@@ -140,10 +142,10 @@ div[id="input_item_pw"] input{
     border-radius: 10px;
     border : 1px solid black;
 
-    &:focus{
-        outline: none;
-    }
 
+}
+div[id="input_item_pw"] input:focus{
+    outline: none;
 }
 
 
@@ -156,6 +158,7 @@ div[id="input_item_pw"] input{
 
 /*로그인 할 때 오류가 생기면 나타나는 부분*/
 .login_error_wrap{
+    margin-top: 5px;
     display: block;
     height: 20px;
     color: red;
@@ -174,10 +177,12 @@ div[id="input_item_pw"] input{
     height: 50px;
     font-size: x-large;
     border-radius: 10px;
-    margin: 10px 0;
-    &:hover{
-        cursor: pointer;
-    }
+    margin: 8px 0;
+
+}
+
+.btn_login_wrap button[id="log.login"]:hover{
+    cursor: pointer;
 }
 /*********************************************************/
 
