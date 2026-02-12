@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
-    <file url="file://$PROJECT_DIR$/src/main/java/com/example/parkinglot/dao/AdminDAO.java" value="3a566a4f-a5f5-4777-b6d3-b1ac6e046317" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/sql/init.sql" value="3a566a4f-a5f5-4777-b6d3-b1ac6e046317" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/sql/init.sql" value="4e6af07b-2b99-44a0-968b-76db38504cce" />
   </component>
 </project>
