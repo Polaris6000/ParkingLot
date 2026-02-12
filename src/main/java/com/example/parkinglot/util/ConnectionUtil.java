@@ -1,4 +1,4 @@
-package com.exmple.parkinglot.util;
+package com.example.parkinglot.util;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

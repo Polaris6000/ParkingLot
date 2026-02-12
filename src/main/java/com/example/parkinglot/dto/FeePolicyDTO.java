@@ -7,9 +7,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
-
 //주차요금 산정 정책
 public class FeePolicyDTO {
     private int id; //관리번호

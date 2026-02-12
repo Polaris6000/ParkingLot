@@ -1,5 +1,6 @@
 package com.example.parkinglot.dao;
 
+import com.example.parkinglot.util.ConnectionUtil;
 import com.example.parkinglot.vo.AdminVO;
 import com.example.parkinglot.vo.AuthVO;
 import lombok.Cleanup;

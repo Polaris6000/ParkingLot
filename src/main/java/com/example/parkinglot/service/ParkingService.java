@@ -14,7 +14,7 @@ public class ParkingService {
 
     private final CarInfoDAO carInfoDAO = new CarInfoDAOImpl();
     private final ParkingTimesDAO parkingTimesDAO = new ParkingTimesDAOImpl();
-    private final MembersDAO membersDAO = new MembersDAOImpl();
+    private final MonthlyParkingDAO monthlyParkingDAO = new MonthlyParkingDAOImpl();
     private final DiscountInfoDAO discountInfoDAO = new DiscountInfoDAOImpl();
     private final FeePolicyDAO feePolicyDAO = new FeePolicyDAOImpl();
 
@@ -56,7 +56,7 @@ public class ParkingService {
             throw new Exception("등록되지 않은 차량입니다.");
         }
         //월주차 회원 확인
-        if (membersDAO.isValidMember(plateNumber)) {
+        if (monthlyParkingDAO.isValidMember(plateNumber)) {
             parkingTimesDAO.updateExit(carInfoDTO.getId());
             return 0; //월주차 회원은 무료
         }

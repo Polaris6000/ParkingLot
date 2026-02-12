@@ -1,7 +1,8 @@
 package com.exmple.parkinglot.service;
 
-import com.exmple.parkinglot.domain.DashboardStatsVO;
-import com.exmple.parkinglot.domain.ParkingSpotVO;
+import com.example.parkinglot.service.DashboardService;
+import com.example.parkinglot.vo.DashboardStatsVO;
+import com.example.parkinglot.vo.ParkingSpotVO;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

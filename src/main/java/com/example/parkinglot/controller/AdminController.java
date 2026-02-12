@@ -35,28 +35,28 @@ public class AdminController extends HttpServlet {
 
         //command는 루트 경로 이후를 다루게 되는 상황.
         switch (command) {
-//            case "/" -> {resp.sendRedirect("/admin/login");}
+//
             case "/admin/login" -> {
-                log.info("로그인 페이지 이동");
-                req.getRequestDispatcher("/web/admin/Login.jsp").forward(req, resp);
+                log.info("로그인 페이지 이동2");
+                req.getRequestDispatcher("/WEB-INF/web/admin/Login.jsp").forward(req, resp);
             }
             case "/admin/findinfo" -> {
                 log.info("아이디, 비번 찾기로 이동");
-                req.getRequestDispatcher("/web/admin/FindInfo.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/web/admin/FindInfo.jsp").forward(req, resp);
             }
             case "/admin/signup" -> {
                 log.info("회원가입 들어감.");
                 List<AdminDTO> adminDTOList = adminService.mastersInfo();
                 req.setAttribute("masters", adminDTOList);
-                req.getRequestDispatcher("/web/admin/SignUp.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/web/admin/SignUp.jsp").forward(req, resp);
             }
             case "/admin/signupfin" -> {
                 log.info("회원가입 완료됨.");
-                req.getRequestDispatcher("/web/admin/SignUpFin.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/web/admin/SignUpFin.jsp").forward(req, resp);
             }
             case "/admin/changepw" -> {
                 log.info("비밀번호 변경을 위해 들어감.");
-                req.getRequestDispatcher("/web/admin/ChangePw.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/web/admin/ChangePw.jsp").forward(req, resp);
             }
         }
 
@@ -112,7 +112,7 @@ public class AdminController extends HttpServlet {
                 mailService.sendAuthEmail(req.getParameter("master"), AuthKind.SIGNUP, adminDTO, uuid);
 
                 log.info("서비스까지 전달 완료");
-                req.getRequestDispatcher("/web/admin/SignUpFin.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/web/admin/SignUpFin.jsp").forward(req, resp);
             }
 
             case "/admin/login" -> {
@@ -134,12 +134,12 @@ public class AdminController extends HttpServlet {
                     log.info("로그인 성공");
                     //이후로 로그인 되어 있음을 증명. >> 쿠키와 세션을 이용하기.
 
-                    req.getRequestDispatcher("/web/dash_board.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/WEB-INF/web/dash_board.jsp").forward(req, resp);
                 } else {
                     log.info("로그인 실패");
                     req.setAttribute("error", "1");
 
-                    req.getRequestDispatcher("/web/admin/Login.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/WEB-INF/web/admin/Login.jsp").forward(req, resp);
                 }
 
             }
@@ -162,7 +162,7 @@ public class AdminController extends HttpServlet {
 
                 }
                 log.info("findinfo로 돌아가서 alert 만들기");
-                resp.sendRedirect("/admin/findinfo" + result);
+                resp.sendRedirect("/WEB-INF/admin/findinfo" + result);
             }
             case "/admin/findpw" -> {
                 log.info("비밀번호 찾기를 위해 들어온 위치.");
@@ -198,7 +198,7 @@ public class AdminController extends HttpServlet {
 
                 }
                 log.info("findinfo로 돌아가서 alert 만들기");
-                resp.sendRedirect("/admin/findinfo" + result);
+                resp.sendRedirect("/WEB-INF/admin/findinfo" + result);
             }
 
             case "/admin/changepw" -> {
@@ -213,7 +213,7 @@ public class AdminController extends HttpServlet {
                 log.info(authDTO);
                 log.info("토큰 검증");
                 if (authDTO == null){
-                    req.getRequestDispatcher("/web/admin/TokenCanNotUse.jsp").forward(req,resp);
+                    req.getRequestDispatcher("/WEB-INF/web/admin/TokenCanNotUse.jsp").forward(req,resp);
                 }
 
                 log.info("비밀번호 변경을 실행함.");

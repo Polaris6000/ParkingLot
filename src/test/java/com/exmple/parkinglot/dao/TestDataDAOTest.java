@@ -1,6 +1,6 @@
 package com.exmple.parkinglot.dao;
 
-import com.exmple.parkinglot.domain.FeePolicyVO;
+import com.example.parkinglot.vo.FeePolicyVO;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

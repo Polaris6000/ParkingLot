@@ -1,7 +1,7 @@
-package com.exmple.parkinglot.dao;
+package com.example.parkinglot.dao;
 
-import com.exmple.parkinglot.domain.DashboardStatsVO;
-import com.exmple.parkinglot.domain.ParkingSpotVO;
+import com.example.parkinglot.vo.DashboardStatsVO;
+import com.example.parkinglot.vo.ParkingSpotVO;
 import lombok.Cleanup;
 
 import java.sql.Connection;

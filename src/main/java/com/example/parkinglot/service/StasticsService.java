@@ -1,6 +1,8 @@
 package com.example.parkinglot.service;
 
 import com.example.parkinglot.dao.*;
+import com.example.parkinglot.util.ConnectionUtil;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -21,7 +23,7 @@ public class StasticsService {
                 "END) as total " +
                 "FROM car_info c " +
                 "JOIN parking_times pt ON c.id = pt.id " +
-                "LEFT JOIN members m ON c.plate_number = m.plate_number " +
+                "LEFT JOIN monthly_parking m ON c.plate_number = m.plate_number " +
                 "WHERE DATE(pt.exit_time) = ?";
 
         try (Connection conn = ConnectionUtil.INSTANCE.getConnection();
@@ -91,7 +93,7 @@ public class StasticsService {
     //월주차 회원 수
 
     public int getActiveMemberCount() throws SQLException {
-        String sql = "SELECT COUNT(*) as count FROM members WHERE expiry_date >= CURDATE()";
+        String sql = "SELECT COUNT(*) as count FROM monthly_parking WHERE expiry_date >= CURDATE()";
 
         try (Connection conn = ConnectionUtil.INSTANCE.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);

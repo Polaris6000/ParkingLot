@@ -1,6 +1,7 @@
 package com.example.parkinglot.dao;
 
 import com.example.parkinglot.dto.CarInfoDTO;
+import com.example.parkinglot.util.ConnectionUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
