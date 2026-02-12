@@ -14,6 +14,9 @@
     String error = (String) request.getAttribute("error");
 %>
 <body>
+
+<%@include file="../common/header.jsp" %>
+
 <main>
     <section class="site-name">
         <div>

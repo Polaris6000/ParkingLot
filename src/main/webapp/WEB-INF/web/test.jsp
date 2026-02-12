@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<%@include file="common/header.jsp" %>
+<%@include file="./common/header.jsp" %>
 
 <div class="container">
     <!-- 헤더: 대시보드로 돌아가기 버튼 -->
@@ -163,7 +163,7 @@
                         <span>요금 정책 추가 · 수정 · 삭제</span>
                     </div>
                     <button type="submit" class="btn btn-info">
-                        <a href="${pageContext.request.contextPath}/WEB-INF/web/dashboard.jsp" style="color: white">
+                        <a href="/setting" style="color: white">
                             페이지 이동
                         </a>
                     </button>
@@ -288,7 +288,7 @@
                 showLoading();
 
                 // AJAX 요청
-                fetch('${pageContext.request.contextPath}/test/data', {
+                fetch('${pageContext.request.contextPath}/test', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'

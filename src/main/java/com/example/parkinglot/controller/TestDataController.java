@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
+import net.bytebuddy.build.AccessControllerPlugin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Log4j2
-@WebServlet(name = "TestDataController", urlPatterns = {"/test/data", "/api/test/statistics"})
+@WebServlet(name = "TestDataController", urlPatterns = {"/test", "/api/test/statistics"})
 public class TestDataController extends HttpServlet {
 
     private final TestDataService service = TestDataService.INSTANCE;
@@ -33,16 +34,16 @@ public class TestDataController extends HttpServlet {
             return;
         }
 
-        // 일반 JSP 페이지 요청: /test/data
+        // 일반 JSP 페이지 요청: /test
         try {
             String statistics = service.getStatistics();
             request.setAttribute("statistics", statistics != null ? statistics : "통계 없음");
-            request.getRequestDispatcher("/web/test_data.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/web/test.jsp").forward(request, response);
         } catch (Exception e) {
             log.error("테스트 페이지 로딩 중 오류", e);
             request.setAttribute("error", "페이지 로딩 중 오류가 발생했습니다.");
             request.setAttribute("statistics", "통계 조회 실패");
-            request.getRequestDispatcher("/web/test_data.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/web/test.jsp").forward(request, response);
         }
     }
 
@@ -136,13 +137,14 @@ public class TestDataController extends HttpServlet {
             request.setAttribute("statistics", "통계 조회 실패");
         }
 
-        request.getRequestDispatcher("/web/test_data.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/web/test.jsp").forward(request, response);
     }
 
     /**
      * REST API - 통계 조회
      * GET /api/test/statistics
      */
+
     private void handleGetStatistics(HttpServletResponse response) throws IOException {
         response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
