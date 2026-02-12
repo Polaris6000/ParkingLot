@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="DataSourcePerFileMappings">
-    <file url="file://$PROJECT_DIR$/.idea/queries/Query.sql" value="ec55cd3d-0b45-42e3-89ab-01208b7c2605" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/example/parkinglot/dao/StatisticsDAO.java" value="ec55cd3d-0b45-42e3-89ab-01208b7c2605" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/sql/init.sql" value="ec55cd3d-0b45-42e3-89ab-01208b7c2605" />
-  </component>
-</project>

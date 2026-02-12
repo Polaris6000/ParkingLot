@@ -103,11 +103,142 @@ INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (DATE_SUB(NOW(
 -- 4. 지난달 데이터 (월별 통계 확인용)
 INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (DATE_SUB(NOW(), INTERVAL 1 MONTH), 'normal', 15000);
 
--- 2026년 1월 예시 데이터
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES ('2026-01-04 10:00:00', 'normal', 10000);
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES ('2026-01-10 14:00:00', 'disabled', 5000);
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES ('2026-01-13 16:00:00', 'normal', 7000);
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES ('2026-01-22 09:00:00', 'light', 3000);
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES ('2026-01-25 18:00:00', 'monthly', 0);
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES ('2026-01-28 11:00:00', 'normal', 15000);
+-- 데이터 예시
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES
+
+-- 2025년 12월 데이터
+-- 12월 1일
+('2025-12-01 08:30:00', 'normal', 5000),
+('2025-12-01 10:00:00', 'light', 3500),
+('2025-12-01 11:45:00', 'monthly', 0),
+('2025-12-01 13:30:00', 'disabled', 2500),
+('2025-12-01 15:00:00', 'normal', 6000),
+
+-- 12월 2일
+('2025-12-02 09:00:00', 'normal', 5000),
+('2025-12-02 10:30:00', 'light', 3800),
+('2025-12-02 12:15:00', 'disabled', 3500),
+('2025-12-02 14:00:00', 'normal', 7000),
+('2025-12-02 16:30:00', 'monthly', 0),
+
+-- 2026년 1월 데이터
+-- 1월 28일
+('2026-01-28 08:45:00', 'normal', 5000),
+('2026-01-28 10:20:00', 'light', 3500),
+('2026-01-28 11:00:00', 'normal', 6000),
+('2026-01-28 13:30:00', 'disabled', 2500),
+('2026-01-28 15:00:00', 'normal', 8000),
+('2026-01-28 16:45:00', 'monthly', 0),
+
+-- 1월 29일
+('2026-01-29 09:00:00', 'normal', 5000),
+('2026-01-29 10:30:00', 'light', 3500),
+('2026-01-29 12:00:00', 'normal', 7000),
+('2026-01-29 14:15:00', 'disabled', 3500),
+('2026-01-29 16:00:00', 'normal', 6000),
+
+-- 1월 30일
+('2026-01-30 08:20:00', 'normal', 5000),
+('2026-01-30 09:50:00', 'light', 4200),
+('2026-01-30 11:30:00', 'monthly', 0),
+('2026-01-30 13:45:00', 'normal', 8000),
+('2026-01-30 15:30:00', 'disabled', 2500),
+('2026-01-30 17:00:00', 'normal', 6000),
+
+-- 1월 31일
+('2026-01-31 08:00:00', 'normal', 5000),
+('2026-01-31 10:00:00', 'light', 3500),
+('2026-01-31 12:30:00', 'normal', 7000),
+('2026-01-31 14:00:00', 'disabled', 3500),
+('2026-01-31 16:30:00', 'monthly', 0),
+
+-- 2026년 2월 데이터
+-- 2월 1일
+('2026-02-01 09:00:00', 'normal', 5000),
+('2026-02-01 10:30:00', 'light', 3500),
+('2026-02-01 11:30:00', 'disabled', 3000),
+('2026-02-01 13:00:00', 'normal', 6000),
+('2026-02-01 15:00:00', 'monthly', 0),
+('2026-02-01 16:30:00', 'normal', 7000),
+
+-- 2월 2일
+('2026-02-02 08:30:00', 'normal', 5000),
+('2026-02-02 10:00:00', 'light', 3800),
+('2026-02-02 12:00:00', 'disabled', 2500),
+('2026-02-02 14:30:00', 'normal', 8000),
+('2026-02-02 16:00:00', 'light', 4200),
+
+-- 2월 3일
+('2026-02-03 09:15:00', 'normal', 6000),
+('2026-02-03 11:00:00', 'monthly', 0),
+('2026-02-03 13:30:00', 'disabled', 3500),
+('2026-02-03 15:45:00', 'normal', 7000),
+
+-- 2월 4일
+('2026-02-04 08:00:00', 'normal', 5000),
+('2026-02-04 09:30:00', 'light', 3500),
+('2026-02-04 11:30:00', 'disabled', 2500),
+('2026-02-04 13:00:00', 'normal', 6000),
+('2026-02-04 15:30:00', 'monthly', 0),
+
+-- 2월 5일
+('2026-02-05 09:00:00', 'normal', 5000),
+('2026-02-05 10:45:00', 'light', 4200),
+('2026-02-05 12:30:00', 'normal', 7000),
+('2026-02-05 14:15:00', 'disabled', 3500),
+('2026-02-05 16:00:00', 'normal', 8000);
+
+-- 전체 데이터 개수 확인
+# SELECT COUNT(*) AS total_records FROM pay_logs;
+
+-- 차종별 개수 확인
+# SELECT
+#     kind_of_discount,
+#     COUNT(*) AS count,
+#     ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM pay_logs), 2) AS percentage
+# FROM pay_logs
+# GROUP BY kind_of_discount;
+
+-- 일별 매출 확인
+# SELECT
+#     DATE(pay_time) AS date,
+#     SUM(pay_log) AS total_amount,
+#     COUNT(*) AS total_count
+# FROM pay_logs
+# GROUP BY DATE(pay_time)
+# ORDER BY date DESC
+# LIMIT 10;
+
+-- 월별 매출 확인
+# SELECT
+#     DATE_FORMAT(pay_time, '%Y-%m') AS month,
+#     SUM(pay_log) AS total_amount,
+#     COUNT(*) AS total_count
+# FROM pay_logs
+# GROUP BY DATE_FORMAT(pay_time, '%Y-%m')
+# ORDER BY month DESC;
+
+-- ========================================
+-- 유용한 관리 쿼리
+-- ========================================
+
+-- 특정 날짜 데이터 삭제
+-- DELETE FROM pay_logs WHERE DATE(pay_time) = '2026-01-15';
+
+-- 특정 기간 데이터 삭제
+-- DELETE FROM pay_logs WHERE pay_time BETWEEN '2026-01-01' AND '2026-01-31';
+
+-- 전체 데이터 삭제 (주의!)
+-- TRUNCATE TABLE pay_logs;
+
+-- 테이블 구조 확인
+-- DESC pay_logs;
+
+-- 인덱스 확인
+-- SHOW INDEX FROM pay_logs;
+
+
+
+
+
 
