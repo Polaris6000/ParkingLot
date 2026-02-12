@@ -10,6 +10,7 @@ import java.util.List;
 
 //월주차 정기권 회원 DAO구현체
 public class MonthlyParkingDAO {
+
     public void insert(MonthlyParkingDTO monthlyParkingDTO) throws SQLException {
         String sql = "INSERT INTO monthly_parking (plate_number, name, phone_number, begin_date, expiry_date) " +
                 "VALUES (?, ?, ?, ?, ?)";
@@ -19,9 +20,25 @@ public class MonthlyParkingDAO {
             preparedStatement.setString(1, monthlyParkingDTO.getPlateNumber());
             preparedStatement.setString(2, monthlyParkingDTO.getName());
             preparedStatement.setString(3, monthlyParkingDTO.getPhoneNumber());
-            preparedStatement.setString(4, String.valueOf(Date.valueOf(monthlyParkingDTO.getBeginDate())));
-            preparedStatement.setString(5, String.valueOf(Date.valueOf(monthlyParkingDTO.getExpiryDate())));
+            preparedStatement.setDate(4, Date.valueOf(monthlyParkingDTO.getBeginDate()));
+            preparedStatement.setDate(5, Date.valueOf(monthlyParkingDTO.getExpiryDate()));
             preparedStatement.executeUpdate();
+        }
+    }
+
+    public MonthlyParkingDTO selectById(int id) throws SQLException {
+        String sql = "SELECT * FROM monthly_parking WHERE id = ?";
+
+        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return mapToDTO(resultSet);
+            }
+            return null;
         }
     }
 
@@ -35,14 +52,7 @@ public class MonthlyParkingDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                return MonthlyParkingDTO.builder()
-                        .id(resultSet.getInt("id"))
-                        .plateNumber(resultSet.getString("plate_number"))
-                        .name(resultSet.getString("name"))
-                        .phoneNumber(resultSet.getString("phone_number"))
-                        .beginDate(resultSet.getDate("begin_date").toLocalDate())
-                        .expiryDate(resultSet.getDate("expiry_date").toLocalDate())
-                        .build();
+                return mapToDTO(resultSet);
             }
             return null;
         }
@@ -55,37 +65,60 @@ public class MonthlyParkingDAO {
         try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            {
 
-                while (resultSet.next()) {
-
-                    list.add(MonthlyParkingDTO.builder()
-                            .id(resultSet.getInt("id"))
-                            .plateNumber(resultSet.getString("plate_number"))
-                            .name(resultSet.getString("name"))
-                            .phoneNumber(resultSet.getString("phone_number"))
-                            .beginDate(resultSet.getDate("begin_date").toLocalDate())
-                            .expiryDate(resultSet.getDate("expiry_date").toLocalDate())
-                            .build());
-                }
-
+            while (resultSet.next()) {
+                list.add(mapToDTO(resultSet));
             }
             return list;
+        }
+    }
+
+    // 페이징 처리된 목록 조회
+    public List<MonthlyParkingDTO> selectWithPaging(int offset, int limit) throws SQLException {
+        String sql = "SELECT * FROM monthly_parking ORDER BY expiry_date DESC LIMIT ? OFFSET ?";
+        List<MonthlyParkingDTO> list = new ArrayList<>();
+
+        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, limit);
+            preparedStatement.setInt(2, offset);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                list.add(mapToDTO(resultSet));
+            }
+            return list;
+        }
+    }
+
+    // 전체 회원 수 조회 (페이징 계산용)
+    public int getTotalCount() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM monthly_parking";
+
+        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+            return 0;
         }
     }
 
     public boolean isValidMember(String plateNumber) throws SQLException {
         String sql = "SELECT expiry_date FROM monthly_parking WHERE plate_number = ?";
 
-        try(Connection connection = ConnectionUtil.INSTANCE.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, plateNumber);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 LocalDate expireDate = resultSet.getDate("expiry_date").toLocalDate();
-                return expireDate.isAfter(LocalDate.now());
+                return !expireDate.isBefore(LocalDate.now());
             }
             return false;
         }
@@ -95,29 +128,39 @@ public class MonthlyParkingDAO {
         String sql = "UPDATE monthly_parking SET name = ?, phone_number = ?, " +
                 "begin_date = ?, expiry_date = ? WHERE id = ?";
 
-        try(Connection connection = ConnectionUtil.INSTANCE.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            preparedStatement.setString(1, monthlyParkingDTO.getPlateNumber());
-            ResultSet resultSet = preparedStatement.executeQuery();
+            preparedStatement.setString(1, monthlyParkingDTO.getName());
+            preparedStatement.setString(2, monthlyParkingDTO.getPhoneNumber());
+            preparedStatement.setDate(3, Date.valueOf(monthlyParkingDTO.getBeginDate()));
+            preparedStatement.setDate(4, Date.valueOf(monthlyParkingDTO.getExpiryDate()));
+            preparedStatement.setInt(5, monthlyParkingDTO.getId());
 
-            if (resultSet.next()){
-                LocalDate expiryDate = resultSet.getDate("expiry_date").toLocalDate();
-                return  !expiryDate.isBefore(LocalDate.now());
-            }
-            return false;
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
         }
     }
 
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM monthly_parking WHERE id = ?";
 
-        try(Connection connection = ConnectionUtil.INSTANCE.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         }
+    }
 
+    private MonthlyParkingDTO mapToDTO(ResultSet resultSet) throws SQLException {
+        return MonthlyParkingDTO.builder()
+                .id(resultSet.getInt("id"))
+                .plateNumber(resultSet.getString("plate_number"))
+                .name(resultSet.getString("name"))
+                .phoneNumber(resultSet.getString("phone_number"))
+                .beginDate(resultSet.getDate("begin_date").toLocalDate())
+                .expiryDate(resultSet.getDate("expiry_date").toLocalDate())
+                .build();
     }
 }
