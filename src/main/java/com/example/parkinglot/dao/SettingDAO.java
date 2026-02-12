@@ -28,18 +28,18 @@ public class SettingDAO {
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConnectionUtil.INSTANCE.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, dto.getBaseFee());
-            pstmt.setInt(2, dto.getBasicUnitMinute());
-            pstmt.setInt(3, dto.getUnitFee());
-            pstmt.setInt(4, dto.getBillingUnitMinutes());
-            pstmt.setInt(5, dto.getHelpDiscountRate());
-            pstmt.setInt(6, dto.getCompactDiscountRate());
-            pstmt.setInt(7, dto.getGracePeriodMinutes());
-            pstmt.setInt(8, dto.getMaxCapAmount());
+            preparedStatement.setInt(1, dto.getBaseFee());
+            preparedStatement.setInt(2, dto.getBasicUnitMinute());
+            preparedStatement.setInt(3, dto.getUnitFee());
+            preparedStatement.setInt(4, dto.getBillingUnitMinutes());
+            preparedStatement.setInt(5, dto.getHelpDiscountRate());
+            preparedStatement.setInt(6, dto.getCompactDiscountRate());
+            preparedStatement.setInt(7, dto.getGracePeriodMinutes());
+            preparedStatement.setInt(8, dto.getMaxCapAmount());
 
-            int result = pstmt.executeUpdate();
+            int result = preparedStatement.executeUpdate();
             System.out.println("DAO - 요금 정책 등록: " + (result > 0 ? "성공" : "실패"));
             return result > 0;
         } catch (SQLException e) {
@@ -66,28 +66,28 @@ public class SettingDAO {
         System.out.println("SQL: " + sql);
 
         try (Connection conn = ConnectionUtil.INSTANCE.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+             PreparedStatement preparedStatement = conn.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
             System.out.println("DB 연결 성공");
 
             int count = 0;
-            while (rs.next()) {
+            while (resultSet.next()) {
                 count++;
                 SettingVO vo = new SettingVO();
-                vo.setId(rs.getInt("id"));
-                vo.setBaseFee(rs.getInt("base_fee"));
-                vo.setBasicUnitMinute(rs.getInt("basic_unit_minute"));
-                vo.setUnitFee(rs.getInt("unit_fee"));
-                vo.setBillingUnitMinutes(rs.getInt("billing_unit_minutes"));
-                vo.setHelpDiscountRate(rs.getInt("help_discount_rate"));
-                vo.setCompactDiscountRate(rs.getInt("compact_discount_rate"));
-                vo.setGracePeriodMinutes(rs.getInt("grace_period_minutes"));
-                vo.setMaxCapAmount(rs.getInt("max_cap_amount"));
+                vo.setId(resultSet.getInt("id"));
+                vo.setBaseFee(resultSet.getInt("base_fee"));
+                vo.setBasicUnitMinute(resultSet.getInt("basic_unit_minute"));
+                vo.setUnitFee(resultSet.getInt("unit_fee"));
+                vo.setBillingUnitMinutes(resultSet.getInt("billing_unit_minutes"));
+                vo.setHelpDiscountRate(resultSet.getInt("help_discount_rate"));
+                vo.setCompactDiscountRate(resultSet.getInt("compact_discount_rate"));
+                vo.setGracePeriodMinutes(resultSet.getInt("grace_period_minutes"));
+                vo.setMaxCapAmount(resultSet.getInt("max_cap_amount"));
 
-                Timestamp ts = rs.getTimestamp("update_date");
-                if (ts != null) {
-                    vo.setUpdateDate(ts.toLocalDateTime());
+                Timestamp timestamp = resultSet.getTimestamp("update_date");
+                if (timestamp != null) {
+                    vo.setUpdateDate(timestamp.toLocalDateTime());
                 }
 
                 list.add(vo);
@@ -122,24 +122,24 @@ public class SettingDAO {
                 "LIMIT 1";
 
         try (Connection conn = ConnectionUtil.INSTANCE.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+             PreparedStatement preparedStatement = conn.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            if (rs.next()) {
+            if (resultSet.next()) {
                 SettingVO vo = new SettingVO();
-                vo.setId(rs.getInt("id"));
-                vo.setBaseFee(rs.getInt("base_fee"));
-                vo.setBasicUnitMinute(rs.getInt("basic_unit_minute"));
-                vo.setUnitFee(rs.getInt("unit_fee"));
-                vo.setBillingUnitMinutes(rs.getInt("billing_unit_minutes"));
-                vo.setHelpDiscountRate(rs.getInt("help_discount_rate"));
-                vo.setCompactDiscountRate(rs.getInt("compact_discount_rate"));
-                vo.setGracePeriodMinutes(rs.getInt("grace_period_minutes"));
-                vo.setMaxCapAmount(rs.getInt("max_cap_amount"));
+                vo.setId(resultSet.getInt("id"));
+                vo.setBaseFee(resultSet.getInt("base_fee"));
+                vo.setBasicUnitMinute(resultSet.getInt("basic_unit_minute"));
+                vo.setUnitFee(resultSet.getInt("unit_fee"));
+                vo.setBillingUnitMinutes(resultSet.getInt("billing_unit_minutes"));
+                vo.setHelpDiscountRate(resultSet.getInt("help_discount_rate"));
+                vo.setCompactDiscountRate(resultSet.getInt("compact_discount_rate"));
+                vo.setGracePeriodMinutes(resultSet.getInt("grace_period_minutes"));
+                vo.setMaxCapAmount(resultSet.getInt("max_cap_amount"));
 
-                Timestamp ts = rs.getTimestamp("update_date");
-                if (ts != null) {
-                    vo.setUpdateDate(ts.toLocalDateTime());
+                Timestamp timestamp = resultSet.getTimestamp("update_date");
+                if (timestamp != null) {
+                    vo.setUpdateDate(timestamp.toLocalDateTime());
                 }
 
                 System.out.println("DAO - 최신 요금 정책 조회 완료: ID=" + vo.getId());
@@ -167,26 +167,26 @@ public class SettingDAO {
                 "WHERE id = ?";
 
         try (Connection conn = ConnectionUtil.INSTANCE.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, id);
+            preparedStatement.setInt(1, id);
 
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
                     SettingVO vo = new SettingVO();
-                    vo.setId(rs.getInt("id"));
-                    vo.setBaseFee(rs.getInt("base_fee"));
-                    vo.setBasicUnitMinute(rs.getInt("basic_unit_minute"));
-                    vo.setUnitFee(rs.getInt("unit_fee"));
-                    vo.setBillingUnitMinutes(rs.getInt("billing_unit_minutes"));
-                    vo.setHelpDiscountRate(rs.getInt("help_discount_rate"));
-                    vo.setCompactDiscountRate(rs.getInt("compact_discount_rate"));
-                    vo.setGracePeriodMinutes(rs.getInt("grace_period_minutes"));
-                    vo.setMaxCapAmount(rs.getInt("max_cap_amount"));
+                    vo.setId(resultSet.getInt("id"));
+                    vo.setBaseFee(resultSet.getInt("base_fee"));
+                    vo.setBasicUnitMinute(resultSet.getInt("basic_unit_minute"));
+                    vo.setUnitFee(resultSet.getInt("unit_fee"));
+                    vo.setBillingUnitMinutes(resultSet.getInt("billing_unit_minutes"));
+                    vo.setHelpDiscountRate(resultSet.getInt("help_discount_rate"));
+                    vo.setCompactDiscountRate(resultSet.getInt("compact_discount_rate"));
+                    vo.setGracePeriodMinutes(resultSet.getInt("grace_period_minutes"));
+                    vo.setMaxCapAmount(resultSet.getInt("max_cap_amount"));
 
-                    Timestamp ts = rs.getTimestamp("update_date");
-                    if (ts != null) {
-                        vo.setUpdateDate(ts.toLocalDateTime());
+                    Timestamp timestamp = resultSet.getTimestamp("update_date");
+                    if (timestamp != null) {
+                        vo.setUpdateDate(timestamp.toLocalDateTime());
                     }
 
                     System.out.println("DAO - ID별 요금 정책 조회 완료: " + id);
@@ -210,11 +210,11 @@ public class SettingDAO {
         String sql = "SELECT COUNT(*) as cnt FROM fee_policy";
 
         try (Connection conn = ConnectionUtil.INSTANCE.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+             PreparedStatement preparedStatement = conn.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            if (rs.next()) {
-                int count = rs.getInt("cnt");
+            if (resultSet.next()) {
+                int count = resultSet.getInt("cnt");
                 System.out.println("DAO - 요금 정책 개수: " + count);
                 return count;
             }
