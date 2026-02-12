@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Log4j2
-@WebServlet(name = "TestDataController", urlPatterns = {"/test", "/api/test/statistics"})
+@WebServlet(name = "TestDataController", urlPatterns = {"/test/*"})
 public class TestDataController extends HttpServlet {
 
     private final TestDataService service = TestDataService.INSTANCE;

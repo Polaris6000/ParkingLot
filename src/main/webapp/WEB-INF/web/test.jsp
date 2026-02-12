@@ -7,13 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>테스트 데이터 관리</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/test_data.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/test.css">
 </head>
 <body>
-
-<%@include file="./common/header.jsp" %>
-
 <div class="container">
+    <%@include file="./common/header.jsp" %>
     <!-- 헤더: 대시보드로 돌아가기 버튼 -->
     <header class="page-header">
         <div class="warning-badge">
