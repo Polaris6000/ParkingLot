@@ -8,7 +8,7 @@
     <title>스마트주차 반월당점 - 주차장 대시보드</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/dashboard.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/public.css">
 
     <!-- Font Awesome (아이콘) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -29,9 +29,9 @@
     <div class="container">
 
         <!-- ========== 헤더 영역 ========== -->
-        <div class="dashboard-header">
+        <header class="dashboard-header">
             <%@include file="common/header.jsp" %>
-        </div>
+        </header>
 
         <!-- ========== 메인 컨텐츠 ========== -->
         <div class="main-content">

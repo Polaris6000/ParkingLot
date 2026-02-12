@@ -32,12 +32,22 @@
     /* 배경 및 기본 색상 */
     --bg-color: #f8f9fc; /* 페이지 배경색 (밝은 회색) */
     --white: #ffffff; /* 카드 배경색 */
+    --radius-md: 15px; /* 둥근 모서리 */
 
     /* 주차 상태 색상 */
     --accent-blue: #5c7cfa; /* 강조 색상 (버튼, 라벨 등) */
     --occupied-blue: #3b5bdb; /* 일반차량 점유 (진한 파랑) */
     --ev-green: #52c41a; /* 전기차 점유 (초록) */
     --empty-gray: #dee2e6; /* 빈 주차공간 (회색) */
+    --primary-color: #4e73df; /* 메인 블루 */
+    --success-color: #1cc88a; /* 성공 그린 */
+    --danger-color: #e74a3b; /* 위험 레드 */
+    --warning-color: #f6c23e; /* 경고 옐로우 */
+    --text-dark: #333333; /* 기본 텍스트 */
+    --text-gray: #858796; /* 회색 텍스트 */
+
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
+    --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.1);
 
     /* 폰트 */
     --main-font: 'BookkGothic', sans-serif;
@@ -57,7 +67,7 @@ body {
 
 /* 전체 페이지를 감싸는 컨테이너 (최대 너비 1200px) */
 .container {
-    width: 1200px;
+    /*width: 1200px;*/
     display: flex;
     flex-direction: column;
 }
@@ -79,11 +89,20 @@ h1 {
    - 페이지 제목 및 액션 버튼 배치
 ======================================== */
 .dashboard-header {
+    background: var(--white);
+    border-radius: 15px;
+    border: 1px solid #eee;
     display: flex;
     justify-content: space-between; /* 좌우 양쪽 끝 정렬 */
     align-items: center;
     margin-bottom: 20px;
 }
+
+.top-nav {
+    background: var(--white);
+    border-radius: 15px;
+}
+
 
 /* 헤더 우측 버튼 그룹 */
 .header-buttons {
@@ -133,14 +152,14 @@ h1 {
 header {
     background: white;
     padding: 20px 0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    /*box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);*/
     position: sticky;
     top: 0;
     z-index: 100;
 }
 
 .header-container {
-    max-width: 1200px;
+    /*max-width: 1200px;*/
     margin: 0 auto;
     padding: 0 20px;
     display: flex;

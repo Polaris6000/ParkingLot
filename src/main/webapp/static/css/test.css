@@ -171,8 +171,8 @@ body {
 }
 
 .stats-box {
-    background: var(--text-dark);
-    color: #fff;
+    background: white;
+    color: var(--text-dark);
     padding: 20px;
     border-radius: var(--radius-md);
     margin-bottom: 30px;
