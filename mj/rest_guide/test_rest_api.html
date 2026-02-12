@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST API 테스트 페이지</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+        
+        .section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #007bff;
+            margin-top: 0;
+        }
+        
+        .api-group {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+        }
+        
+        .method-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+        
+        .method-get {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .method-post {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .method-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        button.delete {
+            background-color: #dc3545;
+        }
+        
+        button.delete:hover {
+            background-color: #c82333;
+        }
+        
+        input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100px;
+            margin: 0 10px;
+        }
+        
+        #response {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .code-block {
+            background: #f4f4f4;
+            border-left: 3px solid #007bff;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚗 REST API 테스트 페이지</h1>
+    
+    <!-- GET 요청 섹션 -->
+    <div class="section">
+        <h2>📊 GET - 조회 (Read)</h2>
+        
+        <div class="api-group">
+            <span class="method-badge method-get">GET</span>
+            <strong>/api/test/data/statistics</strong>
+            <p>현재 주차장 통계 정보를 조회합니다.</p>
+            <button onclick="getStatistics()">통계 조회</button>
+        </div>
+        
+        <div class="code-block">
+예시 JavaScript 코드:
+fetch('/api/test/data/statistics')
+  .then(response => response.json())
+  .then(data => console.log(data));
+        </div>
+    </div>
+    
+    <!-- POST 요청 섹션 -->
+    <div class="section">
+        <h2>➕ POST - 생성 (Create)</h2>
+        
+        <div class="api-group">
+            <span class="method-badge method-post">POST</span>
+            <strong>/api/test/data/entry?count=N</strong>
+            <p>입차 데이터를 대량 생성합니다.</p>
+            <input type="number" id="entryCount" value="5" min="1" max="20">
+            <button onclick="bulkEntry()">입차 생성</button>
+        </div>
+        
+        <div class="api-group">
+            <span class="method-badge method-post">POST</span>
+            <strong>/api/test/data/exit?count=N</strong>
+            <p>출차 데이터를 대량 처리합니다.</p>
+            <input type="number" id="exitCount" value="3" min="1" max="20">
+            <button onclick="bulkExit()">출차 처리</button>
+        </div>
+        
+        <div class="api-group">
+            <span class="method-badge method-post">POST</span>
+            <strong>/api/test/data/monthly?count=N</strong>
+            <p>월정액 회원을 대량 등록합니다.</p>
+            <input type="number" id="monthlyCount" value="5" min="1" max="20">
+            <button onclick="bulkMonthly()">회원 등록</button>
+        </div>
+        
+        <div class="api-group">
+            <span class="method-badge method-post">POST</span>
+            <strong>/api/test/data/fee-policy?count=N</strong>
+            <p>요금 정책을 대량 등록합니다.</p>
+            <input type="number" id="policyCount" value="3" min="1" max="10">
+            <button onclick="bulkFeePolicy()">정책 등록</button>
+        </div>
+        
+        <div class="code-block">
+예시 JavaScript 코드:
+fetch('/api/test/data/entry?count=5', {
+  method: 'POST'
+})
+  .then(response => response.json())
+  .then(data => console.log(data));
+        </div>
+    </div>
+    
+    <!-- DELETE 요청 섹션 -->
+    <div class="section">
+        <h2>🗑️ DELETE - 삭제 (Delete)</h2>
+        
+        <div class="api-group">
+            <span class="method-badge method-delete">DELETE</span>
+            <strong>/api/test/data/monthly?count=N</strong>
+            <p>월정액 회원을 랜덤으로 삭제합니다.</p>
+            <input type="number" id="deleteMonthlyCount" value="2" min="1" max="10">
+            <button class="delete" onclick="deleteMonthly()">회원 삭제</button>
+        </div>
+        
+        <div class="api-group">
+            <span class="method-badge method-delete">DELETE</span>
+            <strong>/api/test/data/fee-policy?count=N</strong>
+            <p>요금 정책을 랜덤으로 삭제합니다.</p>
+            <input type="number" id="deletePolicyCount" value="1" min="1" max="5">
+            <button class="delete" onclick="deleteFeePolicy()">정책 삭제</button>
+        </div>
+        
+        <div class="api-group">
+            <span class="method-badge method-delete">DELETE</span>
+            <strong>/api/test/data/all</strong>
+            <p>전체 주차 데이터를 초기화합니다.</p>
+            <button class="delete" onclick="clearAll()">전체 삭제</button>
+        </div>
+        
+        <div class="code-block">
+예시 JavaScript 코드:
+fetch('/api/test/data/monthly?count=2', {
+  method: 'DELETE'
+})
+  .then(response => response.json())
+  .then(data => console.log(data));
+        </div>
+    </div>
+    
+    <!-- 응답 출력 섹션 -->
+    <div class="section">
+        <h2>📋 API 응답</h2>
+        <div id="response">여기에 API 응답이 표시됩니다...</div>
+    </div>
+
+    <script>
+        /**
+         * REST API 호출을 위한 공통 함수
+         * 
+         * @param {string} url - API 엔드포인트 URL
+         * @param {string} method - HTTP 메서드 (GET, POST, DELETE 등)
+         * @param {string} description - 작업 설명 (로그용)
+         */
+        async function callAPI(url, method, description) {
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = `⏳ ${description} 요청 중...\n\n요청 URL: ${url}\n메서드: ${method}`;
+            
+            try {
+                // fetch API를 사용한 REST 호출
+                // fetch는 Promise 기반의 HTTP 클라이언트
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json'  // JSON 요청임을 명시
+                    }
+                });
+                
+                // 응답을 JSON으로 파싱
+                const data = await response.json();
+                
+                // HTTP 상태 코드 확인
+                if (response.ok) {  // 200~299 범위
+                    // 성공 응답
+                    responseDiv.innerHTML = 
+                        `<span class="success">✅ ${description} 성공!</span>\n\n` +
+                        `HTTP 상태: ${response.status} ${response.statusText}\n\n` +
+                        `응답 데이터:\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    // 에러 응답 (400, 404, 500 등)
+                    responseDiv.innerHTML = 
+                        `<span class="error">❌ ${description} 실패</span>\n\n` +
+                        `HTTP 상태: ${response.status} ${response.statusText}\n\n` +
+                        `에러 메시지:\n${JSON.stringify(data, null, 2)}`;
+                }
+                
+            } catch (error) {
+                // 네트워크 오류 등
+                responseDiv.innerHTML = 
+                    `<span class="error">❌ 네트워크 오류</span>\n\n` +
+                    `${error.message}`;
+            }
+        }
+        
+        // ==================== GET 요청 함수들 ====================
+        
+        function getStatistics() {
+            callAPI('/api/test/data/statistics', 'GET', '통계 조회');
+        }
+        
+        // ==================== POST 요청 함수들 ====================
+        
+        function bulkEntry() {
+            const count = document.getElementById('entryCount').value;
+            callAPI(`/api/test/data/entry?count=${count}`, 'POST', `${count}대 입차 생성`);
+        }
+        
+        function bulkExit() {
+            const count = document.getElementById('exitCount').value;
+            callAPI(`/api/test/data/exit?count=${count}`, 'POST', `${count}대 출차 처리`);
+        }
+        
+        function bulkMonthly() {
+            const count = document.getElementById('monthlyCount').value;
+            callAPI(`/api/test/data/monthly?count=${count}`, 'POST', `${count}명 회원 등록`);
+        }
+        
+        function bulkFeePolicy() {
+            const count = document.getElementById('policyCount').value;
+            callAPI(`/api/test/data/fee-policy?count=${count}`, 'POST', `${count}건 정책 등록`);
+        }
+        
+        // ==================== DELETE 요청 함수들 ====================
+        
+        function deleteMonthly() {
+            if (confirm('정말 월정액 회원을 삭제하시겠습니까?')) {
+                const count = document.getElementById('deleteMonthlyCount').value;
+                callAPI(`/api/test/data/monthly?count=${count}`, 'DELETE', `${count}명 회원 삭제`);
+            }
+        }
+        
+        function deleteFeePolicy() {
+            if (confirm('정말 요금 정책을 삭제하시겠습니까?')) {
+                const count = document.getElementById('deletePolicyCount').value;
+                callAPI(`/api/test/data/fee-policy?count=${count}`, 'DELETE', `${count}건 정책 삭제`);
+            }
+        }
+        
+        function clearAll() {
+            if (confirm('⚠️ 경고: 전체 주차 데이터가 삭제됩니다. 계속하시겠습니까?')) {
+                callAPI('/api/test/data/all', 'DELETE', '전체 데이터 삭제');
+            }
+        }
+    </script>
+</body>
+</html>

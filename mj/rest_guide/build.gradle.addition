@@ -1,0 +1,38 @@
+// build.gradle 파일에 추가할 내용
+
+dependencies {
+    // 기존 라이브러리들
+    implementation 'org.projectlombok:lombok:1.18.30'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.5.7'
+    implementation 'org.apache.logging.log4j:log4j-core:2.25.3'
+    implementation 'org.modelmapper:modelmapper:3.1.1'
+    implementation 'com.zaxxer:HikariCP:5.0.1'
+    
+    // REST API를 위한 JSON 라이브러리 추가
+    // Gson: Google에서 만든 JSON 라이브러리
+    // - Java 객체를 JSON 문자열로 변환 (직렬화)
+    // - JSON 문자열을 Java 객체로 변환 (역직렬화)
+    // - 사용이 간단하고 성능이 우수함
+    implementation 'com.google.code.gson:gson:2.10.1'
+    
+    // 대안: Jackson (더 많은 기능, 약간 더 복잡)
+    // implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.0'
+    
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+}
+
+/*
+ * Gson vs Jackson 비교:
+ * 
+ * Gson:
+ * - 장점: 사용이 매우 간단, 가벼움
+ * - 단점: 기능이 상대적으로 적음
+ * - 추천: 간단한 REST API, 학습용 프로젝트
+ * 
+ * Jackson:
+ * - 장점: 기능이 풍부, 성능 최적화, Spring Boot 기본
+ * - 단점: 설정이 복잡할 수 있음
+ * - 추천: 대규모 프로젝트, Spring Boot 사용 시
+ * 
+ * 이 프로젝트에서는 Gson을 사용 (학습 목적, 사용 간편)
+ */

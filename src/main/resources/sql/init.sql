@@ -64,13 +64,6 @@ CREATE TABLE if not exists fee_policy
     update_date           datetime default now() comment '요금 정책 변경 시간을 기록'
 ) COMMENT ='주차 요금 산정 정책';
 
-create table if not exists pay_logs
-(
-    id               int auto_increment primary key comment '관리번호',
-    pay_time         datetime not null comment '결제 시간',
-    kind_of_discount enum ('normal','light','disabled','monthly') comment '차종 유형',
-    pay_log          int comment '결제 금액'
-) comment ='차량 1대 결제에 대한 기록';
 -- member
 create table if not exists admin
 (

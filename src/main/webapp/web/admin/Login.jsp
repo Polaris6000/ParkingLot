@@ -20,6 +20,7 @@
             <span class="site-name-span">스마트 반월당 주차장</span>
         </div>
     </section>
+
     <section class="input-space">
         <!-- content -->
         <div class="content">
@@ -164,14 +165,6 @@
                         아이디/비밀번호 찾기
                     </a>
                 </li>
-<%--                <li>--%>
-<%--                    <a target="_blank"--%>
-<%--                       href="/admin/changepw"--%>
-<%--                       id="11123"--%>
-<%--                       class="find_text">--%>
-<%--                        비밀번호 바꾸기(임시)--%>
-<%--                    </a>--%>
-<%--                </li>--%>
             </ul>
 
             <!--                <ul>-->

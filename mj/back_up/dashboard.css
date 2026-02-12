@@ -69,18 +69,6 @@ body {
 }
 
 /* ========================================
-   13. 페이지 제목 (h1)
-   - 부크크 고딕 폰트 적용
-======================================== */
-h1 {
-    font-family: 'BookkGothic', sans-serif;
-    color: #333;
-    font-size: 32px;
-    font-weight: bold;
-    margin: 0;
-}
-
-/* ========================================
    4. 헤더 영역
    - 페이지 제목 및 액션 버튼 배치
 ======================================== */
@@ -342,72 +330,15 @@ h1 {
 }
 
 /* ========================================
-   13. 점유율 색상
+   13. 페이지 제목 (h1)
+   - 조선센티널 폰트 적용
 ======================================== */
-.occupancy-low .value {
-    color: var(--accent-blue);
+h1 {
+    font-family: 'ChosunCentennial', serif;
+    color: #333;
+    font-size: 32px;
+    margin: 0;
 }
-
-.occupancy-medium .value {
-    color: #faad14;
-}
-
-.occupancy-high .value {
-    color: #ff4d4f;
-}
-
-.spot-label {
-    font-size: 10px;
-    margin-top: 2px;
-    color: #666;
-}
-
-.status-occupied {
-    color: #ff4d4f;
-    font-weight: bold;
-}
-
-.status-available {
-    color: #52c41a;
-    font-weight: bold;
-}
-
-.detail-content {
-    padding: 20px;
-    text-align: left;
-}
-
-.detail-content p {
-    margin: 10px 0;
-}
-
-.detail-content hr {
-    margin: 20px 0;
-    border: none;
-    border-top: 1px solid #eee;
-}
-
-.btn-primary {
-    width: 100%;
-    padding: 12px;
-    background: var(--accent-blue);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.btn-primary:hover {
-    background: #4c6cef;
-}
-
-.btn-primary i {
-    margin-right: 5px;
-}
-
 
 /* ========================================
    14. 반응형 디자인 (태블릿)
