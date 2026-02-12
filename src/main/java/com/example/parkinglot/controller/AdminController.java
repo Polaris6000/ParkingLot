@@ -134,7 +134,7 @@ public class AdminController extends HttpServlet {
                     log.info("로그인 성공");
                     //이후로 로그인 되어 있음을 증명. >> 쿠키와 세션을 이용하기.
 
-                    req.getRequestDispatcher("/WEB-INF/web/dash_board.jsp").forward(req, resp);
+                    resp.sendRedirect("/dashboard");
                 } else {
                     log.info("로그인 실패");
                     req.setAttribute("error", "1");

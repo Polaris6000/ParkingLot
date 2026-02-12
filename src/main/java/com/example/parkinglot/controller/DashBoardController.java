@@ -37,6 +37,14 @@ public class DashBoardController extends HttpServlet {
         String pathInfo = request.getPathInfo();
         log.info("API 요청 경로: {}", pathInfo);
 
+        String requestURI = request.getRequestURI(); // 요청 URI
+        String contextPath = request.getContextPath(); //컨택스트 경로
+        String command = requestURI.substring(contextPath.length()); //요청 uri에서 컨택스트 경로를 제거한 명령어
+
+        switch (command){
+            case "/dashboard/main" -> {request.getRequestDispatcher("/WEB-INF/web/dashboard.jsp").forward(request,response);}
+        }
+
         // 응답 헤더 설정 (모든 응답은 JSON)
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

@@ -12,17 +12,22 @@
 
     <!-- Font Awesome (아이콘) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- JavaScript -->
+    <script src="${pageContext.request.contextPath}/static/js/dashboard.js"></script>
 </head>
 <body>
-
+<%--헤더 불러오기--%>
 <%@include file="common/header.jsp" %>
 
     <!-- 컨텍스트 경로를 JavaScript에 전달 -->
     <input type="hidden" id="contextPath" value="${pageContext.request.contextPath}">
 
     <!-- 로딩 인디케이터 -->
-    <div id="loadingIndicator" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:9999;">
+    <div id="loadingIndicator" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:9999; text-align: center">
         <i class="fas fa-spinner fa-spin fa-3x"></i>
+        <br>
+        <br>
         <p>데이터 로딩 중...</p>
     </div>
 
@@ -33,18 +38,18 @@
 
             <div class="header-buttons">
                 <!-- 새로고침 버튼 -->
-                <button class="icon-btn" id="refreshBtn" title="새로고침">
-                    <i class="fas fa-sync-alt"></i>
-                </button>
+<%--                <button class="icon-btn" id="refreshBtn" title="새로고침">--%>
+<%--                    <i class="fas fa-sync-alt"></i>--%>
+<%--                </button>--%>
 
-                <!-- 설정 버튼 -->
-                <button class="icon-btn" onclick="location.href='${pageContext.request.contextPath}/settings'" title="설정">
-                    <i class="fas fa-cog"></i>
-                </button>
+<%--                <!-- 설정 버튼 -->--%>
+<%--                <button class="icon-btn" onclick="location.href='${pageContext.request.contextPath}/settings'" title="설정">--%>
+<%--                    <i class="fas fa-cog"></i>--%>
+<%--                </button>--%>
 
                 <!-- 나가기 버튼 -->
-                <button class="exit-btn" onclick="location.href='${pageContext.request.contextPath}/logout'">
-                    <i class="fas fa-sign-out-alt"></i> 나가기
+                <button class="exit-btn">
+                    <i class="fas fa-sign-out-alt"></i> 정산하기
                 </button>
             </div>
         </div>
@@ -105,29 +110,107 @@
                     <!-- A구역 (A01 ~ A10) -->
                     <div class="row-label">A구역 (1-10번)</div>
                     <div class="parking-row" id="parkingRowA">
-                        <!-- JavaScript로 동적 생성 -->
+                        <div class="spot" data-spot="A01" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A01</div>
+                        </div>
+                        <div class="spot" data-spot="A02" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A02</div>
+                        </div>
+                        <div class="spot" data-spot="A03" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A03</div>
+                        </div>
+                        <div class="spot" data-spot="A04" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A04</div>
+                        </div>
+                        <div class="spot" data-spot="A05" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A05</div>
+                        </div>
+                        <div class="spot" data-spot="A06" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A06</div>
+                        </div>
+                        <div class="spot" data-spot="A07" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A07</div>
+                        </div>
+                        <div class="spot" data-spot="A08" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A08</div>
+                        </div>
+                        <div class="spot" data-spot="A09" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A09</div>
+                        </div>
+                        <div class="spot" data-spot="A10" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A10</div>
+                        </div>
                     </div>
 
                     <!-- B구역 (A11 ~ A20) -->
                     <div class="row-label">A구역 (11-20번)</div>
                     <div class="parking-row" id="parkingRowB">
-                        <!-- JavaScript로 동적 생성 -->
+                        <div class="spot" data-spot="A11" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A11</div>
+                        </div>
+                        <div class="spot" data-spot="A12" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A12</div>
+                        </div>
+                        <div class="spot" data-spot="A13" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A13</div>
+                        </div>
+                        <div class="spot" data-spot="A14" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A14</div>
+                        </div>
+                        <div class="spot" data-spot="A15" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A15</div>
+                        </div>
+                        <div class="spot" data-spot="A16" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A16</div>
+                        </div>
+                        <div class="spot" data-spot="A17" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A17</div>
+                        </div>
+                        <div class="spot" data-spot="A18" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A18</div>
+                        </div>
+                        <div class="spot" data-spot="A19" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A19</div>
+                        </div>
+                        <div class="spot" data-spot="A20" data-occupied="false" data-plate="" title="사용 가능">
+                            <i class="fas fa-car"></i>
+                            <div class="spot-label">A20</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- 우측 패널: 상세 정보 -->
             <div class="right-panel">
-                <div class="detail-placeholder" id="detailPanel">
-                    <i class="fas fa-info-circle"></i>
-                    <p>주차 구역을 클릭하면<br>상세 정보가 표시됩니다</p>
-                </div>
+<%--                <div class="detail-placeholder" id="detailPanel">--%>
+<%--                    <i class="fas fa-info-circle"></i>--%>
+<%--                    <p>주차 구역을 클릭하면<br>상세 정보가 표시됩니다</p>--%>
+<%--                </div>--%>
+<%--                <%@include file="common/carInfo.jsp"%>--%>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript -->
-    <script src="${pageContext.request.contextPath}/static/js/dashboard.js"></script>
+
 
 </body>
 </html>
