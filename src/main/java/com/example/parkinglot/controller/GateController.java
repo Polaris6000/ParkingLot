@@ -1,6 +1,6 @@
 package com.example.parkinglot.controller;
 
-import com.exmple.parkinglot.service.ParkingService;
+import com.example.parkinglot.service.ParkingService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;

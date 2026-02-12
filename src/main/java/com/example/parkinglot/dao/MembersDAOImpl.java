@@ -1,6 +1,6 @@
-package com.exmple.parkinglot.dao;
+package com.example.parkinglot.dao;
 
-import com.exmple.parkinglot.dto.MembersDTO;
+import com.example.parkinglot.dto.MembersDTO;
 
 import java.sql.*;
 import java.time.LocalDate;

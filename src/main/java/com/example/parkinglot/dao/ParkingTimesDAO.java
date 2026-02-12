@@ -1,6 +1,6 @@
 package com.example.parkinglot.dao;
 
-import com.exmple.parkinglot.dto.ParkingTimesDTO;
+import com.example.parkinglot.dto.ParkingTimesDTO;
 
 import java.sql.SQLException;
 import java.util.List;

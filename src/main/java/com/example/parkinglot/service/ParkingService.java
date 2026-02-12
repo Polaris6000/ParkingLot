@@ -1,10 +1,10 @@
 package com.example.parkinglot.service;
 
-import com.exmple.parkinglot.dao.*;
-import com.exmple.parkinglot.dto.CarInfoDTO;
-import com.exmple.parkinglot.dto.DiscountInfoDTO;
-import com.exmple.parkinglot.dto.FeePolicyDTO;
-import com.exmple.parkinglot.dto.ParkingTimesDTO;
+import com.example.parkinglot.dao.*;
+import com.example.parkinglot.dto.CarInfoDTO;
+import com.example.parkinglot.dto.DiscountInfoDTO;
+import com.example.parkinglot.dto.FeePolicyDTO;
+import com.example.parkinglot.dto.ParkingTimesDTO;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

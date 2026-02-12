@@ -1,6 +1,6 @@
 package com.example.parkinglot.service;
 
-import com.exmple.parkinglot.dao.*;
+import com.example.parkinglot.dao.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashMap;

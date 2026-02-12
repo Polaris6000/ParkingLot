@@ -1,8 +1,8 @@
 package com.example.parkinglot.controller;
 
-import com.exmple.parkinglot.dao.*;
-import com.exmple.parkinglot.dto.*;
-import com.exmple.parkinglot.service.StasticsService;
+import com.example.parkinglot.dao.*;
+import com.example.parkinglot.dto.*;
+import com.example.parkinglot.service.StasticsService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;

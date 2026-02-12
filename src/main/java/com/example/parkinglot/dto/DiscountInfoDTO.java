@@ -1,4 +1,4 @@
-package com.exmple.parkinglot.dto;
+package com.example.parkinglot.dto;
 
 import lombok.*;
 
