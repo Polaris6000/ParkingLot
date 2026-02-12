@@ -46,7 +46,6 @@ CREATE TABLE if not exists discount_info
     id                     INT PRIMARY KEY COMMENT 'PK: car_info의 id와 매칭',
     is_disability_discount boolean  default false COMMENT '장애인 할인 대상 ("True"|"False")',
     is_compact_car         boolean  default false COMMENT '경차 여부 ("True"|"False")',
-    update_date            datetime default now() comment '할인 정책 변경 시간을 기록', #? 이거 이상한데?
     CONSTRAINT fk_car_discount FOREIGN KEY (id) REFERENCES car_info (id)
 ) COMMENT ='차량별 할인 대상 정보';
 
@@ -98,4 +97,39 @@ create table if not exists auth_token
     `is_can_use` boolean default true comment '사용 가능 여부',
     CONSTRAINT fk_admin_id FOREIGN KEY (id) REFERENCES admin (id)
 );
-drop table auth_token;
+
+create table if not exists pay_logs
+(
+    id               int auto_increment primary key comment '관리번호',
+    pay_time         datetime not null comment '결제 시간',
+    kind_of_discount enum ('normal','light','disabled','monthly') comment '차종 유형',
+    pay_log          int comment '결제 금액'
+) comment ='차량 1대 결제에 대한 기록';
+
+
+-- 1. 오늘 데이터 (오늘 이용 차량 대수 및 매출 확인용)
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (NOW(), 'normal', 2000);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (NOW(), 'light', 1400);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (NOW(), 'disabled', 1000);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (NOW(), 'monthly', 0);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (DATE_SUB(NOW(), INTERVAL 1 HOUR), 'normal', 3000);
+
+-- 2. 어제 데이터 (일별 통계 그래프/목록 확인용)
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (DATE_SUB(CURDATE(), INTERVAL 1 SECOND), 'normal', 5000);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (DATE_SUB(CURDATE(), INTERVAL 12 HOUR), 'light', 2100);
+
+-- 3. 지난주 데이터 (일별 추이 확인용)
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (DATE_SUB(NOW(), INTERVAL 2 DAY), 'disabled', 4000);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (DATE_SUB(NOW(), INTERVAL 3 DAY), 'normal', 2000);
+
+-- 4. 지난달 데이터 (월별 통계 확인용)
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (DATE_SUB(NOW(), INTERVAL 1 MONTH), 'normal', 15000);
+
+-- 2026년 1월 예시 데이터
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES ('2026-01-04 10:00:00', 'normal', 10000);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES ('2026-01-10 14:00:00', 'disabled', 5000);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES ('2026-01-13 16:00:00', 'normal', 7000);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES ('2026-01-22 09:00:00', 'light', 3000);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES ('2026-01-25 18:00:00', 'monthly', 0);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES ('2026-01-28 11:00:00', 'normal', 15000);
+
