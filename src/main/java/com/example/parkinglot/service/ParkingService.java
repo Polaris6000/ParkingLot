@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 //차량 정보에 대해서 처리하는 서비스
 public class ParkingService {
 
-    private final CarInfoDAO carInfoDAO = new CarInfoDAOImpl();
-    private final ParkingTimesDAO parkingTimesDAO = new ParkingTimesDAOImpl();
-    private final MonthlyParkingDAO monthlyParkingDAO = new MonthlyParkingDAOImpl();
-    private final DiscountInfoDAO discountInfoDAO = new DiscountInfoDAOImpl();
-    private final FeePolicyDAO feePolicyDAO = new FeePolicyDAOImpl();
+    private final CarInfoDAO carInfoDAO = new CarInfoDAO();
+    private final ParkingTimesDAO parkingTimesDAO = new ParkingTimesDAO();
+    private final MonthlyParkingDAO monthlyParkingDAO = new MonthlyParkingDAO();
+    private final DiscountInfoDAO discountInfoDAO = new DiscountInfoDAO();
+    private final FeePolicyDAO feePolicyDAO = new FeePolicyDAO();
 
     //차량 입차 처리
     public int entryVehicle(String plateNumber, String parkingSpot) throws Exception {

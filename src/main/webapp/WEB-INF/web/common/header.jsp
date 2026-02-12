@@ -11,10 +11,13 @@ login 해야 들어올 수 있으니 logout만 구성하면 됌.
 <%--기본적인 내용 구성하기.--%>
 <nav>
     <ul>
-        <li><a href="${pageContext.request.contextPath}/WEB-INF/web/dashboard.jsp">대시보드</a></li>
-        <li><a href="${pageContext.request.contextPath}/WEB-INF/web/common/CarInfo.jsp">자동차 정보</a></li>
-        <li><a href="${pageContext.request.contextPath}/WEB-INF/web/Stastics.jsp">통계</a></li>
-        <li><a href="${pageContext.request.contextPath}/WEB-INF/web/test_data.jsp">테스트 센터</a></li>
-        <li><a href="${pageContext.request.contextPath}/WEB-INF/web/admin/Login.jsp">로그아웃</a></li>
+        <li><a href="/dashboard">대시보드</a></li>
+<%--        혜윰--%>
+        <li><a href="/members">회원 관리</a></li>
+<%--        <li><a href="">자동차 정보</a></li>--%>
+        <li><a href="/statistics">통계</a></li>
+        <li><a href="/setting">설정</a></li>
+        <li><a href="/test">테스트 센터</a></li>
+        <li><a href="/admin/logout">로그아웃</a></li>
     </ul>
 </nav>

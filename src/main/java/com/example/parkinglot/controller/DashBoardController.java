@@ -23,9 +23,9 @@ import java.util.Map;
 @WebServlet(name = "dashboardController", urlPatterns = {"/dashboard/*"})
 public class DashBoardController extends HttpServlet {
 
-    private final ParkingTimesDAO parkingTimesDAO = new ParkingTimesDAOImpl();
-    private final CarInfoDAO carInfoDAO = new CarInfoDAOImpl();
-    private final MonthlyParkingDAO monthlyParkingDAO = new MonthlyParkingDAOImpl();
+    private final ParkingTimesDAO parkingTimesDAO = new ParkingTimesDAO();
+    private final CarInfoDAO carInfoDAO = new CarInfoDAO();
+    private final MonthlyParkingDAO monthlyParkingDAO = new MonthlyParkingDAO();
     private final StasticsService stasticsService = new StasticsService();
     private DashboardService service = DashboardService.INSTANCE;
 
