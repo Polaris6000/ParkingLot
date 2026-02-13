@@ -11,6 +11,7 @@ import java.util.List;
 //월주차 정기권 회원 DAO구현체
 public class MonthlyParkingDAO {
 
+    //월주차 회원 등록
     public void insert(MonthlyParkingDTO monthlyParkingDTO) throws SQLException {
         String sql = "INSERT INTO monthly_parking (plate_number, name, phone_number, begin_date, expiry_date) " +
                 "VALUES (?, ?, ?, ?, ?)";
@@ -26,6 +27,7 @@ public class MonthlyParkingDAO {
         }
     }
 
+    //id 로 회원 조회
     public MonthlyParkingDTO selectById(int id) throws SQLException {
         String sql = "SELECT * FROM monthly_parking WHERE id = ?";
 
@@ -42,6 +44,7 @@ public class MonthlyParkingDAO {
         }
     }
 
+    //차량번호로 회원 조회
     public MonthlyParkingDTO selectByPlateNumber(String plateNumber) throws SQLException {
         String sql = "SELECT * FROM monthly_parking WHERE plate_number = ?";
 
@@ -58,6 +61,7 @@ public class MonthlyParkingDAO {
         }
     }
 
+    //전체 회원 목록
     public List<MonthlyParkingDTO> selectAll() throws SQLException {
         String sql = "SELECT * FROM monthly_parking ORDER BY expiry_date DESC";
         List<MonthlyParkingDTO> list = new ArrayList<>();
@@ -107,6 +111,7 @@ public class MonthlyParkingDAO {
         }
     }
 
+    //월정액 회원 유효성 확인
     public boolean isValidMember(String plateNumber) throws SQLException {
         String sql = "SELECT expiry_date FROM monthly_parking WHERE plate_number = ?";
 
@@ -124,6 +129,7 @@ public class MonthlyParkingDAO {
         }
     }
 
+    //회원 정보 수정
     public boolean update(MonthlyParkingDTO monthlyParkingDTO) throws SQLException {
         String sql = "UPDATE monthly_parking SET name = ?, phone_number = ?, " +
                 "begin_date = ?, expiry_date = ? WHERE id = ?";
@@ -142,6 +148,7 @@ public class MonthlyParkingDAO {
         }
     }
 
+    //회원 삭제
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM monthly_parking WHERE id = ?";
 
@@ -153,6 +160,7 @@ public class MonthlyParkingDAO {
         }
     }
 
+    //매핑 헬퍼 메서드
     private MonthlyParkingDTO mapToDTO(ResultSet resultSet) throws SQLException {
         return MonthlyParkingDTO.builder()
                 .id(resultSet.getInt("id"))
