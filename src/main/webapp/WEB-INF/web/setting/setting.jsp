@@ -22,419 +22,104 @@
     <title>스마트주차 반월당점 - 요금 정책 설정</title>
 
     <link rel="stylesheet" href="./static/css/public.css">
+    <link rel="stylesheet" href="./static/css/setting-enhanced.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Noto Sans KR', 'Malgun Gothic', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-
-        /* 헤더 스타일 */
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        header h1 {
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        /* 네비게이션 스타일 */
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            padding: 0 20px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            background-color: #34495e;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        nav a:hover {
-            background-color: #3498db;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        nav a.active {
-            background-color: #e74c3c;
-            font-weight: 700;
-        }
-
-        /* 컨테이너 */
-        .container {
-            max-width: 1400px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        /* 페이지 타이틀 */
-        .page-title {
-            font-size: 32px;
-            margin-bottom: 30px;
-            color: white;
-            text-align: center;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        /* 알림 메시지 */
-        .alert {
-            padding: 15px 20px;
-            margin-bottom: 25px;
-            border-radius: 8px;
-            font-size: 15px;
-            animation: slideDown 0.4s ease;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border-left: 5px solid #28a745;
-        }
-
-        .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border-left: 5px solid #dc3545;
-        }
-
-        /* 카드 스타일 */
-        .card {
-            background-color: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin-bottom: 30px;
-        }
-
-        .card h2 {
-            font-size: 22px;
-            margin-bottom: 25px;
-            color: #2c3e50;
-            border-left: 5px solid #3498db;
-            padding-left: 15px;
-            font-weight: 700;
-        }
-
-        /* 폼 스타일 */
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-            font-size: 14px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            background-color: #f8f9fa;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #3498db;
-            background-color: white;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-        }
-
-        .form-group .help-text {
-            font-size: 12px;
-            color: #6c757d;
-            margin-top: 5px;
-            font-style: italic;
-        }
-
-        /* 버튼 스타일 */
-        .btn {
-            padding: 13px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            transform: translateY(-2px);
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        /* 테이블 스타일 */
-        .table-container {
-            overflow-x: auto;
-            margin-top: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: white;
-        }
-
-        table thead {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        table th {
-            padding: 15px 10px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 14px;
-            white-space: nowrap;
-        }
-
-        table td {
-            padding: 12px 10px;
-            text-align: center;
-            border-bottom: 1px solid #e9ecef;
-            color: #495057;
-            font-size: 13px;
-        }
-
-        table tbody tr {
-            transition: background-color 0.2s ease;
-        }
-
-        table tbody tr:hover {
-            background-color: #f8f9fa;
-        }
-
-        .current-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: bold;
-            margin-left: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .no-data {
-            text-align: center;
-            padding: 50px;
-            color: #6c757d;
-            font-size: 16px;
-        }
-
-        /* 통계 정보 */
-        .stats-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            border-radius: 8px;
-            color: white;
-            margin-bottom: 20px;
-        }
-
-        .stats-info span {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        /* 반응형 디자인 */
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            nav {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn-group {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
-
-            table {
-                font-size: 12px;
-            }
-
-            table th, table td {
-                padding: 8px 5px;
-            }
-
-            .page-title {
-                font-size: 24px;
-            }
-
-            .stats-info {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-
-        /* 스크롤바 스타일 */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-    </style>
 </head>
 <body>
-<!-- 헤더 영역 -->
-<header class="dashboard-header">
-    <%@include file="../../web/common/header.jsp" %>
-</header>
 
 <!-- 메인 컨테이너 -->
 <div class="container">
+
+    <!-- 헤더 영역 -->
+    <header class="dashboard-header">
+        <%@include file="../../web/common/header.jsp" %>
+    </header>
+
     <!-- 알림 메시지 -->
     <c:if test="${not empty successMessage}">
         <div class="alert alert-success">
-            ✔ ${successMessage}
+            <i class="fas fa-check-circle"></i>
+            ${successMessage}
         </div>
     </c:if>
 
     <c:if test="${not empty errorMessage}">
         <div class="alert alert-error">
-            ✗ ${errorMessage}
+            <i class="fas fa-exclamation-circle"></i>
+            ${errorMessage}
         </div>
     </c:if>
 
     <!-- 요금 정책 등록 폼 -->
-    <div class="card">
-        <h2>📝 새로운 요금 정책 등록</h2>
+    <div class="card policy-form-card">
         <form action="${pageContext.request.contextPath}/setting" method="post" id="settingForm">
             <input type="hidden" name="action" value="insert">
 
             <!-- 기본 요금 정보 -->
+            <h3 class="section-title">
+                <i class="fas fa-coins"></i>
+                기본 요금 정보
+            </h3>
             <div class="form-row">
                 <div class="form-group">
-                    <label for="baseFee">💰 기본 요금 (원)</label>
+                    <label for="baseFee">
+                        <i class="fas fa-won-sign"></i> 기본 요금 (원)
+                    </label>
                     <input type="number" id="baseFee" name="baseFee" value="2000" min="0" step="100" required>
                     <div class="help-text">최초 1시간 요금 (10분 초과 ~ 1시간 이내)</div>
                 </div>
 
                 <div class="form-group">
-                    <label for="basicUnitMinute">⏱️ 기본 시간 (분)</label>
+                    <label for="basicUnitMinute">
+                        <i class="fas fa-clock"></i> 기본 시간 (분)
+                    </label>
                     <input type="number" id="basicUnitMinute" name="basicUnitMinute" value="60" min="1" required>
                     <div class="help-text">기본 요금 적용 시간</div>
                 </div>
             </div>
 
             <!-- 추가 요금 정보 -->
+            <h3 class="section-title">
+                <i class="fas fa-calculator"></i>
+                추가 요금 정보
+            </h3>
             <div class="form-row">
                 <div class="form-group">
-                    <label for="unitFee">💵 추가 요금 (원)</label>
+                    <label for="unitFee">
+                        <i class="fas fa-money-bill-wave"></i> 추가 요금 (원)
+                    </label>
                     <input type="number" id="unitFee" name="unitFee" value="1000" min="0" step="100" required>
                     <div class="help-text">기본 시간 이후 단위 시간당 추가 요금</div>
                 </div>
 
                 <div class="form-group">
-                    <label for="billingUnitMinutes">⏲️ 추가 과금 단위 (분)</label>
+                    <label for="billingUnitMinutes">
+                        <i class="fas fa-hourglass-half"></i> 추가 과금 단위 (분)
+                    </label>
                     <input type="number" id="billingUnitMinutes" name="billingUnitMinutes" value="30" min="1" required>
                     <div class="help-text">추가 요금 부과 시간 단위 (30분당)</div>
                 </div>
             </div>
 
             <!-- 할인율 정보 -->
+            <h3 class="section-title">
+                <i class="fas fa-percent"></i>
+                할인 정책
+            </h3>
             <div class="form-row">
                 <div class="form-group">
-                    <label for="helpDiscountRate">♿ 장애인 할인율 (%)</label>
+                    <label for="helpDiscountRate">
+                        <i class="fas fa-wheelchair"></i> 장애인 할인율 (%)
+                    </label>
                     <input type="number" id="helpDiscountRate" name="helpDiscountRate" value="50" min="0" max="100"
                            required>
                     <div class="help-text">장애인 차량 할인율 (0~100%)</div>
                 </div>
 
                 <div class="form-group">
-                    <label for="compactDiscountRate">🚗 경차 할인율 (%)</label>
+                    <label for="compactDiscountRate">
+                        <i class="fas fa-car-side"></i> 경차 할인율 (%)
+                    </label>
                     <input type="number" id="compactDiscountRate" name="compactDiscountRate" value="30" min="0"
                            max="100" required>
                     <div class="help-text">경차 할인율 (0~100%)</div>
@@ -442,15 +127,23 @@
             </div>
 
             <!-- 기타 정책 -->
+            <h3 class="section-title">
+                <i class="fas fa-cog"></i>
+                기타 정책
+            </h3>
             <div class="form-row">
                 <div class="form-group">
-                    <label for="gracePeriodMinutes">🔄 회차 인정 시간 (분)</label>
+                    <label for="gracePeriodMinutes">
+                        <i class="fas fa-rotate"></i> 회차 인정 시간 (분)
+                    </label>
                     <input type="number" id="gracePeriodMinutes" name="gracePeriodMinutes" value="10" min="0" required>
                     <div class="help-text">입차 후 이 시간 이내 출차 시 요금 0원</div>
                 </div>
 
                 <div class="form-group">
-                    <label for="maxCapAmount">📌 일일 최대 요금 (원)</label>
+                    <label for="maxCapAmount">
+                        <i class="fas fa-hand-holding-dollar"></i> 일일 최대 요금 (원)
+                    </label>
                     <input type="number" id="maxCapAmount" name="maxCapAmount" value="15000" min="0" step="1000"
                            required>
                     <div class="help-text">24시간 기준 최대 요금 (cap)</div>
@@ -459,28 +152,41 @@
 
             <!-- 버튼 그룹 -->
             <div class="btn-group">
-                <button type="submit" class="btn btn-primary">💾 정책 등록</button>
-                <button type="reset" class="btn btn-secondary">🔄 초기화</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> 정책 등록
+                </button>
+                <button type="reset" class="btn btn-secondary">
+                    <i class="fas fa-redo"></i> 초기화
+                </button>
             </div>
         </form>
     </div>
 
     <!-- 요금 정책 목록 -->
-    <div class="card">
-        <h2>📋 현재 적용 중인 요금 정책</h2>
+    <div class="card policy-list-card">
+        <div class="card-header">
+            <i class="fas fa-list-check"></i>
+            <h2>현재 적용 중인 요금 정책</h2>
+        </div>
 
         <!-- 통계 정보 -->
         <c:if test="${not empty currentPolicy}">
-            <div class="stats-info">
-                <span>📌 현재 적용 중인 요금 정책입니다.</span>
-                <span>🕐 최근 변경: ${currentPolicy.updateDate}</span>
+            <div class="policy-status-banner">
+                <span class="status-text">
+                    <i class="fas fa-check-circle"></i>
+                    현재 적용 중인 요금 정책입니다.
+                </span>
+                <span class="update-time">
+                    <i class="fas fa-clock"></i>
+                    최근 변경: ${currentPolicy.updateDate}
+                </span>
             </div>
         </c:if>
 
         <div class="table-container">
             <c:choose>
                 <c:when test="${not empty currentPolicy}">
-                    <table>
+                    <table class="policy-table">
                         <thead>
                         <tr>
                             <th>번호</th>
@@ -501,24 +207,24 @@
                                 <strong>${currentPolicy.id}</strong>
                                 <span class="current-badge">현재</span>
                             </td>
-                            <td><strong>${currentPolicy.baseFee}</strong>원</td>
+                            <td class="amount-cell"><strong>${currentPolicy.baseFee}</strong>원</td>
                             <td>${currentPolicy.basicUnitMinute}분</td>
-                            <td><strong>${currentPolicy.unitFee}</strong>원</td>
+                            <td class="amount-cell"><strong>${currentPolicy.unitFee}</strong>원</td>
                             <td>${currentPolicy.billingUnitMinutes}분</td>
-                            <td><span
-                                    style="color: #e74c3c; font-weight: bold;">${currentPolicy.helpDiscountRate}%</span>
-                            </td>
-                            <td><span
-                                    style="color: #3498db; font-weight: bold;">${currentPolicy.compactDiscountRate}%</span>
-                            </td>
+                            <td class="discount-danger">${currentPolicy.helpDiscountRate}%</td>
+                            <td class="discount-info">${currentPolicy.compactDiscountRate}%</td>
                             <td>${currentPolicy.gracePeriodMinutes}분</td>
-                            <td><strong>${currentPolicy.maxCapAmount}</strong>원</td>
-                            <td>${currentPolicy.updateDate}</td>
+                            <td class="amount-cell"><strong>${currentPolicy.maxCapAmount}</strong>원</td>
+                            <td class="date-cell">${currentPolicy.updateDate}</td>
                         </tr>
                         </tbody>
                     </table>
                 </c:when>
                 <c:otherwise>
+                    <div class="no-data">
+                        <i class="fas fa-inbox"></i>
+                        <p>등록된 요금 정책이 없습니다.</p>
+                    </div>
                 </c:otherwise>
             </c:choose>
         </div>
@@ -557,11 +263,11 @@
 
         // 확인 메시지
         const confirmMsg = '다음 내용으로 요금 정책을 등록하시겠습니까?\n\n' +
-            '• 기본 요금: ' + baseFee + '원\n' +
-            '• 추가 요금: ' + unitFee + '원\n' +
+            '• 기본 요금: ' + baseFee.toLocaleString() + '원\n' +
+            '• 추가 요금: ' + unitFee.toLocaleString() + '원\n' +
             '• 장애인 할인: ' + helpDiscount + '%\n' +
             '• 경차 할인: ' + compactDiscount + '%\n' +
-            '• 최대 요금: ' + maxCap + '원';
+            '• 최대 요금: ' + maxCap.toLocaleString() + '원';
 
         if (!confirm(confirmMsg)) {
             e.preventDefault();
@@ -580,6 +286,16 @@
             }, 500);
         });
     }, 5000);
+
+    // 숫자 입력 필드에 천 단위 구분 쉼표 추가 (선택사항)
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.value && (this.id === 'baseFee' || this.id === 'unitFee' || this.id === 'maxCapAmount')) {
+                // 입력값을 유지하면서 시각적 피드백만 제공
+                console.log('입력된 금액:', parseInt(this.value).toLocaleString() + '원');
+            }
+        });
+    });
 </script>
 </body>
 </html>

@@ -16,7 +16,7 @@ login 해야 들어올 수 있으니 logout만 구성하면 됌.
                 <li><a href="/dashboard">대시보드</a></li>
                 <li><a href="/members">회원 관리</a></li>
                 <li><a href="/statistics">통계</a></li>
-                <li><a href="/setting">설정</a></li>
+                <li><a href="/setting">요금 정책</a></li>
                 <li><a href="/test">테스트 센터</a></li>
                 <li><a href="/admin/logout">로그아웃</a></li>
             </ul>

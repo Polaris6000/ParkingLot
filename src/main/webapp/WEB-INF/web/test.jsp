@@ -30,9 +30,9 @@
         <span class="stats-title">
             <i class="fa-solid fa-chart-simple"></i> 현황
         </span>
-            <button onclick="refreshStatistics()" class="btn-refresh">
-                <i class="fa-solid fa-rotate"></i> 새로고침
-            </button>
+<%--            <button onclick="refreshStatistics()" class="btn-refresh">--%>
+<%--                <i class="fa-solid fa-rotate"></i> 새로고침--%>
+<%--            </button>--%>
         </div>
         <div class="stats-content">${statistics}</div>
     </div>
@@ -111,57 +111,60 @@
             </div>
 
             <!-- 요금 정책 등록 -->
-            <div class="action-card">
-                <div class="card-header">
-                    <i class="fa-solid fa-coins"></i>
-                    <h2>요금 정책</h2>
-                </div>
-                <form class="ajax-form" data-action="bulkFeePolicy">
-                    <input type="hidden" name="action" value="bulkFeePolicy">
-                    <div class="input-group">
-                        <input type="number" name="count" value="5" min="1" max="50" required>
-                        <span>개</span>
-                    </div>
-                    <button type="submit" class="btn btn-primary">등록</button>
-                    <p class="hint">랜덤 요금 정책 생성 (히스토리 테스트)</p>
-                </form>
-            </div>
+<%--            딱히 필요 없을 듯 --%>
+<%--            <div class="action-card">--%>
+<%--                <div class="card-header">--%>
+<%--                    <i class="fa-solid fa-coins"></i>--%>
+<%--                    <h2>요금 정책</h2>--%>
+<%--                </div>--%>
+<%--                <form class="ajax-form" data-action="bulkFeePolicy">--%>
+<%--                    <input type="hidden" name="action" value="bulkFeePolicy">--%>
+<%--                    <div class="input-group">--%>
+<%--                        <input type="number" name="count" value="5" min="1" max="50" required>--%>
+<%--                        <span>개</span>--%>
+<%--                    </div>--%>
+<%--                    <button type="submit" class="btn btn-primary">등록</button>--%>
+<%--                    <p class="hint">랜덤 요금 정책 생성 (히스토리 테스트)</p>--%>
+<%--                </form>--%>
+<%--            </div>--%>
 
             <!-- 정책 삭제 -->
-            <div class="action-card">
-                <div class="card-header">
-                    <i class="fa-solid fa-trash-can"></i>
-                    <h2>정책 삭제</h2>
-                </div>
-                <form class="ajax-form" data-action="randomDeletePolicy">
-                    <input type="hidden" name="action" value="randomDeletePolicy">
-                    <div class="input-group">
-                        <input type="number" name="count" value="3" min="1" max="50" required>
-                        <span>개</span>
-                    </div>
-                    <button type="submit" class="btn btn-warning">삭제</button>
-                    <p class="hint">요금 정책 랜덤 삭제</p>
-                </form>
-            </div>
+<%--            계속 누적시킨다 해서 뺌 --%>
+<%--            <div class="action-card">--%>
+<%--                <div class="card-header">--%>
+<%--                    <i class="fa-solid fa-trash-can"></i>--%>
+<%--                    <h2>정책 삭제</h2>--%>
+<%--                </div>--%>
+<%--                <form class="ajax-form" data-action="randomDeletePolicy">--%>
+<%--                    <input type="hidden" name="action" value="randomDeletePolicy">--%>
+<%--                    <div class="input-group">--%>
+<%--                        <input type="number" name="count" value="3" min="1" max="50" required>--%>
+<%--                        <span>개</span>--%>
+<%--                    </div>--%>
+<%--                    <button type="submit" class="btn btn-warning">삭제</button>--%>
+<%--                    <p class="hint">요금 정책 랜덤 삭제</p>--%>
+<%--                </form>--%>
+<%--            </div>--%>
 
             <!-- 요금 정책 수동 생성 -->
-            <div class="action-card">
-                <div class="card-header">
-                    <i class="fa-solid fa-coins" style="color: #dda20a"></i>
-                    <h2>정책 수동 생성</h2>
-                </div>
-                <form class="ajax-form" data-action="randomDeletePolicy">
-                    <div class="input-group">
-                        <span>요금 정책 추가 · 수정 · 삭제</span>
-                    </div>
-                    <button type="submit" class="btn btn-info">
-                        <a href="/setting" style="color: white">
-                            페이지 이동
-                        </a>
-                    </button>
-                    <p class="hint">버튼을 누르면 페이지가 전환됩니다.</p>
-                </form>
-            </div>
+<%--            헤더에 있어서 불필요--%>
+<%--            <div class="action-card">--%>
+<%--                <div class="card-header">--%>
+<%--                    <i class="fa-solid fa-coins" style="color: #dda20a"></i>--%>
+<%--                    <h2>정책 수동 생성</h2>--%>
+<%--                </div>--%>
+<%--                <form class="ajax-form" data-action="randomDeletePolicy">--%>
+<%--                    <div class="input-group">--%>
+<%--                        <span>요금 정책을 직접 입력하여 생성</span>--%>
+<%--                    </div>--%>
+<%--                    <button type="submit" class="btn btn-info">--%>
+<%--                        <a href="/setting" style="color: white">--%>
+<%--                            페이지 이동--%>
+<%--                        </a>--%>
+<%--                    </button>--%>
+<%--                    <p class="hint">버튼을 누르면 페이지가 전환됩니다.</p>--%>
+<%--                </form>--%>
+<%--            </div>--%>
         </div>
     </main>
 
