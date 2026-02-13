@@ -1,5 +1,6 @@
 package com.example.parkinglot.dao;
 
+import com.example.parkinglot.util.ConnectionUtil;
 import com.example.parkinglot.vo.StatisticsVO;
 import java.sql.*;
 import java.util.ArrayList;
@@ -27,8 +28,8 @@ public class StatisticsDAO {
                      "GROUP BY DATE(pay_time) " +
                      "ORDER BY date DESC";
         
-        try (   Connection connection = ConnectionUtil.INSTANCE.getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, startDate);
             preparedStatement.setString(2, endDate);
             
