@@ -77,7 +77,6 @@ dependencies {
     // JSON 처리를 위한 Gson 추가
     implementation 'com.google.code.gson:gson:2.10.1'
 
-
 }
 
 test {

@@ -1,6 +1,6 @@
 /* ========================================
    통합 스타일시트
-   파일명: unified-styles.css
+   파일명: public.css
    용도: 주차장 관리 시스템 전체 스타일
 
    목차:
@@ -44,7 +44,7 @@
     font-weight: bold;
 }
 
-/* 조선센티널 - 제목용 고급스러운 명조체 */
+/* 조선센티널 - 고급스러운 명조체 */
 @font-face {
     font-family: 'ChosunCentennial';
     src: url('../font/ChosunCentennial_ttf/ChosunCentennial_ttf.ttf') format('truetype');
@@ -60,9 +60,11 @@
 ======================================== */
 :root {
     /* === 배경 및 기본 색상 === */
-    --bg-color: #f8f9fc;        /* 페이지 배경색 (밝은 회색-블루 톤) */
     --white: #fff;           /* 카드 및 컴포넌트 배경색 */
-    --card-bg: #fff;         /* 카드 배경 (white와 동일하지만 명시적 구분) */
+    --black: #000;           /* 검정색 */
+    --card-bg: #fff;         /* 카드 배경 (var(--white)와 동일하지만 명시적 구분) */
+    --bg-color: #f8f9fc;        /* 페이지 배경색 (밝은 회색-블루 톤) */
+    --border-color: #eee;
 
     /* === 주차 상태별 색상 === */
     --accent-blue: #5c7cfa;     /* 강조 색상 (버튼, 라벨, 포인트 컬러) */
@@ -89,6 +91,7 @@
 
     /* === 폰트 패밀리 === */
     --main-font: 'BookkGothic', sans-serif;         /* 메인 UI 폰트 */
+    --chosun-font: 'ChosunCentennial', serif;          /* 서브 폰트 */
 }
 
 
@@ -100,7 +103,7 @@
 
 /* 전체 요소 폰트 통일 */
 * {
-    font-family: 'BookkGothic', sans-serif;
+    font-family: var(--main-font), sans-serif;
 }
 
 /* body 기본 설정 */
@@ -126,7 +129,6 @@ body {
 
 /* 페이지 제목 (h1) 기본 스타일 */
 h1 {
-    font-family: 'BookkGothic', sans-serif;
     color: var(--text-dark);
     font-size: 32px;
     font-weight: bold;
@@ -153,7 +155,7 @@ a {
 
 /* === 공통 헤더 (Sticky Header) === */
 header {
-    background: white;
+    background: var(--white);
     padding: 10px 0;
     position: sticky;          /* 스크롤 시 상단 고정 */
     top: 0;
@@ -198,7 +200,7 @@ nav a {
 
 nav a:hover {
     background: var(--accent-blue);
-    color: white;
+    color: var(--white);
     transform: translateY(-2px);   /* 살짝 위로 뜨는 효과 */
 }
 
@@ -206,7 +208,7 @@ nav a:hover {
 .dashboard-header {
     background: var(--white);
     border-radius: 15px;
-    border: 1px solid #eee;
+    border: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;  /* 제목과 버튼 양 끝 배치 */
     align-items: center;
@@ -229,7 +231,7 @@ nav a:hover {
 /* 나가기/종료 버튼 (Primary 액션) */
 .exit-btn {
     background: var(--accent-blue);
-    color: white;
+    color: var(--white);
     border: none;
     padding: 10px 20px;
     border-radius: 8px;
@@ -240,7 +242,7 @@ nav a:hover {
 
 /* 아이콘 버튼 (설정, 새로고침 등 보조 기능) */
 .icon-btn {
-    background: white;
+    background: var(--white);
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 8px;
@@ -271,7 +273,7 @@ nav a:hover {
 
 /* 뒤로가기 버튼 */
 .btn-back {
-    background-color: #fff;
+    background-color: var(--white);
     color: var(--primary-color);
     border: 2px solid var(--primary-color);
     padding: 10px 20px;
@@ -286,7 +288,7 @@ nav a:hover {
 
 .btn-back:hover {
     background-color: var(--primary-color);
-    color: #fff;
+    color: var(--white);
 }
 
 
@@ -313,7 +315,7 @@ nav a:hover {
     flex: 1;
     background: var(--white);
     border-radius: 15px;
-    border: 1px solid #eee;
+    border: 1px solid var(--border-color);
     min-height: 500px;
     display: flex;
     justify-content: center;
@@ -334,15 +336,44 @@ nav a:hover {
     gap: 15px;
 }
 
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3등분하여 한 줄에 배치 */
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
 /* === 개별 통계 카드 === */
 .card {
     background: var(--white);
+    color: var(--primary-color);
     padding: 20px;
     border-radius: 15px;
-    border: 1px solid #eee;
+    border: 1px solid var(--border-color);
     transition: box-shadow 0.3s, transform 0.3s ease;
     display: flex;
     flex-direction: column;
+}
+
+.card-statistics {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    transition: box-shadow 0.3s, transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-row {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    transition: box-shadow 0.3s, transform 0.3s ease;
+    display: flex;
+    flex-direction: row;
 }
 
 .card:hover {
@@ -351,7 +382,7 @@ nav a:hover {
 }
 
 /* 전체 너비 카드 (2개 열 모두 차지) */
-.card.full {
+.card .full {
     grid-column: span 2;
 }
 
@@ -364,7 +395,7 @@ nav a:hover {
 
 /* 통계 레이블 (작은 설명 텍스트) */
 .card .label {
-    color: #888;
+    color: var(--text-gray);
     font-size: 13px;
     margin-top: 5px;
 }
@@ -377,17 +408,17 @@ nav a:hover {
 
 /* 중간 점유율 (주의) */
 .occupancy-medium .value {
-    color: #faad14;
+    color: var(--warning-color);
 }
 
 /* 높은 점유율 (혼잡) */
 .occupancy-high .value {
-    color: #ff4d4f;
+    color: var(--danger-color);
 }
 
 /* === 테스트 페이지 통계 박스 === */
 .stats-box {
-    background: white;
+    background: var(--white);
     color: var(--text-dark);
     padding: 20px;
     border-radius: var(--radius-md);
@@ -418,7 +449,7 @@ nav a:hover {
 /* 새로고침 버튼 */
 .btn-refresh {
     background-color: var(--warning-color);
-    color: white;
+    color: var(--white);
     border: none;
     padding: 5px 15px;
     border-radius: 5px;
@@ -450,7 +481,7 @@ nav a:hover {
     background: var(--white);
     border-radius: 15px;
     padding: 25px;
-    border: 1px solid #eee;
+    border: 1px solid var(--border-color);
 }
 
 /* 섹션 헤더 (제목 + 검색창 배치) */
@@ -463,7 +494,7 @@ nav a:hover {
 
 .section-header h2 {
     margin: 0;
-    color: #333;
+    color: var(--text-dark);
     font-size: 18px;
 }
 
@@ -490,7 +521,7 @@ nav a:hover {
     border-radius: 8px;
     display: flex;
     align-items: center;
-    background: white;
+    background: var(--white);
     transition: border-color 0.3s;
 }
 
@@ -510,9 +541,8 @@ nav a:hover {
 
 /* 검색 아이콘 */
 .search-box i {
-    color: #999;
+    color: var(--text-gray);
 }
-
 
 /* ========================================
    9. 주차 공간 표시
@@ -557,7 +587,7 @@ nav a:hover {
 
 /* 검색으로 강조된 주차 공간 (빨간 테두리 + 확대) */
 .spot.search-hit {
-    border: 2px solid #ff4d4f;
+    border: 2px solid var(--danger-color);
     border-radius: 8px;
     transform: scale(1.15);
     box-shadow: 0 4px 12px rgba(255, 77, 79, 0.3);
@@ -607,19 +637,19 @@ nav a:hover {
 .detail-content hr {
     margin: 20px 0;
     border: none;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border-color);
 }
 
 /* === 상태 표시 색상 === */
 /* 점유 중 (빨간색) */
 .status-occupied {
-    color: #ff4d4f;
+    color: var(--danger-color);
     font-weight: bold;
 }
 
 /* 사용 가능 (초록색) */
 .status-available {
-    color: #52c41a;
+    color: var(--ev-green);
     font-weight: bold;
 }
 
@@ -661,25 +691,25 @@ nav a:hover {
 }
 
 /* === 카드별 아이콘 색상 포인트 === */
-.card:nth-child(1) .card-header i {
-    color: var(--primary-color);   /* 첫 번째 카드: 파랑 */
-}
+/*.card:nth-child(1) .card-header i {*/
+/*    color: var(--primary-color);   !* 첫 번째 카드: 파랑 *!*/
+/*}*/
 
-.card:nth-child(2) .card-header i {
-    color: var(--success-color);   /* 두 번째 카드: 초록 (입차) */
-}
+/*.card:nth-child(2) .card-header i {*/
+/*    color: var(--success-color);   !* 두 번째 카드: 초록 (입차) *!*/
+/*}*/
 
-.card:nth-child(3) .card-header i {
-    color: #36b9cc;                /* 세 번째 카드: 청록 (출차) */
-}
+/*.card:nth-child(3) .card-header i {*/
+/*    color: #36b9cc;                !* 세 번째 카드: 청록 (출차) *!*/
+/*}*/
 
-.card:nth-child(4) .card-header i {
-    color: #f6c23e;                /* 네 번째 카드: 노랑 (월주차) */
-}
+/*.card:nth-child(4) .card-header i {*/
+/*    color: var(--warning-color);                !* 네 번째 카드: 노랑 (월주차) *!*/
+/*}*/
 
-.card:nth-child(5) .card-header i {
-    color: #e74a3b;                /* 다섯 번째 카드: 빨강 (삭제) */
-}
+/*.card:nth-child(5) .card-header i {*/
+/*    color: var(--danger-color);                !* 다섯 번째 카드: 빨강 (삭제) *!*/
+/*}*/
 
 .card-header h2 {
     font-size: 18px;
@@ -698,7 +728,7 @@ nav a:hover {
 
 /* 개별 액션 카드 */
 .action-card {
-    background: white;
+    background: var(--white);
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -724,7 +754,7 @@ nav a:hover {
     align-items: center;
     gap: 10px;
     margin-bottom: 15px;
-    background: #f8f9fc;
+    background: var(--bg-color);
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #e3e6f0;
@@ -746,7 +776,7 @@ nav a:hover {
 .input-group span {
     font-size: 14px;
     color: var(--text-gray);
-    white-space: nowrap;       /* 라벨이 줄바꿈되지 않도록 */
+    var(--white)-space: nowrap;       /* 라벨이 줄바꿈되지 않도록 */
 }
 
 /* === 버튼 기본 스타일 === */
@@ -766,7 +796,7 @@ button {
 /* Primary 버튼 (메인 액션) */
 .btn-primary {
     background: var(--primary-color);
-    color: white;
+    color: var(--white);
 }
 
 .btn-primary:hover {
@@ -780,7 +810,7 @@ button {
 /* Success 버튼 (확인/입차 등) */
 .btn-success {
     background: var(--success-color);
-    color: white;
+    color: var(--white);
 }
 
 .btn-success:hover {
@@ -790,7 +820,7 @@ button {
 /* Info 버튼 (정보/보기 등) */
 .btn-info {
     background: #36b9cc;
-    color: white;
+    color: var(--white);
 }
 
 .btn-info:hover {
@@ -799,8 +829,8 @@ button {
 
 /* Warning 버튼 (경고/주의 액션) */
 .btn-warning {
-    background: #f6c23e;
-    color: white;
+    background: var(--warning-color);
+    color: var(--white);
 }
 
 .btn-warning:hover {
@@ -810,7 +840,7 @@ button {
 /* Danger 버튼 (삭제/위험 액션) */
 .btn-danger {
     background: var(--danger-color);
-    color: white;
+    color: var(--white);
     font-size: 16px;
     padding: 15px;
     display: flex;
@@ -837,7 +867,7 @@ button {
    - 데이터 삭제 등 위험한 작업을 수행하는 영역
 ======================================== */
 .danger-zone {
-    background: #fff;
+    background: var(--white);
     border: 2px solid var(--danger-color);  /* 빨간 테두리 강조 */
     border-radius: var(--radius-md);
     padding: 30px;
@@ -859,8 +889,8 @@ button {
         45deg,
         var(--danger-color),
         var(--danger-color) 10px,
-        #fff 10px,
-        #fff 20px
+        var(--white) 10px,
+        var(--white) 20px
     );
 }
 
@@ -879,7 +909,7 @@ button {
 
 .danger-header h2 {
     margin: 0;
-    font-family: 'ChosunCentennial', serif;  /* 명조체로 강조 */
+    font-family: var(--chosun-font), serif;  /* 명조체로 강조 */
 }
 
 /* 위험 구역 설명 텍스트 */
@@ -889,6 +919,140 @@ button {
     line-height: 1.6;
 }
 
+/* ========================================
+   15. 통계 페이지 전용 보완 스타일
+======================================== */
+
+/* 탭 버튼 스타일 */
+.tab-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+.tab-btn {
+    width: auto;
+    background: #f1f3f5;
+    color: #495057;
+    padding: 10px 25px;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.tab-btn.active {
+    background: var(--accent-blue);
+    color: var(--white);
+}
+
+/* 탭 컨텐츠 제어 */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+/* 조회 폼 정렬 */
+.search-form-flex {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* 통계 테이블 스타일 */
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.stats-table th {
+    background: var(--bg-color);
+    color: var(--text-dark);
+    padding: 15px;
+    font-weight: bold;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.stats-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f1f3f5;
+    text-align: center;
+}
+
+.stats-table .amount-cell {
+    text-align: right;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.table-summary {
+    background: var(--bg-color);
+    font-weight: bold;
+}
+
+/* 차종별 차트 스타일 */
+.chart-wrapper {
+    background: var(--white);
+    padding: 20px;
+}
+
+.type-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.type-label {
+    width: 80px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.bar-bg {
+    flex: 1;
+    background: var(--border-color);
+    height: 25px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    color: var(--white);
+    font-size: 12px;
+    font-weight: bold;
+    transition: width 1s ease-in-out;
+}
+
+.bar-normal { background: var(--occupied-blue); }
+.bar-light { background: var(--ev-green); }
+.bar-disabled { background: var(--danger-color); }
+.bar-monthly { background: var(--warning-color); }
+
+.type-count {
+    width: 60px;
+    font-size: 13px;
+    color: var(--text-gray);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
 /* ========================================
    15. 애니메이션
@@ -993,6 +1157,6 @@ button {
 
     /* 배경 흰색으로 변경 (잉크 절약) */
     body {
-        background: white;
+        background: var(--white);
     }
 }

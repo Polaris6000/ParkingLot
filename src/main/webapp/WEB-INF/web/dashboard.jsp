@@ -5,20 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>스마트주차 반월당점 - 주차장 대시보드</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/public.css">
-
+    <link rel="stylesheet" href="./static/css/public.css">
     <!-- Font Awesome (아이콘) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 </head>
 <body>
 
-
-
     <!-- 컨텍스트 경로를 JavaScript에 전달 -->
-    <input type="hidden" id="contextPath" value="${pageContext.request.contextPath}">
+<%--    <input type="hidden" id="contextPath" value="${pageContext.request.contextPath}">--%>
 
     <!-- 로딩 인디케이터 -->
     <div id="loadingIndicator" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:9999;">
@@ -30,7 +29,7 @@
 
         <!-- ========== 헤더 영역 ========== -->
         <header class="dashboard-header">
-            <%@include file="common/header.jsp" %>
+            <%@include file="./common/header.jsp" %>
         </header>
 
         <!-- ========== 메인 컨텐츠 ========== -->
@@ -52,10 +51,10 @@
                         <div class="label">주차 가능 대수</div>
                     </div>
 
-                    <!-- 금일 방문자 수 -->
+                    <!-- 오늘 방문자 수 -->
                     <div class="card">
                         <div class="value" id="todayVisitorCount">0</div>
-                        <div class="label">금일 방문자 수</div>
+                        <div class="label">오늘 방문자 수</div>
                     </div>
 
                     <!-- 점유율 -->
@@ -111,7 +110,7 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="${pageContext.request.contextPath}/static/js/dashboard.js"></script>
+    <script src="./static/js/dashboard.js"></script>
 
 </body>
 </html>
