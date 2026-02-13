@@ -1,0 +1,123 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주차 상세 정보</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        background-color: #FAFAFA;
+        padding: 40px 20px;
+    }
+
+    .info-box {
+        background: #FFFFFF;
+        border: 1px solid #E8E8E8;
+        border-radius: 12px;
+        width: 100%;
+        max-width: 380px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+
+    .info-row {
+        display: grid;
+        grid-template-columns: 140px 1fr;
+        border-bottom: 1px solid #F0F0F0;
+        min-height: 60px;
+    }
+
+    .info-row:last-child {
+        border-bottom: none;
+    }
+
+    .info-label {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #1F1F1F;
+        background-color: #FAFAFA;
+    }
+
+    .info-value {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #1F1F1F;
+        background-color: #FFFFFF;
+    }
+
+    .value-green {
+        color: #4CAF50;
+    }
+
+    .value-with-subtitle {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .subtitle {
+        font-size: 12px;
+        font-weight: 400;
+        color: #9E9E9E;
+    }
+</style>
+<body>
+
+<div class="info-box">
+    <div class="info-row">
+        <div class="info-label">Today</div>
+        <div class="info-value value-green" id="today">26-01-26</div>
+    </div>
+
+    <div class="info-row">
+        <div class="info-label">Car Number</div>
+        <div class="info-value value-green" id="carNumber">123가 4567</div>
+    </div>
+
+    <div class="info-row">
+        <div class="info-label">Status</div>
+        <div class="info-value value-green" id="status">Parking</div>
+    </div>
+
+    <div class="info-row">
+        <div class="info-label">Info</div>
+        <div class="info-value value-green value-with-subtitle">
+            <span id="infoType">Monthly</span>
+            <span class="subtitle" id="infoSubtitle">회원(무료 적용)</span>
+        </div>
+    </div>
+
+    <div class="info-row">
+        <div class="info-label">Enter-Time</div>
+        <div class="info-value value-green" id="enterTime">11:23</div>
+    </div>
+
+    <div class="info-row">
+        <div class="info-label">Exit-Time</div>
+        <div class="info-value value-green" id="exitTime">15:15</div>
+    </div>
+
+    <div class="info-row">
+        <div class="info-label">Cost</div>
+        <div class="info-value value-green" id="cost">0 ₩</div>
+    </div>
+</div>
+
+<script src="parking.js"></script>
+</body>
+</html>
