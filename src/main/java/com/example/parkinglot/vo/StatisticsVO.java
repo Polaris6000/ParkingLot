@@ -1,9 +1,15 @@
 package com.example.parkinglot.vo;
 
+import lombok.*;
+
 /**
  * 통계 데이터를 담는 Value Object
  * pay_logs 테이블: id, pay_time(datetime), kind_of_discount(enum), pay_log(int)
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class StatisticsVO {
     private String date;           // 날짜 (일별/월별)
     private int totalAmount;       // 총 결제 금액 (pay_log 합계)
@@ -11,10 +17,7 @@ public class StatisticsVO {
     private String kindOfDiscount; // 차종 유형 (normal, light, disabled, monthly)
     private int typeCount;         // 차종별 카운트
     private double typePercentage; // 차종별 비율
-    
-    // 기본 생성자
-    public StatisticsVO() {}
-    
+
     // 일별/월별 매출용 생성자
     public StatisticsVO(String date, int totalAmount, int totalCount) {
         this.date = date;

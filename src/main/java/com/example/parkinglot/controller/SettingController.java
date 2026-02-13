@@ -105,8 +105,7 @@ public class SettingController extends HttpServlet {
                     .forward(request, response);
 
         } catch (Exception e) {
-            log.error("Controller - GET 요청 처리 중 예외 발생: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Controller - GET 요청 처리 중 예외 발생: {}", e.getMessage(), e);
             request.setAttribute("errorMessage", "페이지 로딩 중 오류가 발생했습니다.");
             request.getRequestDispatcher("/WEB-INF/web/setting/setting.jsp")
                     .forward(request, response);
@@ -195,14 +194,12 @@ public class SettingController extends HttpServlet {
             }
 
         } catch (NumberFormatException e) {
-            log.error("Controller - 숫자 형식 오류: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Controller - 숫자 형식 오류: {}", e.getMessage(), e);
             // 오류 시 리다이렉트
             response.sendRedirect(request.getContextPath() + "/setting?error=invalid_number");
             return;
         } catch (Exception e) {
-            log.error("Controller - 예외 발생: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Controller - 예외 발생: {}", e.getMessage(), e);
             // 오류 시 리다이렉트
             response.sendRedirect(request.getContextPath() + "/setting?error=system_error");
             return;

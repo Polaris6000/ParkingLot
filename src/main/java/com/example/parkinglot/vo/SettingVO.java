@@ -1,42 +1,28 @@
 package com.example.parkinglot.vo;
 
+import lombok.*;
+
 import java.time.LocalDateTime;
 
 /**
  * 요금 정책 Value Object (데이터베이스 조회 결과 매핑용)
  * DB에서 조회한 데이터를 담는 객체
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class SettingVO {
     private int id;
-    private int baseFee;
-    private int basicUnitMinute;
-    private int unitFee;
-    private int billingUnitMinutes;
-    private int helpDiscountRate;
-    private int compactDiscountRate;
-    private int gracePeriodMinutes;
-    private int maxCapAmount;
-    private LocalDateTime updateDate;
-
-    // 기본 생성자
-    public SettingVO() {
-    }
-
-    // 전체 생성자
-    public SettingVO(int id, int baseFee, int basicUnitMinute, int unitFee,
-                     int billingUnitMinutes, int helpDiscountRate, int compactDiscountRate,
-                     int gracePeriodMinutes, int maxCapAmount, LocalDateTime updateDate) {
-        this.id = id;
-        this.baseFee = baseFee;
-        this.basicUnitMinute = basicUnitMinute;
-        this.unitFee = unitFee;
-        this.billingUnitMinutes = billingUnitMinutes;
-        this.helpDiscountRate = helpDiscountRate;
-        this.compactDiscountRate = compactDiscountRate;
-        this.gracePeriodMinutes = gracePeriodMinutes;
-        this.maxCapAmount = maxCapAmount;
-        this.updateDate = updateDate;
-    }
+    private int baseFee;              // 기본 요금
+    private int basicUnitMinute;      // 최초 1시간(60분)
+    private int unitFee;              // 단위당 요금
+    private int billingUnitMinutes;   // 추가 과금 단위
+    private int helpDiscountRate;     // 장애인 할인 비율 (%)
+    private int compactDiscountRate;  // 경차 할인 비율 (%)
+    private int gracePeriodMinutes;   // 회차인정시간 (분)
+    private int maxCapAmount;         // 하루 최대 비용(cap)
+    private LocalDateTime updateDate; // 요금 정책 변경 시간
 
     // Getter & Setter
     public int getId() {

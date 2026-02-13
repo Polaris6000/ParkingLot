@@ -103,7 +103,6 @@ public class SettingDAO {
             log.info("========================================");
         } catch (SQLException e) {
             log.error("DAO - 요금 정책 목록 조회 실패: " + e.getMessage());
-            e.printStackTrace();
             throw e;
         }
 
