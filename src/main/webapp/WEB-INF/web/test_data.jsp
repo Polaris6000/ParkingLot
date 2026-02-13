@@ -7,22 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>테스트 데이터 관리</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/test_data.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/public.css">
 </head>
 <body>
-
-<%@include file="common/header.jsp" %>
-
 <div class="container">
-    <!-- 헤더: 대시보드로 돌아가기 버튼 -->
-    <header class="page-header">
-        <div class="warning-badge">
-            <i class="fa-solid fa-triangle-exclamation"></i> 개발 전용
-        </div>
-        <h1>테스트 데이터 관리</h1>
-        <a href="${pageContext.request.contextPath}/WEB-INF/web/dashboard.jsp" class="btn-back">
-            <i class="fa-solid fa-arrow-left"></i> 대시보드
-        </a>
+
+
+    <header class="dashboard-header">
+        <%@include file="common/header.jsp" %>
     </header>
 
     <!-- 알림 메시지 -->
@@ -45,7 +37,7 @@
         <div class="stats-content">${statistics}</div>
     </div>
 
-    <main class="main-content">
+    <main class="main-control-panel">
 
         <!-- 기능 그리드 -->
         <div class="actions-grid">
@@ -163,14 +155,13 @@
                         <span>요금 정책 추가 · 수정 · 삭제</span>
                     </div>
                     <button type="submit" class="btn btn-info">
-                        <a href="${pageContext.request.contextPath}/WEB-INF/web/dashboard.jsp" style="color: white">
+                        <a href="/setting" style="color: white">
                             페이지 이동
                         </a>
                     </button>
                     <p class="hint">버튼을 누르면 페이지가 전환됩니다.</p>
                 </form>
             </div>
-
         </div>
     </main>
 
@@ -191,7 +182,6 @@
             </button>
         </form>
     </div>
-
 </div>
 
 <!-- 로딩 오버레이 -->
@@ -288,7 +278,7 @@
                 showLoading();
 
                 // AJAX 요청
-                fetch('${pageContext.request.contextPath}/test/data', {
+                fetch('${pageContext.request.contextPath}/test', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'

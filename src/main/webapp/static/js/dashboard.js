@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initEventListeners();
 
     // 자동 새로고침 시작 (30초마다)
-    startAutoRefresh(30000);
+    // startAutoRefresh(30000);
 
     console.log('대시보드 초기화 완료');
 });

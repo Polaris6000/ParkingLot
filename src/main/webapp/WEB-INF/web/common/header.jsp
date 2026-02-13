@@ -6,18 +6,21 @@ logout 구성
 login 해야 들어올 수 있으니 logout만 구성하면 됌.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/common/header.css">
+<header class="top-nav">
+    <div class="header-container">
+        <div class="logo" style="corsor:pointer" onclick="location.href='/'">
+            <i class="fas fa-parking" style="color: #4c6cef"></i> 스마트주차 반월당점
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/dashboard">대시보드</a></li>
+                <li><a href="/members">회원 관리</a></li>
+                <li><a href="/statistics">통계</a></li>
+                <li><a href="/setting">설정</a></li>
+                <li><a href="/test">테스트 센터</a></li>
+                <li><a href="/admin/logout">로그아웃</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 
-<%--기본적인 내용 구성하기.--%>
-<nav>
-    <ul>
-        <li><a href="/dashboard">대시보드</a></li>
-<%--        혜윰--%>
-        <li><a href="/members">회원 관리</a></li>
-<%--        <li><a href="">자동차 정보</a></li>--%>
-        <li><a href="/statistics">통계</a></li>
-        <li><a href="/setting">설정</a></li>
-        <li><a href="/test">테스트 센터</a></li>
-        <li><a href="/admin/logout">로그아웃</a></li>
-    </ul>
-</nav>
