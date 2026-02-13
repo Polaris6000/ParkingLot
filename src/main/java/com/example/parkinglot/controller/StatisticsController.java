@@ -3,24 +3,21 @@ package com.example.parkinglot.controller;
 import com.example.parkinglot.dto.StatisticsDTO;
 import com.example.parkinglot.service.StatisticsService;
 
-import com.example.parkinglot.util.ConnectionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Cleanup;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
 
 /**
  * 통계 관련 요청을 처리하는 컨트롤러
  * URL 매핑: /statistics
- * 
+ *
  * 사용 예시:
  * - 기본 대시보드: /statistics
  * - 일별 조회: /statistics?searchType=daily&startDate=2024-01-01&endDate=2024-01-31
@@ -29,7 +26,7 @@ import java.util.Map;
 @Log4j2
 @WebServlet("/statistics")
 public class StatisticsController extends HttpServlet {
-    
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -42,12 +39,7 @@ public class StatisticsController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
 
-        Connection conn = null;
-
         try {
-            // DB 연결
-            conn = ConnectionUtil.INSTANCE.getConnection();
-
             StatisticsService service = new StatisticsService();
 
             // 요청 파라미터 추출
@@ -60,7 +52,7 @@ public class StatisticsController extends HttpServlet {
             StatisticsDTO dto = new StatisticsDTO(searchType, startDate, endDate, yearMonth);
 
             // 통계 데이터 조회
-            Map<String, Object> result = service.getStatistics(conn, dto);
+            Map<String, Object> result = service.getStatistics(dto);
 
             // 결과를 request에 저장
             request.setAttribute("todaySummary", result.get("todaySummary"));
@@ -82,7 +74,7 @@ public class StatisticsController extends HttpServlet {
 
             // JSP 페이지로 포워딩
             // WEB-INF 내부에 있는 경우
-             request.getRequestDispatcher("/WEB-INF/views/statistics.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/statistics.jsp").forward(request, response);
 
             // webapp 루트에 있는 경우
 //            request.getRequestDispatcher("/statistics.jsp").forward(request, response);
@@ -93,7 +85,7 @@ public class StatisticsController extends HttpServlet {
 
             // 에러 페이지로 포워딩
             // WEB-INF 내부에 있는 경우
-             request.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(request, response);
 
             // webapp 루트에 있는 경우
 //            request.getRequestDispatcher("/error.jsp").forward(request, response);
