@@ -16,8 +16,9 @@ build/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-.idea/
-!.idea/runConfigurations/  # 실행 설정만 공유하고 싶을 때 예외 처리
+### 민종 추가 ###
+.idea/dataSources.xml
+.idea/data_source_mapping.xml
 
 ### Eclipse ###
 .apt_generated
