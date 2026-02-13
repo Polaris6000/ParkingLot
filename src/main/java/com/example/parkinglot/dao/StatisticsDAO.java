@@ -9,13 +9,7 @@ import java.util.List;
  * 통계 데이터 접근 객체
  */
 public class StatisticsDAO {
-    private Connection conn;
-    
-    // 생성자 - DB 연결 객체 주입
-    public StatisticsDAO(Connection conn) {
-        this.conn = conn;
-    }
-    
+
     /**
      * 일별 매출 통계 조회
      * @param startDate 시작 날짜
@@ -33,7 +27,8 @@ public class StatisticsDAO {
                      "GROUP BY DATE(pay_time) " +
                      "ORDER BY date DESC";
         
-        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+        try (   Connection connection = ConnectionUtil.INSTANCE.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, startDate);
             preparedStatement.setString(2, endDate);
             
@@ -72,7 +67,8 @@ public class StatisticsDAO {
         sql.append("GROUP BY DATE_FORMAT(pay_time, '%Y-%m') ");
         sql.append("ORDER BY date DESC");
         
-        try (PreparedStatement preparedStatement = conn.prepareStatement(sql.toString())) {
+        try (   Connection connection = ConnectionUtil.INSTANCE.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql.toString())) {
             if (yearMonth != null && !yearMonth.isEmpty()) {
                 preparedStatement.setString(1, yearMonth);
             }
@@ -107,8 +103,9 @@ public class StatisticsDAO {
                      "GROUP BY kind_of_discount " +
                      "ORDER BY type_count DESC";
         
-        try (PreparedStatement preparedStatement = conn.prepareStatement(sql);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (   Connection connection = ConnectionUtil.INSTANCE.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                ResultSet resultSet = preparedStatement.executeQuery()) {
             
             while (resultSet.next()) {
                 String kindOfDiscount = resultSet.getString("kind_of_discount");
@@ -155,8 +152,9 @@ public class StatisticsDAO {
                      "FROM pay_logs " +
                      "WHERE DATE(pay_time) = CURDATE()";
         
-        try (PreparedStatement preparedStatement = conn.prepareStatement(sql);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (   Connection connection = ConnectionUtil.INSTANCE.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                ResultSet resultSet = preparedStatement.executeQuery()) {
             
             if (resultSet.next()) {
                 int totalAmount = resultSet.getInt("total_amount");
@@ -180,7 +178,8 @@ public class StatisticsDAO {
                      "FROM pay_logs " +
                      "WHERE DATE_FORMAT(pay_time, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')";
         
-        try (PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        try (   Connection connection = ConnectionUtil.INSTANCE.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             
             if (resultSet.next()) {

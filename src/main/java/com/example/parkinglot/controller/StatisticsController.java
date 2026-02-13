@@ -40,13 +40,8 @@ public class StatisticsController extends HttpServlet {
         
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
-
-        Connection conn = null;
         
         try {
-            // DB 연결
-            conn = DBUtil.getConnection();
-            
             StatisticsService service = new StatisticsService();
             
             // 요청 파라미터 추출
@@ -59,7 +54,7 @@ public class StatisticsController extends HttpServlet {
             StatisticsDTO dto = new StatisticsDTO(searchType, startDate, endDate, yearMonth);
             
             // 통계 데이터 조회
-            Map<String, Object> result = service.getStatistics(conn, dto);
+            Map<String, Object> result = service.getStatistics(dto);
             
             // 결과를 request에 저장
             request.setAttribute("todaySummary", result.get("todaySummary"));
@@ -96,10 +91,7 @@ public class StatisticsController extends HttpServlet {
             
             // webapp 루트에 있는 경우
 //            request.getRequestDispatcher("/error.jsp").forward(request, response);
-            
-        } finally {
-            // DB 연결 종료
-            DBUtil.closeConnection(conn);
+
         }
     }
     

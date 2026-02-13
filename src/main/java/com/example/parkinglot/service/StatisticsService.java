@@ -16,13 +16,12 @@ public class StatisticsService {
     
     /**
      * 통계 데이터 조회
-     * @param conn DB 연결 객체
      * @param dto 검색 조건
      * @return 통계 데이터 맵
      */
-    public Map<String, Object> getStatistics(Connection conn, StatisticsDTO dto) throws SQLException {
+    public Map<String, Object> getStatistics(StatisticsDTO dto) throws SQLException {
         Map<String, Object> result = new HashMap<>();
-        StatisticsDAO dao = new StatisticsDAO(conn);
+        StatisticsDAO dao = new StatisticsDAO();
         
         try {
             // 오늘 매출 요약
@@ -77,47 +76,43 @@ public class StatisticsService {
     
     /**
      * 일별 매출 통계 조회
-     * @param conn DB 연결 객체
      * @param startDate 시작 날짜
      * @param endDate 종료 날짜
      * @return 일별 통계 리스트
      */
-    public List<StatisticsVO> getDailySales(Connection conn, String startDate, String endDate) 
+    public List<StatisticsVO> getDailySales(String startDate, String endDate)
             throws SQLException {
-        StatisticsDAO dao = new StatisticsDAO(conn);
+        StatisticsDAO dao = new StatisticsDAO();
         return dao.getDailySales(startDate, endDate);
     }
     
     /**
      * 월별 매출 통계 조회
-     * @param conn DB 연결 객체
      * @param yearMonth 년월
      * @return 월별 통계 리스트
      */
-    public List<StatisticsVO> getMonthlySales(Connection conn, String yearMonth) 
+    public List<StatisticsVO> getMonthlySales(String yearMonth)
             throws SQLException {
-        StatisticsDAO dao = new StatisticsDAO(conn);
+        StatisticsDAO dao = new StatisticsDAO();
         return dao.getMonthlySales(yearMonth);
     }
     
     /**
      * 차종별 통계 조회
-     * @param conn DB 연결 객체
      * @return 차종별 통계 리스트
      */
-    public List<StatisticsVO> getTypeStatistics(Connection conn) throws SQLException {
-        StatisticsDAO dao = new StatisticsDAO(conn);
+    public List<StatisticsVO> getTypeStatistics() throws SQLException {
+        StatisticsDAO dao = new StatisticsDAO();
         return dao.getTypeStatistics();
     }
     
     /**
      * 대시보드 요약 정보 조회
-     * @param conn DB 연결 객체
      * @return 요약 정보 맵
      */
-    public Map<String, Object> getDashboardSummary(Connection conn) throws SQLException {
+    public Map<String, Object> getDashboardSummary() throws SQLException {
         Map<String, Object> summary = new HashMap<>();
-        StatisticsDAO dao = new StatisticsDAO(conn);
+        StatisticsDAO dao = new StatisticsDAO();
         
         try {
             // 오늘 매출
