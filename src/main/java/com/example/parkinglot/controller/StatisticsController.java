@@ -80,7 +80,7 @@ public class StatisticsController extends HttpServlet {
 //            request.getRequestDispatcher("/statistics.jsp").forward(request, response);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("통계 조회 중 데이터베이스 오류 발생: {}", e.getMessage(), e);
             request.setAttribute("errorMessage", "데이터베이스 오류가 발생했습니다: " + e.getMessage());
 
             // 에러 페이지로 포워딩

@@ -1,11 +1,20 @@
 package com.example.parkinglot.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 /**
  * 요금 정책 데이터 전송 객체 (Data Transfer Object)
  * 클라이언트와 서버 간 데이터 전송에 사용
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SettingDTO {
     private int id;
     private int baseFee;              // 기본 요금
@@ -17,26 +26,6 @@ public class SettingDTO {
     private int gracePeriodMinutes;   // 회차인정시간 (분)
     private int maxCapAmount;         // 하루 최대 비용(cap)
     private LocalDateTime updateDate; // 요금 정책 변경 시간
-
-    // 기본 생성자
-    public SettingDTO() {
-    }
-
-    // 전체 생성자
-    public SettingDTO(int id, int baseFee, int basicUnitMinute, int unitFee, 
-                      int billingUnitMinutes, int helpDiscountRate, int compactDiscountRate,
-                      int gracePeriodMinutes, int maxCapAmount, LocalDateTime updateDate) {
-        this.id = id;
-        this.baseFee = baseFee;
-        this.basicUnitMinute = basicUnitMinute;
-        this.unitFee = unitFee;
-        this.billingUnitMinutes = billingUnitMinutes;
-        this.helpDiscountRate = helpDiscountRate;
-        this.compactDiscountRate = compactDiscountRate;
-        this.gracePeriodMinutes = gracePeriodMinutes;
-        this.maxCapAmount = maxCapAmount;
-        this.updateDate = updateDate;
-    }
 
     // Getter & Setter
     public int getId() {

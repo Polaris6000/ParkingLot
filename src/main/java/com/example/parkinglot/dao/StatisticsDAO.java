@@ -43,7 +43,6 @@ public class StatisticsDAO {
                 }
             }
         }
-
         return list;
     }
 
