@@ -16,4 +16,5 @@ public class MonthlyParkingVO {
     private String phoneNumber; //연락처
     private LocalDate beginDate; //시작날짜
     private LocalDate expiryDate; //만료날짜
+
 }
