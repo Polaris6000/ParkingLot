@@ -45,8 +45,7 @@ public class SettingService {
 
             return result;
         } catch (SQLException e) {
-            log.error("Service - 요금 정책 등록 중 예외 발생: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Service - 요금 정책 등록 중 예외 발생: {}", e.getMessage(), e);
             return false;
         }
     }
@@ -62,8 +61,7 @@ public class SettingService {
                              (list != null ? list.size() : 0) + "건");
             return list;
         } catch (SQLException e) {
-            log.error("Service - 요금 정책 목록 조회 중 예외 발생: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Service - 요금 정책 목록 조회 중 예외 발생: {}", e.getMessage(), e);
             return null;
         }
     }
@@ -82,8 +80,7 @@ public class SettingService {
             }
             return policy;
         } catch (SQLException e) {
-            log.error("Service - 현재 요금 정책 조회 중 예외 발생: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Service - 현재 요금 정책 조회 중 예외 발생: {}", e.getMessage(), e);
             return null;
         }
     }
@@ -103,8 +100,7 @@ public class SettingService {
             }
             return policy;
         } catch (SQLException e) {
-            log.error("Service - ID별 요금 정책 조회 중 예외 발생: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Service - ID별 요금 정책 조회 중 예외 발생: {}", e.getMessage(), e);
             return null;
         }
     }
@@ -119,8 +115,7 @@ public class SettingService {
             log.info("Service - 요금 정책 개수 조회 성공: " + count);
             return count;
         } catch (SQLException e) {
-            log.error("Service - 요금 정책 개수 조회 중 예외 발생: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Service - 요금 정책 개수 조회 중 예외 발생: {}", e.getMessage(), e);
             return 0;
         }
     }
