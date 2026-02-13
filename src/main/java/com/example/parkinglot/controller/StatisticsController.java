@@ -2,7 +2,6 @@ package com.example.parkinglot.controller;
 
 import com.example.parkinglot.dto.StatisticsDTO;
 import com.example.parkinglot.service.StatisticsService;
-import com.example.parkinglot.util.DBUtil;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
 
