@@ -3,6 +3,7 @@ package com.example.parkinglot.dao;
 import com.example.parkinglot.dto.SettingDTO;
 import com.example.parkinglot.util.ConnectionUtil;
 import com.example.parkinglot.vo.SettingVO;
+import lombok.extern.log4j.Log4j2;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.List;
  * 요금 정책 데이터 액세스 객체 (Data Access Object)
  * 데이터베이스와 직접 상호작용하는 계층
  */
+@Log4j2
 public class SettingDAO {
 
     /**
@@ -40,10 +42,10 @@ public class SettingDAO {
             preparedStatement.setInt(8, dto.getMaxCapAmount());
 
             int result = preparedStatement.executeUpdate();
-            System.out.println("DAO - 요금 정책 등록: " + (result > 0 ? "성공" : "실패"));
+            log.info("DAO - 요금 정책 등록: " + (result > 0 ? "성공" : "실패"));
             return result > 0;
         } catch (SQLException e) {
-            System.err.println("DAO - 요금 정책 등록 실패: " + e.getMessage());
+            log.error("DAO - 요금 정책 등록 실패: " + e.getMessage());
             throw e;
         }
     }
@@ -62,14 +64,14 @@ public class SettingDAO {
 
         List<SettingVO> list = new ArrayList<>();
 
-        System.out.println("===== DAO selectAllFeePolicies 실행 =====");
-        System.out.println("SQL: " + sql);
+        log.info("===== DAO selectAllFeePolicies 실행 =====");
+        log.info("SQL: " + sql);
 
         try (Connection conn = ConnectionUtil.INSTANCE.getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            System.out.println("DB 연결 성공");
+            log.info("DB 연결 성공");
 
             int count = 0;
             while (resultSet.next()) {
@@ -92,15 +94,15 @@ public class SettingDAO {
 
                 list.add(vo);
 
-                System.out.println("조회된 데이터 " + count + ": ID=" + vo.getId() +
+                log.info("조회된 데이터 " + count + ": ID=" + vo.getId() +
                         ", 기본요금=" + vo.getBaseFee() +
                         ", 날짜=" + vo.getUpdateDate());
             }
 
-            System.out.println("총 조회 건수: " + list.size());
-            System.out.println("========================================");
+            log.info("총 조회 건수: " + list.size());
+            log.info("========================================");
         } catch (SQLException e) {
-            System.err.println("DAO - 요금 정책 목록 조회 실패: " + e.getMessage());
+            log.error("DAO - 요금 정책 목록 조회 실패: " + e.getMessage());
             e.printStackTrace();
             throw e;
         }
@@ -142,11 +144,11 @@ public class SettingDAO {
                     vo.setUpdateDate(timestamp.toLocalDateTime());
                 }
 
-                System.out.println("DAO - 최신 요금 정책 조회 완료: ID=" + vo.getId());
+                log.info("DAO - 최신 요금 정책 조회 완료: ID=" + vo.getId());
                 return vo;
             }
         } catch (SQLException e) {
-            System.err.println("DAO - 최신 요금 정책 조회 실패: " + e.getMessage());
+            log.error("DAO - 최신 요금 정책 조회 실패: " + e.getMessage());
             throw e;
         }
 
@@ -189,12 +191,12 @@ public class SettingDAO {
                         vo.setUpdateDate(timestamp.toLocalDateTime());
                     }
 
-                    System.out.println("DAO - ID별 요금 정책 조회 완료: " + id);
+                    log.info("DAO - ID별 요금 정책 조회 완료: " + id);
                     return vo;
                 }
             }
         } catch (SQLException e) {
-            System.err.println("DAO - ID별 요금 정책 조회 실패: " + e.getMessage());
+            log.error("DAO - ID별 요금 정책 조회 실패: " + e.getMessage());
             throw e;
         }
 
@@ -215,11 +217,11 @@ public class SettingDAO {
 
             if (resultSet.next()) {
                 int count = resultSet.getInt("cnt");
-                System.out.println("DAO - 요금 정책 개수: " + count);
+                log.info("DAO - 요금 정책 개수: " + count);
                 return count;
             }
         } catch (SQLException e) {
-            System.err.println("DAO - 요금 정책 개수 조회 실패: " + e.getMessage());
+            log.error("DAO - 요금 정책 개수 조회 실패: " + e.getMessage());
             throw e;
         }
 
