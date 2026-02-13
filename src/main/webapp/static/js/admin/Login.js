@@ -18,8 +18,10 @@ const dataError = document.querySelector("div [id='err_wrong_data']");
 
 //키다운이 시작되면 아이디가 사라져야함.
 idInput.onkeydown = () =>{
-    idLabel.style.display = "none"
-    idDelBtn.style.display = "block";
+    if (idInput.value !== ""){
+        idLabel.style.display = "none"
+        idDelBtn.style.display = "block";
+    }
 }
 
 //아이디 칸에서 값이 사라져야 원상태로 복구시킴.
@@ -42,9 +44,11 @@ idDelBtn.onclick = () => {
 //위 과정을 동일하게 해줘야함. + view 기능까지
 //키다운이 시작되면 비밀번호 가 사라져야함.
 pwInput.onkeydown = () =>{
-    pwLabel.style.display = "none"
-    pwDelBtn.style.display = "block";
-    pwViewBtn.style.display = "block";
+    if (pwInput.value !== ""){
+        pwLabel.style.display = "none"
+        pwDelBtn.style.display = "block";
+        pwViewBtn.style.display = "block";
+    }
 }
 
 //비밀번호 칸에서 값이 사라져야 원상태로 복구시킴.

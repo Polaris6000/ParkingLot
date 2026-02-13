@@ -1,42 +1,998 @@
-*{ /* 모든 대상에 적용할 내용을 지정. */
-    margin: 0; /* 바깥 여백을 0 */
-    padding: 0; /* 내부 여백을 0 */
-    box-sizing: border-box; /* 박스의 크기를 지정할 때 경계선까지의 길이를 지정. */
-    font-family: BookkGothic, serif;
-}
-/*리스트 스타일 제거*/
-ul,ol{
-    list-style: none; /* ul와 ol의 목록 리스트에서 앞에 표시되는 스타일을 없앰 */
-}
-/*링크 속성 글자 밑줄 없앰.*/
-a{
-text-decoration: none; /* 밑줄 없애기 */
-color : black; /* 글자색이 바뀌는 것을 변경 */
-}
+/* ========================================
+   통합 스타일시트
+   파일명: unified-styles.css
+   용도: 주차장 관리 시스템 전체 스타일
 
-img{
-    display: block; /*inline 속성을 지니고 있는 img 태그의 오차 간격을 없애기 위한 속성 변경*/
-    border:none; /*img 태그의 모든 테두리선은 없음으로 초기화*/
-}
+   목차:
+   1. 폰트 등록
+   2. CSS 변수 정의 (전역 색상, 폰트, 그림자)
+   3. 기본 리셋 및 레이아웃
+   4. 헤더 및 네비게이션
+   5. 대시보드 메인 레이아웃
+   6. 통계 카드 섹션
+   7. 주차 현황판 섹션
+   8. 검색 기능
+   9. 주차 공간 표시
+   10. 우측 상세 정보 패널
+   11. 테스트 페이지 전용 스타일
+   12. 컨트롤 패널 (관리 기능)
+   13. 폼 요소 (입력 필드 및 버튼)
+   14. 위험 구역 (Danger Zone)
+   15. 애니메이션
+   16. 반응형 디자인 (태블릿 & 모바일)
+   17. 프린트 스타일
+======================================== */
 
 
-@font-face { /* 조선굵은명조 */
-    font-family: "ChousunCentennial";
-    src: url("../font/ChosunCentennial_ttf/ChosunCentennial_ttf.ttf") format("truetype");
+/* ========================================
+   1. 폰트 등록
+   - BookkGothic: 메인 UI 폰트 (Light, Bold 두 가지 굵기)
+   - ChosunCentennial: 제목용 명조 폰트
+======================================== */
+
+/* 부크크고딕 Light - 기본 텍스트용 가느다란 서체 */
+@font-face {
+    font-family: 'BookkGothic';
+    src: url('../font/BookkGothic/BookkGothic_Light.ttf') format('truetype');
     font-weight: normal;
-    font-display: swap;
 }
 
-@font-face { /* 부크크 고딕 */
-    font-family: "BookkGothic";
-    src: url("../font/BookkGothic/BookkGothic_Light.ttf") format("truetype");
-    font-weight: normal;
-    font-display: swap;
-}
-
-@font-face { /* 부크크 고딕 */
-    font-family: "BookkGothic";
-    src: url("../font/BookkGothic/BookkGothic_Bold.ttf") format("truetype");
+/* 부크크고딕 Bold - 강조 텍스트용 두꺼운 서체 */
+@font-face {
+    font-family: 'BookkGothic';
+    src: url('../font/BookkGothic/BookkGothic_Bold.ttf') format('truetype');
     font-weight: bold;
-    font-display: swap;
+}
+
+/* 조선센티널 - 제목용 고급스러운 명조체 */
+@font-face {
+    font-family: 'ChosunCentennial';
+    src: url('../font/ChosunCentennial_ttf/ChosunCentennial_ttf.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/* ========================================
+   2. CSS 변수 정의 (전역 색상 및 폰트)
+   - 프로젝트 전체에서 사용하는 색상, 폰트, 효과를 변수로 관리
+   - 유지보수 편의성을 위해 자주 사용하는 값을 변수로 중앙화
+======================================== */
+:root {
+    /* === 배경 및 기본 색상 === */
+    --bg-color: #f8f9fc;        /* 페이지 배경색 (밝은 회색-블루 톤) */
+    --white: #fff;           /* 카드 및 컴포넌트 배경색 */
+    --card-bg: #fff;         /* 카드 배경 (white와 동일하지만 명시적 구분) */
+
+    /* === 주차 상태별 색상 === */
+    --accent-blue: #5c7cfa;     /* 강조 색상 (버튼, 라벨, 포인트 컬러) */
+    --occupied-blue: #3b5bdb;   /* 일반 차량 점유 상태 (진한 파랑) */
+    --ev-green: #52c41a;        /* 전기차 점유 상태 (초록) */
+    --empty-gray: #ddd;      /* 빈 주차 공간 (회색) */
+
+    /* === 시맨틱 색상 (기능별) === */
+    --primary-color: #4e73df;   /* 주요 액션 (메인 블루) */
+    --success-color: #1cc88a;   /* 성공 상태 (그린) */
+    --danger-color: #e74a3b;    /* 위험/삭제 액션 (레드) */
+    --warning-color: #f6c23e;   /* 경고/주의 (옐로우) */
+
+    /* === 텍스트 색상 === */
+    --text-dark: #333;       /* 기본 텍스트 (진한 회색) */
+    --text-gray: #888;       /* 보조 텍스트 (회색) */
+
+    /* === 그림자 효과 === */
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);    /* 부드러운 그림자 (기본) */
+    --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.1);  /* 호버 시 강조 그림자 */
+
+    /* === 레이아웃 관련 === */
+    --radius-md: 15px;          /* 기본 둥근 모서리 크기 */
+
+    /* === 폰트 패밀리 === */
+    --main-font: 'BookkGothic', sans-serif;         /* 메인 UI 폰트 */
+}
+
+
+/* ========================================
+   3. 기본 리셋 및 레이아웃
+   - 모든 요소에 기본 폰트 적용
+   - body 레이아웃 및 컨테이너 기본 설정
+======================================== */
+
+/* 전체 요소 폰트 통일 */
+* {
+    font-family: 'BookkGothic', sans-serif;
+}
+
+/* body 기본 설정 */
+body {
+    background: var(--bg-color);
+    font-family: var(--main-font), sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    color: var(--text-dark);
+}
+
+/* 전체 페이지를 감싸는 메인 컨테이너 */
+.container {
+    width: 1200px;              /* 기본 너비 (대시보드용) */
+    max-width: 1200px;          /* 최대 너비 (테스트 페이지용) */
+    margin: 0 auto;             /* 중앙 정렬 */
+    padding: 40px 20px;         /* 상하 여백 */
+    display: flex;
+    flex-direction: column;
+}
+
+/* 페이지 제목 (h1) 기본 스타일 */
+h1 {
+    font-family: 'BookkGothic', sans-serif;
+    color: var(--text-dark);
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* 링크 기본 스타일 - 밑줄 제거 */
+a {
+    text-decoration: none !important;
+}
+
+/* 리스트 기본 스타일 제거 */
+.li {
+    list-style-type: none;
+}
+
+
+/* ========================================
+   4. 헤더 및 네비게이션
+   - 상단 고정 헤더
+   - 로고 및 네비게이션 메뉴
+   - 페이지별 헤더 변형 (대시보드/테스트)
+======================================== */
+
+/* === 공통 헤더 (Sticky Header) === */
+header {
+    background: white;
+    padding: 10px 0;
+    position: sticky;          /* 스크롤 시 상단 고정 */
+    top: 0;
+    z-index: 100;              /* 다른 요소 위에 표시 */
+}
+
+/* 헤더 내부 컨테이너 */
+.header-container {
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;  /* 로고와 네비게이션 양 끝 배치 */
+    align-items: center;
+}
+
+/* 로고 스타일 */
+.logo {
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--accent-blue);
+    cursor: pointer;
+    flex: none;
+}
+
+/* === 네비게이션 메뉴 === */
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap; /* 자리가 없으면 다음 줄로 넘김 */
+    gap: 20px;                 /* 메뉴 항목 간격 */
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-gray);
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: var(--bg-color);
+    transition: all 0.3s;      /* 부드러운 호버 효과 */
+}
+
+nav a:hover {
+    background: var(--accent-blue);
+    color: white;
+    transform: translateY(-2px);   /* 살짝 위로 뜨는 효과 */
+}
+
+/* === 대시보드 헤더 === */
+.dashboard-header {
+    background: var(--white);
+    border-radius: 15px;
+    border: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;  /* 제목과 버튼 양 끝 배치 */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* 상단 네비게이션 바 */
+.top-nav {
+    background: var(--white);
+    border-radius: 15px;
+
+}
+
+/* 헤더 우측 버튼 그룹 */
+.header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* 나가기/종료 버튼 (Primary 액션) */
+.exit-btn {
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+/* 아이콘 버튼 (설정, 새로고침 등 보조 기능) */
+.icon-btn {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    color: var(--accent-blue);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.icon-btn:hover {
+    background: #f0f4ff;       /* 호버 시 연한 블루 배경 */
+    border-color: var(--accent-blue);
+}
+
+/* 개발 전용 경고 배지 */
+.warning-badge {
+    background-color: rgba(246, 194, 62, 0.2);  /* 반투명 옐로우 배경 */
+    color: #d68b00;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    width: fit-content;        /* 내용물만큼만 너비 차지 */
+}
+
+/* 뒤로가기 버튼 */
+.btn-back {
+    background-color: #fff;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-back:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+
+/* ========================================
+   5. 대시보드 메인 레이아웃
+   - 2단 구조: 좌측(통계+주차현황) + 우측(상세정보)
+======================================== */
+.main-content {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+/* === 좌측 패널 - 통계와 주차장 현황 표시 === */
+.left-panel {
+    flex: 1.5;                 /* 우측 패널보다 1.5배 넓게 */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* === 우측 패널 - 선택된 주차 공간의 상세 정보 === */
+.right-panel {
+    flex: 1;
+    background: var(--white);
+    border-radius: 15px;
+    border: 1px solid #eee;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+
+/* ========================================
+   6. 통계 카드 섹션
+   - 주차 가능 대수, 점유율 등 주요 지표를 그리드로 배치
+======================================== */
+
+/* 통계 카드 그리드 컨테이너 */
+.stats-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;  /* 2열 균등 분할 */
+    gap: 15px;
+}
+
+/* === 개별 통계 카드 === */
+.card {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #eee;
+    transition: box-shadow 0.3s, transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  /* 호버 시 그림자 강조 */
+    transform: translateY(-5px);                 /* 살짝 위로 뜨는 효과 */
+}
+
+/* 전체 너비 카드 (2개 열 모두 차지) */
+.card.full {
+    grid-column: span 2;
+}
+
+/* 통계 수치 (큰 숫자) */
+.card .value {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--occupied-blue);
+}
+
+/* 통계 레이블 (작은 설명 텍스트) */
+.card .label {
+    color: #888;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* === 점유율별 색상 변경 === */
+/* 낮은 점유율 (여유) */
+.occupancy-low .value {
+    color: var(--accent-blue);
+}
+
+/* 중간 점유율 (주의) */
+.occupancy-medium .value {
+    color: #faad14;
+}
+
+/* 높은 점유율 (혼잡) */
+.occupancy-high .value {
+    color: #ff4d4f;
+}
+
+/* === 테스트 페이지 통계 박스 === */
+.stats-box {
+    background: white;
+    color: var(--text-dark);
+    padding: 20px;
+    border-radius: var(--radius-md);
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-sm);
+    line-height: 1.6;
+}
+
+/* 통계 섹션 헤더 (제목 + 새로고침 버튼) */
+.stats-header {
+    display: flex;
+    /*justify-content: space-between;  !* 제목과 버튼을 양 끝으로 *!*/
+    flex-wrap: wrap; /* 자리가 없으면 다음 줄로 넘김 */
+    gap: 10px;       /* 요소 사이 간격 */
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #555;   /* 하단 구분선 */
+}
+
+/* 통계 제목 */
+.stats-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--warning-color);
+}
+
+/* 새로고침 버튼 */
+.btn-refresh {
+    background-color: var(--warning-color);
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    width: auto;               /* 글자 수만큼만 너비 차지 */
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: opacity 0.2s ease;
+}
+
+.btn-refresh:hover {
+    opacity: 0.8;
+    background-color: var(--warning-color);
+}
+
+/* 새로고침 아이콘 회전 애니메이션 */
+.btn-refresh i.spinning {
+    animation: rotate 1s linear infinite;
+}
+
+
+/* ========================================
+   7. 주차 현황판 섹션
+   - 실제 주차 공간 배치도를 표시하는 영역
+======================================== */
+.occupancy-section {
+    background: var(--white);
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid #eee;
+}
+
+/* 섹션 헤더 (제목 + 검색창 배치) */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+}
+
+/* 주차 구역 레이블 (A구역, B구역 등) */
+.row-label {
+    background: #e7f0ff;       /* 연한 블루 배경 */
+    color: var(--accent-blue);
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;       /* 둥근 알약 모양 */
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+
+/* ========================================
+   8. 검색 기능
+   - 차량 번호 또는 주차 위치 검색 입력창
+======================================== */
+.search-box {
+    border: 1px solid #ddd;
+    padding: 5px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    background: white;
+    transition: border-color 0.3s;
+}
+
+/* 검색창 포커스 시 테두리 색상 변경 */
+.search-box:focus-within {
+    border-color: var(--accent-blue);
+}
+
+/* 검색 입력 필드 */
+.search-box input {
+    border: none;
+    outline: none;
+    margin-left: 8px;
+    font-size: 14px;
+    width: 150px;
+}
+
+/* 검색 아이콘 */
+.search-box i {
+    color: #999;
+}
+
+
+/* ========================================
+   9. 주차 공간 표시
+   - 주차 공간 그리드 및 개별 공간 아이콘
+======================================== */
+
+/* === 주차 공간 그리드 (한 행에 10개 배치) === */
+.parking-row {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);  /* 10개 열 균등 분할 */
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* === 개별 주차 공간 아이콘 (Font Awesome 차량 아이콘 사용) === */
+.spot {
+    font-size: 40px;
+    color: var(--empty-gray);  /* 기본: 빈 공간 (회색) */
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 8px;
+}
+
+/* 호버 시 확대 효과 */
+.spot:hover {
+    transform: scale(1.1);
+    background: #f8f9fa;
+}
+
+/* === 주차 상태별 색상 === */
+/* 점유된 일반차 주차 공간 (파란색) */
+.spot.occupied {
+    color: var(--occupied-blue);
+}
+
+/* 점유된 전기차 주차 공간 (초록색) */
+.spot.occupied.ev-spot {
+    color: var(--ev-green);
+}
+
+/* 검색으로 강조된 주차 공간 (빨간 테두리 + 확대) */
+.spot.search-hit {
+    border: 2px solid #ff4d4f;
+    border-radius: 8px;
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(255, 77, 79, 0.3);
+}
+
+/* 주차 공간 라벨 (위치 번호) */
+.spot-label {
+    font-size: 10px;
+    margin-top: 2px;
+    color: #666;
+}
+
+
+/* ========================================
+   10. 우측 상세 정보 패널
+   - 주차 공간 클릭 시 표시되는 상세 정보
+======================================== */
+
+/* === 플레이스홀더 (초기 안내 메시지) === */
+.detail-placeholder {
+    text-align: center;
+    color: #adb5bd;
+}
+
+.detail-placeholder i {
+    font-size: 50px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.detail-placeholder p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* === 상세 정보 컨텐츠 === */
+.detail-content {
+    padding: 20px;
+    text-align: left;
+}
+
+.detail-content p {
+    margin: 10px 0;
+}
+
+/* 구분선 */
+.detail-content hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+/* === 상태 표시 색상 === */
+/* 점유 중 (빨간색) */
+.status-occupied {
+    color: #ff4d4f;
+    font-weight: bold;
+}
+
+/* 사용 가능 (초록색) */
+.status-available {
+    color: #52c41a;
+    font-weight: bold;
+}
+
+
+/* ========================================
+   11. 테스트 페이지 전용 스타일
+   - 개발/테스트 데이터 관리 페이지 전용 컴포넌트
+======================================== */
+
+/* 컨트롤 패널 참고: 섹션 12 참조 */
+
+
+/* ========================================
+   12. 컨트롤 패널 (관리 기능)
+   - 테스트 페이지의 기능 카드 그리드
+======================================== */
+
+/* === 컨트롤 패널 그리드 === */
+.control-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  /* 반응형 그리드 */
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+/* 카드 헤더 (아이콘 + 제목) */
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 15px;
+}
+
+.card-header i {
+    font-size: 24px;
+    color: var(--primary-color);  /* 기본 아이콘 색상 */
+}
+
+/* === 카드별 아이콘 색상 포인트 === */
+.card:nth-child(1) .card-header i {
+    color: var(--primary-color);   /* 첫 번째 카드: 파랑 */
+}
+
+.card:nth-child(2) .card-header i {
+    color: var(--success-color);   /* 두 번째 카드: 초록 (입차) */
+}
+
+.card:nth-child(3) .card-header i {
+    color: #36b9cc;                /* 세 번째 카드: 청록 (출차) */
+}
+
+.card:nth-child(4) .card-header i {
+    color: #f6c23e;                /* 네 번째 카드: 노랑 (월주차) */
+}
+
+.card:nth-child(5) .card-header i {
+    color: #e74a3b;                /* 다섯 번째 카드: 빨강 (삭제) */
+}
+
+.card-header h2 {
+    font-size: 18px;
+    margin: 0;
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+/* === 액션 그리드 (기능 카드 배치) === */
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));  /* 최소 240px, 반응형 */
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+/* 개별 액션 카드 */
+.action-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.action-card:hover {
+    transform: translateY(-3px);   /* 호버 시 살짝 위로 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+
+/* ========================================
+   13. 폼 요소 (입력 필드 및 버튼)
+   - 모든 페이지에서 사용하는 공통 폼 스타일
+======================================== */
+
+/* === 입력 그룹 (라벨 + 입력 필드) === */
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    background: #f8f9fc;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #e3e6f0;
+}
+
+/* 입력 필드 */
+.input-group input {
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    width: 100%;
+    outline: none;
+    text-align: right;         /* 숫자 입력용 우측 정렬 */
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* 입력 라벨 */
+.input-group span {
+    font-size: 14px;
+    color: var(--text-gray);
+    white-space: nowrap;       /* 라벨이 줄바꿈되지 않도록 */
+}
+
+/* === 버튼 기본 스타일 === */
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-family: 'BookkGothic', sans-serif;
+}
+
+/* === 버튼 색상 변형 === */
+/* Primary 버튼 (메인 액션) */
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2e59d9;       /* 호버 시 어두운 블루 */
+}
+
+.btn-primary i {
+    margin-right: 5px;         /* 아이콘과 텍스트 간격 */
+}
+
+/* Success 버튼 (확인/입차 등) */
+.btn-success {
+    background: var(--success-color);
+    color: white;
+}
+
+.btn-success:hover {
+    background: #17a673;       /* 호버 시 어두운 그린 */
+}
+
+/* Info 버튼 (정보/보기 등) */
+.btn-info {
+    background: #36b9cc;
+    color: white;
+}
+
+.btn-info:hover {
+    background: #2c9faf;       /* 호버 시 어두운 청록 */
+}
+
+/* Warning 버튼 (경고/주의 액션) */
+.btn-warning {
+    background: #f6c23e;
+    color: white;
+}
+
+.btn-warning:hover {
+    background: #dda20a;       /* 호버 시 어두운 옐로우 */
+}
+
+/* Danger 버튼 (삭제/위험 액션) */
+.btn-danger {
+    background: var(--danger-color);
+    color: white;
+    font-size: 16px;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-danger:hover {
+    background: #c0392b;       /* 호버 시 더 어두운 레드 */
+}
+
+/* 힌트 텍스트 (버튼 아래 작은 설명) */
+.hint {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #858796;
+    text-align: center;
+}
+
+
+/* ========================================
+   14. 위험 구역 (Danger Zone)
+   - 데이터 삭제 등 위험한 작업을 수행하는 영역
+======================================== */
+.danger-zone {
+    background: #fff;
+    border: 2px solid var(--danger-color);  /* 빨간 테두리 강조 */
+    border-radius: var(--radius-md);
+    padding: 30px;
+    margin-top: 40px;
+    box-shadow: 0 4px 15px rgba(231, 74, 59, 0.15);  /* 빨간 그림자 */
+    position: relative;
+    overflow: hidden;
+}
+
+/* 빗금 패턴 상단 장식 효과 */
+.danger-zone::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--danger-color),
+        var(--danger-color) 10px,
+        #fff 10px,
+        #fff 20px
+    );
+}
+
+/* 위험 구역 헤더 (아이콘 + 제목) */
+.danger-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    color: var(--danger-color);
+}
+
+.danger-header i {
+    font-size: 28px;
+}
+
+.danger-header h2 {
+    margin: 0;
+    font-family: 'ChosunCentennial', serif;  /* 명조체로 강조 */
+}
+
+/* 위험 구역 설명 텍스트 */
+.danger-description {
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   15. 애니메이션
+   - 페이지 전환 및 인터랙션 애니메이션
+======================================== */
+
+/* 위에서 아래로 슬라이드 애니메이션 */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 회전 애니메이션 (새로고침 아이콘 등) */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ========================================
+   16. 반응형 디자인 (태블릿 & 모바일)
+   - 화면 크기에 따른 레이아웃 조정
+======================================== */
+
+/* === 태블릿 (1024px 이하) === */
+@media (max-width: 1024px) {
+    /* 컨테이너 너비를 화면에 맞춤 */
+    .container {
+        width: 100%;
+    }
+
+    /* 메인 레이아웃을 세로 배치로 변경 */
+    .main-content {
+        flex-direction: column;
+    }
+
+    /* 주차 그리드를 5열로 축소 */
+    .parking-row {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* === 모바일 (768px 이하) === */
+@media (max-width: 768px) {
+    /* body 패딩 축소 */
+    body {
+        padding: 10px;
+    }
+
+    /* 헤더를 세로 배치로 변경 */
+    .dashboard-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* 통계 카드를 1열로 변경 */
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+
+    /* 주차 그리드를 3열로 축소 */
+    .parking-row {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* 아이콘 크기 축소 */
+    .spot {
+        font-size: 30px;
+    }
+
+    /* 제목 크기 축소 */
+    h1 {
+        font-size: 24px;
+    }
+}
+
+
+/* ========================================
+   17. 프린트 스타일
+   - 인쇄 시 불필요한 요소 제거 및 레이아웃 최적화
+======================================== */
+@media print {
+    /* 버튼 숨김 (인쇄 시 불필요) */
+    .header-buttons {
+        display: none;
+    }
+
+    /* 상세 패널 숨김 (주차 현황만 인쇄) */
+    .right-panel {
+        display: none;
+    }
+
+    /* 배경 흰색으로 변경 (잉크 절약) */
+    body {
+        background: white;
+    }
 }

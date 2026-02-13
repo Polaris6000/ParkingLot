@@ -162,7 +162,7 @@
 
      description      Human-readable description of this managed bean.
 
-     domain           The JMX MBeanServer domain in which the ModelMBean
+     vo           The JMX MBeanServer vo in which the ModelMBean
                       created by this managed bean should be registered,
                       when creating its ObjectName.
 

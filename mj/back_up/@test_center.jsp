@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="com.exmple.parkinglot.service.TestDataService" %>
+<%@ page import="service.com.example.parkinglot.TestDataService" %>
 <%@ page import="java.util.Optional" %>
 <%
     // 버튼 클릭 시 로직 처리
