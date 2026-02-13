@@ -9,13 +9,7 @@ import java.util.List;
  * 통계 데이터 접근 객체
  */
 public class StatisticsDAO {
-    private Connection conn;
-    
-    // 생성자 - DB 연결 객체 주입
-    public StatisticsDAO(Connection conn) {
-        this.conn = conn;
-    }
-    
+
     /**
      * 일별 매출 통계 조회
      * @param startDate 시작 날짜
@@ -33,15 +27,16 @@ public class StatisticsDAO {
                      "GROUP BY DATE(pay_time) " +
                      "ORDER BY date DESC";
         
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, startDate);
-            pstmt.setString(2, endDate);
+        try (   Connection connection = ConnectionUtil.INSTANCE.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, startDate);
+            preparedStatement.setString(2, endDate);
             
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    String date = rs.getString("date");
-                    int totalAmount = rs.getInt("total_amount");
-                    int totalCount = rs.getInt("total_count");
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String date = resultSet.getString("date");
+                    int totalAmount = resultSet.getInt("total_amount");
+                    int totalCount = resultSet.getInt("total_count");
                     
                     list.add(new StatisticsVO(date, totalAmount, totalCount));
                 }
@@ -72,16 +67,17 @@ public class StatisticsDAO {
         sql.append("GROUP BY DATE_FORMAT(pay_time, '%Y-%m') ");
         sql.append("ORDER BY date DESC");
         
-        try (PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+        try (   Connection connection = ConnectionUtil.INSTANCE.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql.toString())) {
             if (yearMonth != null && !yearMonth.isEmpty()) {
-                pstmt.setString(1, yearMonth);
+                preparedStatement.setString(1, yearMonth);
             }
             
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    String date = rs.getString("date");
-                    int totalAmount = rs.getInt("total_amount");
-                    int totalCount = rs.getInt("total_count");
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String date = resultSet.getString("date");
+                    int totalAmount = resultSet.getInt("total_amount");
+                    int totalCount = resultSet.getInt("total_count");
                     
                     list.add(new StatisticsVO(date, totalAmount, totalCount));
                 }
@@ -107,13 +103,14 @@ public class StatisticsDAO {
                      "GROUP BY kind_of_discount " +
                      "ORDER BY type_count DESC";
         
-        try (PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+        try (   Connection connection = ConnectionUtil.INSTANCE.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                ResultSet resultSet = preparedStatement.executeQuery()) {
             
-            while (rs.next()) {
-                String kindOfDiscount = rs.getString("kind_of_discount");
-                int typeCount = rs.getInt("type_count");
-                double typePercentage = rs.getDouble("type_percentage");
+            while (resultSet.next()) {
+                String kindOfDiscount = resultSet.getString("kind_of_discount");
+                int typeCount = resultSet.getInt("type_count");
+                double typePercentage = resultSet.getDouble("type_percentage");
                 
                 list.add(new StatisticsVO(kindOfDiscount, typeCount, typePercentage));
             }
@@ -155,12 +152,13 @@ public class StatisticsDAO {
                      "FROM pay_logs " +
                      "WHERE DATE(pay_time) = CURDATE()";
         
-        try (PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+        try (   Connection connection = ConnectionUtil.INSTANCE.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                ResultSet resultSet = preparedStatement.executeQuery()) {
             
-            if (rs.next()) {
-                int totalAmount = rs.getInt("total_amount");
-                int totalCount = rs.getInt("total_count");
+            if (resultSet.next()) {
+                int totalAmount = resultSet.getInt("total_amount");
+                int totalCount = resultSet.getInt("total_count");
                 String today = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
                 
                 return new StatisticsVO(today, totalAmount, totalCount);
@@ -180,12 +178,13 @@ public class StatisticsDAO {
                      "FROM pay_logs " +
                      "WHERE DATE_FORMAT(pay_time, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')";
         
-        try (PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+        try (   Connection connection = ConnectionUtil.INSTANCE.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
             
-            if (rs.next()) {
-                int totalAmount = rs.getInt("total_amount");
-                int totalCount = rs.getInt("total_count");
+            if (resultSet.next()) {
+                int totalAmount = resultSet.getInt("total_amount");
+                int totalCount = resultSet.getInt("total_count");
                 String month = new java.text.SimpleDateFormat("yyyy-MM").format(new java.util.Date());
                 
                 return new StatisticsVO(month, totalAmount, totalCount);
