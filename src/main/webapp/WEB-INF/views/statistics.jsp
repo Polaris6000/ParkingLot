@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.example.parkinglot.vo.StatisticsVO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.NumberFormat" %>
@@ -21,372 +21,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 통계 대시보드 - 스마트주차 반월당점</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .header {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            color: #333;
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 16px;
-        }
-
-        .summary-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .summary-card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-
-        .summary-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-
-        .summary-card h3 {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .summary-card .amount {
-            color: #667eea;
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .summary-card .count {
-            color: #999;
-            font-size: 14px;
-        }
-
-        .content-section {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        .section-title {
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
-        }
-
-        .search-form {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            align-items: flex-end;
-        }
-
-        .form-group {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .btn {
-            padding: 10px 25px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-        }
-
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-
-        .stats-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .stats-table th,
-        .stats-table td {
-            padding: 15px;
-            text-align: center;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .stats-table th {
-            background: #f8f9fa;
-            color: #333;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 13px;
-        }
-
-        .stats-table tr:hover {
-            background: #f8f9fa;
-        }
-
-        .stats-table td {
-            color: #666;
-        }
-
-        .amount-cell {
-            color: #667eea;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .chart-container {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-
-        .type-bar {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .type-label {
-            width: 80px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .bar-container {
-            flex: 1;
-            background: #e0e0e0;
-            height: 30px;
-            border-radius: 15px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .bar-fill {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 10px;
-            color: white;
-            font-weight: bold;
-            font-size: 12px;
-            transition: width 1s ease;
-        }
-
-        .bar-normal { background: #667eea; }
-        .bar-light { background: #48bb78; }
-        .bar-disabled { background: #ed8936; }
-        .bar-monthly { background: #9f7aea; }
-
-        .type-count {
-            width: 100px;
-            text-align: right;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .no-data {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-            font-size: 16px;
-        }
-
-        .back-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 30px;
-            background: #6c757d;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-
-        .back-btn:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
-        }
-
-        .tab-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #667eea;
-            background: white;
-            color: #667eea;
-            cursor: pointer;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .tab-btn.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .tab-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-    </style>
+    <link rel="stylesheet" href="./static/css/public.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
 <div class="container">
-    <!-- 헤더 -->
-    <div class="header">
-        <h1>📊 관리자 통계 대시보드</h1>
-        <p>스마트주차 반월당점 - 실시간 매출 및 운영 현황</p>
-    </div>
+    <header class="dashboard-header">
+        <%@include file="../web/common/header.jsp" %>
+    </header>
 
-    <!-- 요약 카드 -->
-    <div class="summary-cards">
+    <div class="cards-container">
         <%
             StatisticsVO todaySummary = (StatisticsVO) request.getAttribute("todaySummary");
             StatisticsVO monthSummary = (StatisticsVO) request.getAttribute("monthSummary");
         %>
-        <div class="summary-card">
-            <h3>오늘 매출</h3>
-            <div class="amount"><%= todaySummary != null ? nf.format(todaySummary.getTotalAmount()) : "0" %>원</div>
-            <div class="count">입차 대수: <%= todaySummary != null ? todaySummary.getTotalCount() : 0 %>대</div>
+        <%-- css 변수를 활용한 card 및 occupancy 클래스 적용 --%>
+        <div class="card card-statistics">
+            <div class="card-header">
+                <i class="fas fa-coins"></i>
+                <h2>오늘 매출</h2>
+            </div>
+            <div class="value"><%= todaySummary != null ? nf.format(todaySummary.getTotalAmount()) : "0" %>원</div>
+            <div class="label">입차 대수: <%= todaySummary != null ? todaySummary.getTotalCount() : 0 %>대</div>
+        </div>
+        <div class="card card-statistics">
+            <div class="card-header">
+                <i class="fas fa-calendar-check"></i>
+                <h2>이번 달 매출</h2>
+            </div>
+            <div class="value"><%= monthSummary != null ? nf.format(monthSummary.getTotalAmount()) : "0" %>원</div>
+            <div class="label">입차 대수: <%= monthSummary != null ? monthSummary.getTotalCount() : 0 %>대</div>
         </div>
 
-        <div class="summary-card">
-            <h3>이번 달 매출</h3>
-            <div class="amount"><%= monthSummary != null ? nf.format(monthSummary.getTotalAmount()) : "0" %>원</div>
-            <div class="count">입차 대수: <%= monthSummary != null ? monthSummary.getTotalCount() : 0 %>대</div>
-        </div>
-
-        <div class="summary-card">
-            <h3>오늘 이용차량 대수</h3>
-            <div class="amount"><%= todaySummary != null ? todaySummary.getTotalCount() : 0 %>대</div>
-            <div class="count">실시간 이용 현황</div>
+        <div class="card card-statistics">
+            <div class="card-header">
+                <i class="fas fa-car-side"></i>
+                <h2>오늘 이용차량 대수</h2>
+            </div>
+            <div class="value"><%= todaySummary != null ? todaySummary.getTotalCount() : 0 %>대</div>
+            <div class="label">실시간 이용 현황</div>
         </div>
     </div>
 
-    <!-- 탭 버튼 -->
-    <div class="content-section">
+    <div class="occupancy-section" style="margin-top: 30px;">
         <div class="tab-buttons">
-            <button class="tab-btn active" onclick="showTab('daily')">일별 매출</button>
-            <button class="tab-btn" onclick="showTab('monthly')">월별 매출</button>
-            <button class="tab-btn" onclick="showTab('type')">차종별 통계</button>
+            <%-- 기존 btn-success 대신 탭 전용 클래스 tab-btn 적용 --%>
+            <button class="tab-btn active" onclick="showTab(event, 'daily')">일별 매출</button>
+            <button class="tab-btn" onclick="showTab(event, 'monthly')">월별 매출</button>
+            <button class="tab-btn" onclick="showTab(event, 'type')">차종별 통계</button>
         </div>
 
-        <!-- 일별 매출 탭 -->
         <div id="daily-tab" class="tab-content active">
-            <h2 class="section-title">📅 일별 매출 통계</h2>
+            <h2 class="section-title"><i class="fas fa-calendar-day" style="color: var(--primary-color)"></i> 일별 매출 통계
+            </h2>
 
-            <form action="statistics" method="get" class="search-form">
+            <%-- 검색 폼 스타일을 input-group으로 정렬 --%>
+            <form action="statistics" method="get" class="search-form"
+                  style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px;">
                 <input type="hidden" name="searchType" value="daily">
 
-                <div class="form-group">
-                    <label>시작 날짜</label>
-                    <input type="date" name="startDate" value="<%= request.getAttribute("startDate") != null ? request.getAttribute("startDate") : today %>" required>
+                <div class="input-group" style="margin-bottom: 0;">
+                    <span>시작 날짜</span>
+                    <input type="date" name="startDate"
+                           value="<%= request.getAttribute("startDate") != null ? request.getAttribute("startDate") : today %>"
+                           required>
                 </div>
 
-                <div class="form-group">
-                    <label>종료 날짜</label>
-                    <input type="date" name="endDate" value="<%= request.getAttribute("endDate") != null ? request.getAttribute("endDate") : today %>" required>
+                <div class="input-group" style="margin-bottom: 0;">
+                    <span>종료 날짜</span>
+                    <input type="date" name="endDate"
+                           value="<%= request.getAttribute("endDate") != null ? request.getAttribute("endDate") : today %>"
+                           required>
                 </div>
 
-                <button type="submit" class="btn btn-primary">조회</button>
+                <button type="submit" class="btn-primary" style="width: auto; padding: 10px 25px;">조회</button>
             </form>
 
             <%
@@ -412,13 +122,14 @@
                         int avgAmount = stat.getTotalCount() > 0 ? stat.getTotalAmount() / stat.getTotalCount() : 0;
                 %>
                 <tr>
-                    <td><%= stat.getDate() %></td>
+                    <td><%= stat.getDate() %>
+                    </td>
                     <td class="amount-cell"><%= nf.format(stat.getTotalAmount()) %>원</td>
                     <td><%= stat.getTotalCount() %>대</td>
                     <td><%= nf.format(avgAmount) %>원</td>
                 </tr>
                 <% } %>
-                <tr style="background: #f0f0f0; font-weight: bold;">
+                <tr class="table-summary" style="background: #f8f9fc; font-weight: bold;">
                     <td>합계</td>
                     <td class="amount-cell"><%= nf.format(totalDailyAmount) %>원</td>
                     <td><%= totalDailyCount %>대</td>
@@ -427,24 +138,31 @@
                 </tbody>
             </table>
             <% } else if ("daily".equals(request.getAttribute("searchType"))) { %>
-            <div class="no-data">해당 기간의 데이터가 없습니다.</div>
+            <div class="detail-placeholder" style="padding: 50px;">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>해당 기간의 데이터가 없습니다.</p>
+            </div>
             <% } %>
         </div>
 
-        <!-- 월별 매출 탭 -->
         <div id="monthly-tab" class="tab-content">
-            <h2 class="section-title">📆 월별 매출 통계</h2>
+            <h2 class="section-title"><i class="fas fa-calendar-days" style="color: var(--primary-color)"></i> 월별 매출 통계
+            </h2>
 
-            <form action="statistics" method="get" class="search-form">
+            <form action="statistics" method="get" class="search-form"
+                  style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px;">
                 <input type="hidden" name="searchType" value="monthly">
 
-                <div class="form-group">
-                    <label>조회 월 (선택하지 않으면 전체 조회)</label>
-                    <input type="month" name="yearMonth" value="<%= request.getAttribute("yearMonth") != null ? request.getAttribute("yearMonth") : thisMonth %>">
+                <div class="input-group" style="margin-bottom: 0;">
+                    <span>조회 월</span>
+                    <input type="month" name="yearMonth"
+                           value="<%= request.getAttribute("yearMonth") != null ? request.getAttribute("yearMonth") : thisMonth %>">
                 </div>
 
-                <button type="submit" class="btn btn-primary">조회</button>
-                <button type="button" class="btn btn-secondary" onclick="location.href='statistics?searchType=monthly'">전체 조회</button>
+                <button type="submit" class="btn-primary" style="width: auto; padding: 10px 25px;">조회</button>
+                <button type="button" class="btn-info" style="width: auto; padding: 10px 25px;"
+                        onclick="location.href='statistics?searchType=monthly'">전체 조회
+                </button>
             </form>
 
             <%
@@ -470,13 +188,14 @@
                         int avgAmount = stat.getTotalCount() > 0 ? stat.getTotalAmount() / stat.getTotalCount() : 0;
                 %>
                 <tr>
-                    <td><%= stat.getDate() %></td>
+                    <td><%= stat.getDate() %>
+                    </td>
                     <td class="amount-cell"><%= nf.format(stat.getTotalAmount()) %>원</td>
                     <td><%= stat.getTotalCount() %>대</td>
                     <td><%= nf.format(avgAmount) %>원</td>
                 </tr>
                 <% } %>
-                <tr style="background: #f0f0f0; font-weight: bold;">
+                <tr class="table-summary" style="background: #f8f9fc; font-weight: bold;">
                     <td>합계</td>
                     <td class="amount-cell"><%= nf.format(totalMonthlyAmount) %>원</td>
                     <td><%= totalMonthlyCount %>대</td>
@@ -485,13 +204,15 @@
                 </tbody>
             </table>
             <% } else if ("monthly".equals(request.getAttribute("searchType"))) { %>
-            <div class="no-data">해당 월의 데이터가 없습니다.</div>
+            <div class="detail-placeholder" style="padding: 50px;">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>해당 월의 데이터가 없습니다.</p>
+            </div>
             <% } %>
         </div>
 
-        <!-- 차종별 통계 탭 -->
         <div id="type-tab" class="tab-content">
-            <h2 class="section-title">🚗 차종별 이용 통계</h2>
+            <h2 class="section-title"><i class="fas fa-car" style="color: var(--primary-color)"></i> 차종별 이용 통계</h2>
 
             <%
                 List<StatisticsVO> typeStats = (List<StatisticsVO>) request.getAttribute("typeStats");
@@ -514,51 +235,17 @@
                     for (StatisticsVO stat : typeStats) {
                         String kindName = "미분류";
                         if (stat.getKindOfDiscount() != null) {
-                            switch(stat.getKindOfDiscount()) {
-                                case "normal": kindName = "일반"; break;
-                                case "light": kindName = "경차"; break;
-                                case "disabled": kindName = "장애인"; break;
-                                case "monthly": kindName = "월정액"; break;
-                                default: kindName = stat.getKindOfDiscount();
-                            }
-                        }
-                %>
-                <tr>
-                    <td><strong><%= kindName %></strong></td>
-                    <td><%= stat.getTypeCount() %>건</td>
-                    <td><%= String.format("%.2f", stat.getTypePercentage()) %>%</td>
-                </tr>
-                <% } %>
-                <tr style="background: #f0f0f0; font-weight: bold;">
-                    <td>합계</td>
-                    <td><%= totalTypeCount %>건</td>
-                    <td>100%</td>
-                </tr>
-                </tbody>
-            </table>
-
-            <!-- 차트 -->
-            <div class="chart-container">
-                <h3 style="margin-bottom: 20px; color: #333;">차종별 이용 비율 차트</h3>
-                <%
-                    for (StatisticsVO stat : typeStats) {
-                        String barClass = "bar-normal";
-                        String kindName = "미분류";
-                        if (stat.getKindOfDiscount() != null) {
-                            switch(stat.getKindOfDiscount()) {
+                            switch (stat.getKindOfDiscount()) {
                                 case "normal":
                                     kindName = "일반";
                                     break;
                                 case "light":
-                                    barClass = "bar-light";
                                     kindName = "경차";
                                     break;
                                 case "disabled":
-                                    barClass = "bar-disabled";
                                     kindName = "장애인";
                                     break;
                                 case "monthly":
-                                    barClass = "bar-monthly";
                                     kindName = "월정액";
                                     break;
                                 default:
@@ -566,75 +253,120 @@
                             }
                         }
                 %>
-                <div class="type-bar">
-                    <div class="type-label"><%= kindName %></div>
-                    <div class="bar-container">
-                        <div class="bar-fill <%= barClass %>" style="width: <%= stat.getTypePercentage() %>%">
+                <tr>
+                    <td><strong><%= kindName %>
+                    </strong></td>
+                    <td><%= stat.getTypeCount() %>건</td>
+                    <td><%= String.format("%.2f", stat.getTypePercentage()) %>%</td>
+                </tr>
+                <% } %>
+                <tr class="table-summary" style="background: #f8f9fc; font-weight: bold;">
+                    <td>합계</td>
+                    <td><%= totalTypeCount %>건</td>
+                    <td>100%</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="chart-container"
+                 style="margin-top: 30px; background: #fff; padding: 20px; border-radius: 12px;">
+                <h3 style="margin-bottom: 20px; color: #333;">차종별 이용 비율 차트</h3>
+                <%
+                    for (StatisticsVO stat : typeStats) {
+                        String barClass = "bar-normal";
+                        String kindName = "미분류";
+                        if (stat.getKindOfDiscount() != null) {
+                            switch (stat.getKindOfDiscount()) {
+                                case "normal":
+                                    kindName = "일반";
+                                    barClass = "bar-normal";
+                                    break;
+                                case "light":
+                                    kindName = "경차";
+                                    barClass = "bar-light";
+                                    break;
+                                case "disabled":
+                                    kindName = "장애인";
+                                    barClass = "bar-disabled";
+                                    break;
+                                case "monthly":
+                                    kindName = "월정액";
+                                    barClass = "bar-monthly";
+                                    break;
+                                default:
+                                    kindName = stat.getKindOfDiscount();
+                            }
+                        }
+                %>
+                <div class="type-bar-row" style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div class="type-label" style="width: 80px; font-weight: bold;"><%= kindName %>
+                    </div>
+                    <div class="bar-bg"
+                         style="flex: 1; background: #eee; height: 25px; border-radius: 12px; overflow: hidden;">
+                        <div class="bar-fill <%= barClass %>"
+                             style="width: <%= stat.getTypePercentage() %>%; height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; color: white; font-size: 12px; font-weight: bold;">
                             <%= String.format("%.1f", stat.getTypePercentage()) %>%
                         </div>
                     </div>
-                    <div class="type-count"><%= stat.getTypeCount() %>건</div>
+                    <div class="type-count" style="width: 60px; text-align: right;"><%= stat.getTypeCount() %>건</div>
                 </div>
                 <% } %>
             </div>
             <% } else { %>
-            <div class="no-data">차종별 통계 데이터가 없습니다.</div>
+            <div class="detail-placeholder" style="padding: 50px;">
+                <i class="fas fa-info-circle"></i>
+                <p>차종별 통계 데이터가 없습니다.</p>
+            </div>
             <% } %>
         </div>
-    </div>
-
-    <!-- 하단 버튼 -->
-    <div style="text-align: center;">
-        <a href="${pageContext.request.contextPath}/" class="back-btn">← 메인으로 돌아가기</a>
     </div>
 </div>
 
 <script>
     // 탭 전환 함수
-    function showTab(tabName) {
+    function showTab(event, tabName) {
         // 모든 탭 버튼 비활성화
         const tabButtons = document.querySelectorAll('.tab-btn');
         tabButtons.forEach(btn => btn.classList.remove('active'));
 
         // 모든 탭 컨텐츠 숨김
         const tabContents = document.querySelectorAll('.tab-content');
-        tabContents.forEach(content => content.style.display = 'none');
+        tabContents.forEach(content => content.classList.remove('active'));
 
         // 선택된 탭 활성화
-        event.target.classList.add('active');
-        document.getElementById(tabName + '-tab').style.display = 'block';
+        event.currentTarget.classList.add('active');
+        document.getElementById(tabName + '-tab').classList.add('active');
     }
 
     // 페이지 로드 시 검색 타입에 따라 탭 활성화
-    window.onload = function() {
+    window.onload = function () {
         const searchType = '<%= request.getAttribute("searchType") %>';
         if (searchType === 'monthly') {
             showTabByName('monthly');
         } else if (searchType === 'daily') {
             showTabByName('daily');
+        } else {
+            // 기본값은 일별 탭
+            showTabByName('daily');
         }
     };
 
     function showTabByName(tabName) {
-        // 모든 탭 버튼 비활성화
         const tabButtons = document.querySelectorAll('.tab-btn');
-        tabButtons.forEach(btn => btn.classList.remove('active'));
-
-        // 모든 탭 컨텐츠 숨김
         const tabContents = document.querySelectorAll('.tab-content');
-        tabContents.forEach(content => content.style.display = 'none');
 
-        // 선택된 탭 활성화
-        const buttons = Array.from(tabButtons);
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+
         if (tabName === 'daily') {
-            buttons[0].classList.add('active');
-            document.getElementById('daily-tab').style.display = 'block';
+            tabButtons[0].classList.add('active');
+            document.getElementById('daily-tab').classList.add('active');
         } else if (tabName === 'monthly') {
-            buttons[1].classList.add('active');
-            document.getElementById('monthly-tab').style.display = 'block';
+            tabButtons[1].classList.add('active');
+            document.getElementById('monthly-tab').classList.add('active');
         } else if (tabName === 'type') {
-            buttons[2].classList.add('active');
-            document.getElementById('type-tab').style.display = 'block';
+            tabButtons[2].classList.add('active');
+            document.getElementById('type-tab').classList.add('active');
         }
     }
 </script>

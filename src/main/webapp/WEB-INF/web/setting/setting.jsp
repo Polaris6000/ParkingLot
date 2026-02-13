@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     // 디버깅: 전달된 데이터 확인
     System.out.println("===== JSP 디버깅 정보 =====");
@@ -20,6 +20,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>스마트주차 반월당점 - 요금 정책 설정</title>
+
+    <link rel="stylesheet" href="./static/css/public.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         * {
             margin: 0;
@@ -365,22 +369,12 @@
 </head>
 <body>
 <!-- 헤더 영역 -->
-<header>
-    <h1>🅿️ 스마트주차 반월당점 관리 시스템</h1>
-    <nav>
-        <a href="${pageContext.request.contextPath}/dashboard">🏠 주차 현황</a>
-        <a href="${pageContext.request.contextPath}/entry">🚗 입차 관리</a>
-        <a href="${pageContext.request.contextPath}/exit">🚙 출차 관리</a>
-        <a href="${pageContext.request.contextPath}/member">👥 회원 관리</a>
-        <a href="${pageContext.request.contextPath}/stats">📊 통계</a>
-        <a href="${pageContext.request.contextPath}/setting" class="active">⚙️ 요금 설정</a>
-    </nav>
+<header class="dashboard-header">
+    <%@include file="../../web/common/header.jsp" %>
 </header>
 
 <!-- 메인 컨테이너 -->
 <div class="container">
-    <h1 class="page-title">⚙️ 요금 정책 설정 관리</h1>
-
     <!-- 알림 메시지 -->
     <c:if test="${not empty successMessage}">
         <div class="alert alert-success">
