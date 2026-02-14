@@ -22,7 +22,6 @@
     <title>스마트주차 반월당점 - 요금 정책 설정</title>
 
     <link rel="stylesheet" href="./static/css/public.css">
-    <link rel="stylesheet" href="./static/css/setting-enhanced.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -34,21 +33,6 @@
     <header class="dashboard-header">
         <%@include file="../../web/common/header.jsp" %>
     </header>
-
-    <!-- 알림 메시지 -->
-    <c:if test="${not empty successMessage}">
-        <div class="alert alert-success">
-            <i class="fas fa-check-circle"></i>
-            ${successMessage}
-        </div>
-    </c:if>
-
-    <c:if test="${not empty errorMessage}">
-        <div class="alert alert-error">
-            <i class="fas fa-exclamation-circle"></i>
-            ${errorMessage}
-        </div>
-    </c:if>
 
     <!-- 요금 정책 등록 폼 -->
     <div class="card policy-form-card">
@@ -184,52 +168,68 @@
         </c:if>
 
         <div class="table-container">
-            <c:choose>
-                <c:when test="${not empty currentPolicy}">
-                    <table class="policy-table">
-                        <thead>
-                        <tr>
-                            <th>번호</th>
-                            <th>기본요금</th>
-                            <th>기본시간</th>
-                            <th>추가요금</th>
-                            <th>과금단위</th>
-                            <th>장애인할인</th>
-                            <th>경차할인</th>
-                            <th>회차시간</th>
-                            <th>최대요금</th>
-                            <th>변경일시</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <strong>${currentPolicy.id}</strong>
-                                <span class="current-badge">현재</span>
-                            </td>
-                            <td class="amount-cell"><strong>${currentPolicy.baseFee}</strong>원</td>
-                            <td>${currentPolicy.basicUnitMinute}분</td>
-                            <td class="amount-cell"><strong>${currentPolicy.unitFee}</strong>원</td>
-                            <td>${currentPolicy.billingUnitMinutes}분</td>
-                            <td class="discount-danger">${currentPolicy.helpDiscountRate}%</td>
-                            <td class="discount-info">${currentPolicy.compactDiscountRate}%</td>
-                            <td>${currentPolicy.gracePeriodMinutes}분</td>
-                            <td class="amount-cell"><strong>${currentPolicy.maxCapAmount}</strong>원</td>
-                            <td class="date-cell">${currentPolicy.updateDate}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </c:when>
-                <c:otherwise>
-                    <div class="no-data">
-                        <i class="fas fa-inbox"></i>
-                        <p>등록된 요금 정책이 없습니다.</p>
-                    </div>
-                </c:otherwise>
-            </c:choose>
+            <c:if test="${not empty currentPolicy && currentPolicy.id > 0}">
+                <table class="policy-table">
+                    <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>기본요금</th>
+                        <th>기본시간</th>
+                        <th>추가요금</th>
+                        <th>과금단위</th>
+                        <th>장애인할인</th>
+                        <th>경차할인</th>
+                        <th>회차시간</th>
+                        <th>최대요금</th>
+                        <th>변경일시</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <strong>${currentPolicy.id}</strong>
+                                <%--                                <span class="current-badge">현재</span>--%>
+                        </td>
+                        <td class="amount-cell"><strong>${currentPolicy.baseFee}</strong>원</td>
+                        <td>${currentPolicy.basicUnitMinute}분</td>
+                        <td class="amount-cell"><strong>${currentPolicy.unitFee}</strong>원</td>
+                        <td>${currentPolicy.billingUnitMinutes}분</td>
+                        <td class="discount-danger">${currentPolicy.helpDiscountRate}%</td>
+                        <td class="discount-info">${currentPolicy.compactDiscountRate}%</td>
+                        <td>${currentPolicy.gracePeriodMinutes}분</td>
+                        <td class="amount-cell"><strong>${currentPolicy.maxCapAmount}</strong>원</td>
+                        <td class="date-cell">${currentPolicy.updateDate}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </c:if>
+            <%-- 기존에 <c:otherwise> 였었는데 데이터가 있어도 계속 뜨길래 제가 수정했어요. 그런데도 계속 뜨네요..?--%>
+            <c:if test="${empty currentPolicy || currentPolicy.id <= 0}">
+                <div class="no-data">
+                    <i class="fas fa-inbox"></i>
+                    <p>등록된 요금 정책이 없습니다.</p>
+                </div>
+            </c:if>
         </div>
     </div>
+
+    <!-- 알림 메시지 -->
+    <c:if test="${not empty successMessage}">
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i>
+                ${successMessage}
+        </div>
+    </c:if>
+
+    <c:if test="${not empty errorMessage}">
+        <div class="alert alert-error">
+            <i class="fas fa-exclamation-circle"></i>
+                ${errorMessage}
+        </div>
+    </c:if>
+
 </div>
+
 
 <!-- JavaScript -->
 <script>
@@ -289,7 +289,7 @@
 
     // 숫자 입력 필드에 천 단위 구분 쉼표 추가 (선택사항)
     document.querySelectorAll('input[type="number"]').forEach(input => {
-        input.addEventListener('blur', function() {
+        input.addEventListener('blur', function () {
             if (this.value && (this.id === 'baseFee' || this.id === 'unitFee' || this.id === 'maxCapAmount')) {
                 // 입력값을 유지하면서 시각적 피드백만 제공
                 console.log('입력된 금액:', parseInt(this.value).toLocaleString() + '원');

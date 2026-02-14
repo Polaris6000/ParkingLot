@@ -30,9 +30,9 @@
         <span class="stats-title">
             <i class="fa-solid fa-chart-simple"></i> 현황
         </span>
-<%--            <button onclick="refreshStatistics()" class="btn-refresh">--%>
-<%--                <i class="fa-solid fa-rotate"></i> 새로고침--%>
-<%--            </button>--%>
+            <%--            <button onclick="refreshStatistics()" class="btn-refresh">--%>
+            <%--                <i class="fa-solid fa-rotate"></i> 새로고침--%>
+            <%--            </button>--%>
         </div>
         <div class="stats-content">${statistics}</div>
     </div>
@@ -111,60 +111,60 @@
             </div>
 
             <!-- 요금 정책 등록 -->
-<%--            딱히 필요 없을 듯 --%>
-<%--            <div class="action-card">--%>
-<%--                <div class="card-header">--%>
-<%--                    <i class="fa-solid fa-coins"></i>--%>
-<%--                    <h2>요금 정책</h2>--%>
-<%--                </div>--%>
-<%--                <form class="ajax-form" data-action="bulkFeePolicy">--%>
-<%--                    <input type="hidden" name="action" value="bulkFeePolicy">--%>
-<%--                    <div class="input-group">--%>
-<%--                        <input type="number" name="count" value="5" min="1" max="50" required>--%>
-<%--                        <span>개</span>--%>
-<%--                    </div>--%>
-<%--                    <button type="submit" class="btn btn-primary">등록</button>--%>
-<%--                    <p class="hint">랜덤 요금 정책 생성 (히스토리 테스트)</p>--%>
-<%--                </form>--%>
-<%--            </div>--%>
+            <%--            딱히 필요 없을 듯 --%>
+            <%--            <div class="action-card">--%>
+            <%--                <div class="card-header">--%>
+            <%--                    <i class="fa-solid fa-coins"></i>--%>
+            <%--                    <h2>요금 정책</h2>--%>
+            <%--                </div>--%>
+            <%--                <form class="ajax-form" data-action="bulkFeePolicy">--%>
+            <%--                    <input type="hidden" name="action" value="bulkFeePolicy">--%>
+            <%--                    <div class="input-group">--%>
+            <%--                        <input type="number" name="count" value="5" min="1" max="50" required>--%>
+            <%--                        <span>개</span>--%>
+            <%--                    </div>--%>
+            <%--                    <button type="submit" class="btn btn-primary">등록</button>--%>
+            <%--                    <p class="hint">랜덤 요금 정책 생성 (히스토리 테스트)</p>--%>
+            <%--                </form>--%>
+            <%--            </div>--%>
 
             <!-- 정책 삭제 -->
-<%--            계속 누적시킨다 해서 뺌 --%>
-<%--            <div class="action-card">--%>
-<%--                <div class="card-header">--%>
-<%--                    <i class="fa-solid fa-trash-can"></i>--%>
-<%--                    <h2>정책 삭제</h2>--%>
-<%--                </div>--%>
-<%--                <form class="ajax-form" data-action="randomDeletePolicy">--%>
-<%--                    <input type="hidden" name="action" value="randomDeletePolicy">--%>
-<%--                    <div class="input-group">--%>
-<%--                        <input type="number" name="count" value="3" min="1" max="50" required>--%>
-<%--                        <span>개</span>--%>
-<%--                    </div>--%>
-<%--                    <button type="submit" class="btn btn-warning">삭제</button>--%>
-<%--                    <p class="hint">요금 정책 랜덤 삭제</p>--%>
-<%--                </form>--%>
-<%--            </div>--%>
+            <%--            계속 누적시킨다 해서 뺌 --%>
+            <%--            <div class="action-card">--%>
+            <%--                <div class="card-header">--%>
+            <%--                    <i class="fa-solid fa-trash-can"></i>--%>
+            <%--                    <h2>정책 삭제</h2>--%>
+            <%--                </div>--%>
+            <%--                <form class="ajax-form" data-action="randomDeletePolicy">--%>
+            <%--                    <input type="hidden" name="action" value="randomDeletePolicy">--%>
+            <%--                    <div class="input-group">--%>
+            <%--                        <input type="number" name="count" value="3" min="1" max="50" required>--%>
+            <%--                        <span>개</span>--%>
+            <%--                    </div>--%>
+            <%--                    <button type="submit" class="btn btn-warning">삭제</button>--%>
+            <%--                    <p class="hint">요금 정책 랜덤 삭제</p>--%>
+            <%--                </form>--%>
+            <%--            </div>--%>
 
             <!-- 요금 정책 수동 생성 -->
-<%--            헤더에 있어서 불필요--%>
-<%--            <div class="action-card">--%>
-<%--                <div class="card-header">--%>
-<%--                    <i class="fa-solid fa-coins" style="color: #dda20a"></i>--%>
-<%--                    <h2>정책 수동 생성</h2>--%>
-<%--                </div>--%>
-<%--                <form class="ajax-form" data-action="randomDeletePolicy">--%>
-<%--                    <div class="input-group">--%>
-<%--                        <span>요금 정책을 직접 입력하여 생성</span>--%>
-<%--                    </div>--%>
-<%--                    <button type="submit" class="btn btn-info">--%>
-<%--                        <a href="/setting" style="color: white">--%>
-<%--                            페이지 이동--%>
-<%--                        </a>--%>
-<%--                    </button>--%>
-<%--                    <p class="hint">버튼을 누르면 페이지가 전환됩니다.</p>--%>
-<%--                </form>--%>
-<%--            </div>--%>
+            <%--            헤더에 있어서 불필요--%>
+            <%--            <div class="action-card">--%>
+            <%--                <div class="card-header">--%>
+            <%--                    <i class="fa-solid fa-coins" style="color: #dda20a"></i>--%>
+            <%--                    <h2>정책 수동 생성</h2>--%>
+            <%--                </div>--%>
+            <%--                <form class="ajax-form" data-action="randomDeletePolicy">--%>
+            <%--                    <div class="input-group">--%>
+            <%--                        <span>요금 정책을 직접 입력하여 생성</span>--%>
+            <%--                    </div>--%>
+            <%--                    <button type="submit" class="btn btn-info">--%>
+            <%--                        <a href="/setting" style="color: white">--%>
+            <%--                            페이지 이동--%>
+            <%--                        </a>--%>
+            <%--                    </button>--%>
+            <%--                    <p class="hint">버튼을 누르면 페이지가 전환됩니다.</p>--%>
+            <%--                </form>--%>
+            <%--            </div>--%>
         </div>
     </main>
 
@@ -230,28 +230,25 @@
 
 <script>
     // 통계 갱신 함수
-    function refreshStatistics() {
-        fetch('${pageContext.request.contextPath}/api/test/statistics')
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    const statsContent = document.querySelector('.stats-content');
-                    if (statsContent) {
-                        statsContent.textContent = data.statistics;
-                    }
-                } else {
-                    console.error('통계 조회 실패:', data.message);
-                }
-            })
-            .catch(error => {
-                console.error('통계 조회 오류:', error);
-            });
-    }
+    <%--function refreshStatistics() {--%>
+    <%--    // action=getStats 같은 파라미터를 보내서 통계만 따로 받아오게 설계해야 함--%>
+    <%--    fetch('${pageContext.request.contextPath}/test?action=getStats')--%>
+    <%--        .then(response => {--%>
+    <%--            if (!response.ok) throw new Error('404 발생');--%>
+    <%--            return response.json();--%>
+    <%--        })--%>
+    <%--        .then(data => {--%>
+    <%--            if (data.success) {--%>
+    <%--                document.querySelector('.stats-content').textContent = data.statistics;--%>
+    <%--            }--%>
+    <%--        })--%>
+    <%--        .catch(error => console.log('통계 기능이 아직 서버에 구현 안 됨 (무시 가능)'));--%>
+    <%--}--%>
 
     // URLSearchParams 방식으로 수정 (FormData 대신)
     document.addEventListener('DOMContentLoaded', function () {
         // 페이지 로드 시 통계 즉시 호출
-        refreshStatistics();
+        // refreshStatistics();
 
         const forms = document.querySelectorAll('.ajax-form');
 
@@ -376,8 +373,8 @@
         const modal = document.getElementById('resultModal');
         modal.style.display = 'none';
 
-        // 모달 닫을 때 통계 한 번 더 갱신
-        refreshStatistics();
+        // 복잡하게 API 호출하지 말고 그냥 페이지를 새로고침해서 최신 데이터 보여주기
+        location.reload();
     }
 
     // 모달 배경 클릭 시 닫기

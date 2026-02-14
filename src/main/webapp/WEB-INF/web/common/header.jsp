@@ -9,7 +9,7 @@ login 해야 들어올 수 있으니 logout만 구성하면 됌.
 <header class="top-nav">
     <div class="header-container">
         <div class="logo" style="corsor:pointer" onclick="location.href='/'">
-            <i class="fas fa-parking" style="color: #4c6cef"></i> 스마트주차 반월당점
+            <i class="fas fa-parking"></i> 스마트주차 반월당점
         </div>
         <nav>
             <ul>
