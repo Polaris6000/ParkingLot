@@ -77,26 +77,28 @@
             <h2 class="section-title"><i class="fas fa-calendar-day" style="color: var(--primary-color)"></i> 일별 매출 통계
             </h2>
 
-            <%-- 검색 폼 스타일을 input-group으로 정렬 --%>
-            <form action="statistics" method="get" class="search-form"
-                  style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px;">
+            <%-- 검색 폼을 flex로 정렬 --%>
+            <form action="statistics" method="get" class="search-form">
                 <input type="hidden" name="searchType" value="daily">
 
-                <div class="input-group" style="margin-bottom: 0;">
+                <div class="input-group">
                     <span>시작 날짜</span>
                     <input type="date" name="startDate"
                            value="<%= request.getAttribute("startDate") != null ? request.getAttribute("startDate") : today %>"
                            required>
                 </div>
 
-                <div class="input-group" style="margin-bottom: 0;">
+                <div class="input-group">
                     <span>종료 날짜</span>
                     <input type="date" name="endDate"
                            value="<%= request.getAttribute("endDate") != null ? request.getAttribute("endDate") : today %>"
                            required>
                 </div>
 
-                <button type="submit" class="btn-primary" style="width: auto; padding: 10px 25px;">조회</button>
+                <div class="input-group">
+                    <button type="submit" class="btn-primary">조회</button>
+                </div>
+
             </form>
 
             <%

@@ -22,7 +22,6 @@
     <title>스마트주차 반월당점 - 요금 정책 설정</title>
 
     <link rel="stylesheet" href="./static/css/public.css">
-    <link rel="stylesheet" href="./static/css/setting-enhanced.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -34,21 +33,6 @@
     <header class="dashboard-header">
         <%@include file="../../web/common/header.jsp" %>
     </header>
-
-    <!-- 알림 메시지 -->
-    <c:if test="${not empty successMessage}">
-        <div class="alert alert-success">
-            <i class="fas fa-check-circle"></i>
-            ${successMessage}
-        </div>
-    </c:if>
-
-    <c:if test="${not empty errorMessage}">
-        <div class="alert alert-error">
-            <i class="fas fa-exclamation-circle"></i>
-            ${errorMessage}
-        </div>
-    </c:if>
 
     <!-- 요금 정책 등록 폼 -->
     <div class="card policy-form-card">
@@ -205,7 +189,7 @@
                         <tr>
                             <td>
                                 <strong>${currentPolicy.id}</strong>
-                                <span class="current-badge">현재</span>
+<%--                                <span class="current-badge">현재</span>--%>
                             </td>
                             <td class="amount-cell"><strong>${currentPolicy.baseFee}</strong>원</td>
                             <td>${currentPolicy.basicUnitMinute}분</td>
@@ -220,16 +204,35 @@
                         </tbody>
                     </table>
                 </c:when>
-                <c:otherwise>
-                    <div class="no-data">
-                        <i class="fas fa-inbox"></i>
-                        <p>등록된 요금 정책이 없습니다.</p>
-                    </div>
-                </c:otherwise>
+<%--                이거 왜 넣으신건지?--%>
+<%--                <c:otherwise>--%>
+<%--                    <div class="no-data">--%>
+<%--                        <i class="fas fa-inbox"></i>--%>
+<%--                        <p>등록된 요금 정책이 없습니다.</p>--%>
+<%--                    </div>--%>
+<%--                </c:otherwise>--%>
             </c:choose>
         </div>
     </div>
+
+    <!-- 알림 메시지 -->
+    <c:if test="${not empty successMessage}">
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i>
+            ${successMessage}
+        </div>
+    </c:if>
+
+    <c:if test="${not empty errorMessage}">
+        <div class="alert alert-error">
+            <i class="fas fa-exclamation-circle"></i>
+            ${errorMessage}
+        </div>
+    </c:if>
+
 </div>
+
+
 
 <!-- JavaScript -->
 <script>

@@ -74,7 +74,11 @@ public class TestDataController extends HttpServlet {
                     case "bulkExit":
                         int exitCount = Integer.parseInt(request.getParameter("count"));
                         int exited = service.bulkExitParking(exitCount);
-                        message = exited + "대 출차 완료";
+                        if (exited != 0) {
+                            message = exited + "대 출차 완료";
+                        } else {
+                            message = exited + "주차 구역이 비어 있습니다. 주차된 차량이 있을 때 다시 실행해주세요.";
+                        }
                         break;
 
                     case "bulkMonthly":

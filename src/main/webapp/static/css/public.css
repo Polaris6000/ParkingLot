@@ -18,9 +18,12 @@
    12. 컨트롤 패널 (관리 기능)
    13. 폼 요소 (입력 필드 및 버튼)
    14. 위험 구역 (Danger Zone)
-   15. 애니메이션
-   16. 반응형 디자인 (태블릿 & 모바일)
-   17. 프린트 스타일
+   15. 탭 UI 스타일 (설정 페이지용)
+   16. 테이블 개선 스타일
+   17. 포커스 및 입력 개선
+   18. 애니메이션
+   19. 반응형 디자인 (태블릿 & 모바일)
+   20. 프린트 스타일
 ======================================== */
 
 
@@ -62,7 +65,6 @@
     /* === 배경 및 기본 색상 === */
     --white: #fff;           /* 카드 및 컴포넌트 배경색 */
     --black: #000;           /* 검정색 */
-    --card-bg: #fff;         /* 카드 배경 (var(--white)와 동일하지만 명시적 구분) */
     --bg-color: #f8f9fc;        /* 페이지 배경색 (밝은 회색-블루 톤) */
     --border-color: #eee;
 
@@ -243,7 +245,7 @@ nav a:hover {
 /* 아이콘 버튼 (설정, 새로고침 등 보조 기능) */
 .icon-btn {
     background: var(--white);
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     padding: 10px;
     border-radius: 8px;
     color: var(--accent-blue);
@@ -516,7 +518,7 @@ nav a:hover {
    - 차량 번호 또는 주차 위치 검색 입력창
 ======================================== */
 .search-box {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     padding: 5px 12px;
     border-radius: 8px;
     display: flex;
@@ -681,7 +683,7 @@ nav a:hover {
     align-items: center;
     gap: 12px;
     margin-bottom: 20px;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 15px;
 }
 
@@ -749,34 +751,72 @@ nav a:hover {
 ======================================== */
 
 /* === 입력 그룹 (라벨 + 입력 필드) === */
+/*.input-group {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    gap: 10px;*/
+/*    margin-bottom: 15px;*/
+/*    background: var(--bg-color);*/
+/*    padding: 10px;*/
+/*    border-radius: 8px;*/
+/*    border: 1px solid #e3e6f0;*/
+/*}*/
+
+/*!* 입력 필드 *!*/
+/*.input-group input {*/
+/*    border: none;*/
+/*    background: transparent;*/
+/*    font-size: 16px;*/
+/*    width: 100%;*/
+/*    outline: none;*/
+/*    text-align: right;         !* 숫자 입력용 우측 정렬 *!*/
+/*    font-weight: bold;*/
+/*    color: var(--primary-color);*/
+/*}*/
+
+/*!* 입력 라벨 *!*/
+/*.input-group span {*/
+/*    font-size: 14px;*/
+/*    color: var(--text-gray);*/
+/*    white-space: nowrap;       !* 라벨이 줄바꿈되지 않도록 *!*/
+/*}*/
+
+/* 1. 컨테이너: 박스 형태는 아예 제거하고 위치만 잡는다 */
 .input-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
-    background: var(--bg-color);
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #e3e6f0;
+    display: flex !important;
+    flex-direction: row !important; /* 가로 배치 유지 (글자를 옆에 두기 위함) */
+    align-items: center !important; /* 글자와 박스 높이 맞춤 */
+    gap: 10px !important;
+    margin-bottom: 15px !important;
+
+    /* 구린 박스 원인 제거 */
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
 }
 
-/* 입력 필드 */
+/* 2. 입력 필드: 실제 박스 모양은 여기서만 만든다 */
 .input-group input {
-    border: none;
-    background: transparent;
-    font-size: 16px;
-    width: 100%;
-    outline: none;
-    text-align: right;         /* 숫자 입력용 우측 정렬 */
+    flex: 1; /* 100%를 주면 글자를 밀어내니까, 남는 공간을 다 채우도록 설정 */
+    min-width: 0; /* flex 환경에서 박스 찌그러짐 방지 */
+
+    border: 1px solid var(--border-color) !important;
+    background: var(--white) !important;
+    padding: 10px 15px !important;
+    border-radius: 8px !important;
+    font-size: 16px !important;
     font-weight: bold;
     color: var(--primary-color);
+    outline: none;
+    text-align: center; /* 숫자나 날짜는 가운데가 깔끔함 */
 }
 
-/* 입력 라벨 */
+/* 3. 라벨 (시작날짜, 대 등) */
 .input-group span {
     font-size: 14px;
     color: var(--text-gray);
-    var(--white)-space: nowrap;       /* 라벨이 줄바꿈되지 않도록 */
+    white-space: nowrap; /* 줄바꿈 절대 금지 */
+    order: 2; /* "대" 같은 단위가 뒤에 오게 하려면 순서 조절 (필요시) */
 }
 
 /* === 버튼 기본 스타일 === */
@@ -934,7 +974,7 @@ button {
 
 .tab-btn {
     width: auto;
-    background: #f1f3f5;
+    background: var(--bg-color);
     color: #495057;
     padding: 10px 25px;
     border-radius: 8px;
@@ -964,6 +1004,32 @@ button {
     margin-bottom: 20px;
 }
 
+/* 검색 폼 가로 배치 */
+.search-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-form .input-group {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 0;
+    gap: 8px;
+}
+
+.search-form .input-group span {
+    white-space: nowrap;
+    order: -1;  /* span을 input보다 먼저 배치 */
+}
+
+.search-form .btn-primary {
+    width: auto;
+    padding: 10px 25px;
+    flex-shrink: 0;  /* 버튼 크기 고정 */
+}
+
 /* 통계 테이블 스타일 */
 .stats-table {
     width: 100%;
@@ -984,7 +1050,7 @@ button {
 
 .stats-table td {
     padding: 12px 15px;
-    border-bottom: 1px solid #f1f3f5;
+    border-bottom: 1px solid var(--border-color);
     text-align: center;
 }
 
@@ -1055,7 +1121,7 @@ button {
 }
 
 /* ========================================
-   19. 설정 페이지 전용 스타일 (NEW)
+   19. 설정 페이지 전용 스타일
    - 요금 정책 설정 페이지의 폼, 테이블, 알림 등
 ======================================== */
 
@@ -1127,6 +1193,23 @@ button {
     font-weight: bold;
 }
 
+/* === 섹션 제목 (통계 및 설정 페이지용) === */
+.section-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title i {
+    color: var(--primary-color);
+}
+
 /* === 폼 행 (그리드 레이아웃) === */
 .form-row {
     display: grid;
@@ -1149,7 +1232,8 @@ button {
 }
 
 .form-group input {
-    width: 100%;
+    width: 90%;
+    max-width: 500px;
     padding: 12px 15px;
     border: 2px solid var(--border-color);
     border-radius: 10px;
@@ -1166,12 +1250,43 @@ button {
     box-shadow: 0 0 0 3px rgba(92, 124, 250, 0.1);
 }
 
+/* === 입력 그룹 (대체 스타일) === */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.input-group span {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 14px;
+}
+
+.input-group input {
+    padding: 12px 15px;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: var(--white);
+    box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.1);
+}
+
 /* === 도움말 텍스트 === */
 .help-text {
     font-size: 12px;
     color: var(--text-gray);
     margin-top: 5px;
-    font-style: italic;
+    font-style: normal;
+    padding-left: 2px;
 }
 
 /* === 보조 버튼 (Secondary) === */
@@ -1182,6 +1297,18 @@ button {
 
 .btn-secondary:hover {
     background: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* === 정보 버튼 (Info) === */
+.btn-info {
+    background: #36b9cc;
+    color: var(--white);
+}
+
+.btn-info:hover {
+    background: #2c9faf;
     transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
 }
@@ -1207,7 +1334,7 @@ button {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--primary-color);
     border-radius: 10px;
     color: var(--white);
     margin-bottom: 20px;
@@ -1230,8 +1357,9 @@ button {
     border-radius: 12px;
 }
 
-/* === 정책 테이블 === */
-.policy-table {
+/* === 테이블 스타일 (정책 및 통계 테이블) === */
+.policy-table,
+.stats-table {
     width: 100%;
     border-collapse: collapse;
     background: var(--white);
@@ -1240,12 +1368,14 @@ button {
     box-shadow: var(--shadow-sm);
 }
 
-.policy-table thead {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.policy-table thead,
+.stats-table thead {
+    background: var(--primary-color);
     color: var(--white);
 }
 
-.policy-table th {
+.policy-table th,
+.stats-table th {
     padding: 15px 10px;
     text-align: center;
     font-weight: 600;
@@ -1253,19 +1383,22 @@ button {
     white-space: nowrap;
 }
 
-.policy-table td {
+.policy-table td,
+.stats-table td {
     padding: 12px 10px;
     text-align: center;
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid var(--border-color);
     color: #495057;
     font-size: 13px;
 }
 
-.policy-table tbody tr:hover {
+.policy-table tbody tr:hover,
+.stats-table tbody tr:hover {
     background-color: #f8f9fc;
 }
 
-.policy-table tbody tr:last-child td {
+.policy-table tbody tr:last-child td,
+.stats-table tbody tr:last-child td {
     border-bottom: none;
 }
 
@@ -1293,14 +1426,15 @@ button {
 
 /* === 현재 배지 === */
 .current-badge {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, var(--success-color) 0%, #17a673 100%);
     color: var(--white);
-    padding: 4px 10px;
+    padding: 4px 12px;
     border-radius: 20px;
     font-size: 11px;
     font-weight: bold;
-    margin-left: 5px;
+    margin-left: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: inline-block;
 }
 
 /* === 데이터 없음 표시 === */
@@ -1349,18 +1483,123 @@ button {
     .policy-table td {
         padding: 8px 5px;
     }
+
+    .tab-buttons {
+        flex-wrap: wrap;
+    }
 }
 
 /* ========================================
-   15. 애니메이션
-   - 페이지 전환 및 인터랙션 애니메이션
+   탭 UI 스타일 (설정 페이지용)
 ======================================== */
+
+/* === 탭 버튼 그룹 === */
+.tab-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    border: none;
+    background: var(--white);
+    color: var(--text-gray);
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.tab-btn:hover {
+    background: #f8f9fc;
+    color: var(--primary-color);
+}
+
+.tab-btn.active {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+/* === 탭 컨텐츠 === */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* ========================================
+   테이블 개선 스타일
+======================================== */
+
+/* === 테이블 합계 행 === */
+.table-summary {
+    background: #f8f9fc !important;
+    font-weight: bold !important;
+}
+
+/* === 테이블 컨테이너 스크롤바 개선 === */
+.table-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: #2e59d9;
+}
+
+/* ========================================
+   포커스 및 입력 개선
+======================================== */
+
+/* === 포커스 상태 개선 === */
+button:focus,
+input:focus {
+    outline: 3px solid rgba(78, 115, 223, 0.3);
+    outline-offset: 2px;
+}
+
+/* === 숫자 입력 필드 스피너 버튼 스타일 === */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+    max-width: 200px;
+}
+
+/* === 애니메이션 === */
 
 /* 위에서 아래로 슬라이드 애니메이션 */
 @keyframes slideDown {
     from {
         opacity: 0;
         transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 페이드 인 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
     }
     to {
         opacity: 1;
