@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
     // 디버깅: 전달된 데이터 확인
     System.out.println("===== JSP 디버깅 정보 =====");
@@ -214,19 +216,24 @@
     </div>
 
     <!-- 알림 메시지 -->
-    <c:if test="${not empty successMessage}">
-        <div class="alert alert-success">
-            <i class="fas fa-check-circle"></i>
-                ${successMessage}
+    <!-- 결과 모달 -->
+    <div id="resultModal"
+         style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:10000;justify-content:center;align-items:center;">
+        <div style="background:white;padding:30px;border-radius:15px;max-width:500px;width:90%;box-shadow:0 10px 40px rgba(0,0,0,0.3);">
+            <div id="modalHeader"
+                 style="display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid #f0f0f0;">
+                <i id="modalIcon" class="fa-solid fa-circle-check" style="font-size:24px;"></i>
+                <h3 id="modalTitle" style="margin:0;font-size:20px;font-weight:bold;">처리 완료</h3>
+            </div>
+            <div id="modalBody" style="margin-bottom:20px;line-height:1.6;color:#333;"></div>
+            <div style="text-align:right;">
+                <button onclick="closeSettingModal()"
+                        style="background:#4e73df;color:white;border:none;padding:10px 25px;border-radius:8px;cursor:pointer;font-weight:bold;width:auto;">
+                    확인
+                </button>
+            </div>
         </div>
-    </c:if>
-
-    <c:if test="${not empty errorMessage}">
-        <div class="alert alert-error">
-            <i class="fas fa-exclamation-circle"></i>
-                ${errorMessage}
-        </div>
-    </c:if>
+    </div>
 
 </div>
 
@@ -296,6 +303,44 @@
             }
         });
     });
+
+    // 페이지 로드 시 메시지 있으면 모달 표시
+    window.addEventListener('DOMContentLoaded', function () {
+        <c:if test="${not empty successMessage}">
+        showSettingModal('success', '등록 완료', '${successMessage}');
+        </c:if>
+        <c:if test="${not empty errorMessage}">
+        showSettingModal('error', '오류 발생', '${errorMessage}');
+        </c:if>
+    });
+
+    function showSettingModal(type, title, message) {
+        const modal = document.getElementById('resultModal');
+        const icon = document.getElementById('modalIcon');
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalBody').textContent = message;
+
+        if (type === 'success') {
+            icon.className = 'fa-solid fa-circle-check';
+            icon.style.color = '#1cc88a';
+        } else {
+            icon.className = 'fa-solid fa-circle-exclamation';
+            icon.style.color = '#e74a3b';
+        }
+
+        modal.style.display = 'flex';
+    }
+
+    function closeSettingModal() {
+        document.getElementById('resultModal').style.display = 'none';
+    }
+
+    // 모달 배경 클릭 시 닫기
+    document.addEventListener('click', function (e) {
+        const modal = document.getElementById('resultModal');
+        if (e.target === modal) closeSettingModal();
+    });
+
 </script>
 </body>
 </html>

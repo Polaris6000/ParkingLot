@@ -9,32 +9,33 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 //주차요금 정책 DAO구현체
-public class FeePolicyDAO{
+
+public class FeePolicyDAO {
     public FeePolicyDTO selectCurrentPolicy() throws SQLException {
         String sql = "SELECT * FROM fee_policy ORDER BY update_date DESC LIMIT 1";
 
         try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            ResultSet resultSet = preparedStatement.executeQuery();{
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
-                if (resultSet.next()) {
-                    return FeePolicyDTO.builder()
-                            .id(resultSet.getInt("id"))
-                            .baseFee(resultSet.getInt("base_fee"))
-                            .basicUnitMinute(resultSet.getInt("basic_unit_minute"))
-                            .unitFee(resultSet.getInt("unit_fee"))
-                            .billingUnitMinutes(resultSet.getInt("billing_unit_minutes"))
-                            .helpDiscountRate(resultSet.getInt("help_discount_rate"))
-                            .compactDiscountRate(resultSet.getInt("compact_discount_rate"))
-                            .updateDate(resultSet.getTimestamp("update_date").toLocalDateTime())
-                            .gracePeriodMinutes(resultSet.getInt("grace_period_minutes"))
-                            .maxCapAmount(resultSet.getInt("max_cap_amount"))
-                            .build();
-                }
-                return null;
+            if (resultSet.next()) {
+                return FeePolicyDTO.builder()
+                        .id(resultSet.getInt("id"))
+                        .baseFee(resultSet.getInt("base_fee"))
+                        .basicUnitMinute(resultSet.getInt("basic_unit_minute"))
+                        .unitFee(resultSet.getInt("unit_fee"))
+                        .billingUnitMinutes(resultSet.getInt("billing_unit_minutes"))
+                        .helpDiscountRate(resultSet.getInt("help_discount_rate"))
+                        .compactDiscountRate(resultSet.getInt("compact_discount_rate"))
+                        .updateDate(resultSet.getTimestamp("update_date").toLocalDateTime())
+                        .gracePeriodMinutes(resultSet.getInt("grace_period_minutes"))
+                        .maxCapAmount(resultSet.getInt("max_cap_amount"))
+                        .build();
             }
+            return null;
         }
     }
+
 
     public void insert(FeePolicyDTO feePolicyDTO) throws SQLException {
         String sql = "INSERT INTO fee_policy (base_fee, basic_unit_minute, unit_fee, " +
@@ -42,8 +43,8 @@ public class FeePolicyDAO{
                 "grace_period_minutes, max_cap_amount) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try(Connection connection = ConnectionUtil.INSTANCE.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, feePolicyDTO.getBaseFee());
             preparedStatement.setInt(2, feePolicyDTO.getBasicUnitMinute());
             preparedStatement.setInt(3, feePolicyDTO.getUnitFee());
@@ -63,8 +64,8 @@ public class FeePolicyDAO{
                 "compact_discount_rate = ?, grace_period_minutes = ?, max_cap_amount = ? " +
                 "WHERE id = ?";
 
-        try(Connection connection = ConnectionUtil.INSTANCE.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, feePolicyDTO.getBaseFee());
             preparedStatement.setInt(2, feePolicyDTO.getBasicUnitMinute());
             preparedStatement.setInt(3, feePolicyDTO.getUnitFee());

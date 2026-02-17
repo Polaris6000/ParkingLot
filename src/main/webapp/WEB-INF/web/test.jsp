@@ -54,7 +54,7 @@
                         <input type="number" name="count" value="10" min="1" max="20" required>
                         <span>대</span>
                     </div>
-                    <button type="submit" class="btn btn-primary">생성</button>
+                    <button type="submit" class="btn btn-primary">입차</button>
                     <p class="hint">랜덤 차량번호, 주차 위치, 할인 정보 자동 생성</p>
                 </form>
             </div>
@@ -71,7 +71,7 @@
                         <input type="number" name="count" value="5" min="1" max="20" required>
                         <span>대</span>
                     </div>
-                    <button type="submit" class="btn btn-success">처리</button>
+                    <button type="submit" class="btn btn-primary">출차</button>
                     <p class="hint">현재 주차중인 차량 중 랜덤 출차</p>
                 </form>
             </div>

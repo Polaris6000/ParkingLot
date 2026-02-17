@@ -118,6 +118,11 @@ public class MonthlyParkingController extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         String pathInfo = req.getPathInfo();
 
+        if (pathInfo == null) {
+            resp.sendRedirect(req.getContextPath() + "/monthly/list");
+            return;
+        }
+
         try {
             switch (pathInfo) {
                 case "/register":
