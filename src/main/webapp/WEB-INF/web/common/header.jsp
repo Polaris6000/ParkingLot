@@ -14,7 +14,13 @@ login 해야 들어올 수 있으니 logout만 구성하면 됌.
         <nav>
             <ul>
                 <li><a href="/dashboard">대시보드</a></li>
-                <li><a href="/members">회원 관리</a></li>
+                <li>
+                    <a href="/monthly/list">회원 관리</a>
+                    <ul class="dropdown">
+                        <li><a href="/monthly/list">회원 목록</a></li>
+                        <li><a href="/monthly/register">회원 등록</a></li>
+                    </ul>
+                </li>
                 <li><a href="/statistics">통계</a></li>
                 <li><a href="/setting">요금 정책</a></li>
                 <li><a href="/test">테스트 센터</a></li>

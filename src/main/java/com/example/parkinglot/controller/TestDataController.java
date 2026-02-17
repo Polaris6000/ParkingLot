@@ -67,7 +67,7 @@ public class TestDataController extends HttpServlet {
                         if (inserted != 0) {
                             message = inserted + "대 입차 완료";
                         } else {
-                            message = inserted + "대 입차 완료. 주차 구역이 만차 입니다. 빈 주차 구역이 있을 때 다시 실행해주세요.";
+                            message = inserted + "대 입차 완료. 주차 구역이 만차 입니다.\n빈 주차 구역이 있을 때 다시 실행해주세요.";
                         }
                         break;
 
@@ -77,7 +77,7 @@ public class TestDataController extends HttpServlet {
                         if (exited != 0) {
                             message = exited + "대 출차 완료";
                         } else {
-                            message = exited + "주차 구역이 비어 있습니다. 주차된 차량이 있을 때 다시 실행해주세요.";
+                            message = exited + "주차 구역이 비어 있습니다.\n주차된 차량이 있을 때 다시 실행해주세요.";
                         }
                         break;
 

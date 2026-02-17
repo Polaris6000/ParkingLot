@@ -78,6 +78,7 @@
 
     /* === 시맨틱 색상 (기능별) === */
     --primary-color: #4e73df;   /* 주요 액션 (메인 블루) */
+    --info-color: #36b9cc;      /*
     --success-color: #1cc88a;   /* 성공 상태 (그린) */
     --danger-color: #e74a3b;    /* 위험/삭제 액션 (레드) */
     --warning-color: #f6c23e;   /* 경고/주의 (옐로우) */
@@ -212,39 +213,57 @@ nav a:hover {
     position: relative;
 }
 
-.dropdown {
+/* ========================================
+   네비게이션 드롭다운 메뉴
+======================================== */
+
+/* 드롭다운을 포함하는 li는 기준점 */
+nav ul li {
+    position: relative;
+}
+
+/* 드롭다운 기본 상태: 숨김 */
+nav ul .dropdown {
     display: none;
     position: absolute;
-    top: 100%;
+    top: 100%;           /* 부모 li 바로 아래 */
     left: 0;
+    z-index: 200;
+
     background: var(--white);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     box-shadow: var(--shadow-hover);
-    min-width: 160px;
-    z-index: 200;
     padding: 8px 0;
-    list-style: none;
+    min-width: 140px;
+
+    flex-direction: column;
+    gap: 0;
 }
 
-.dropdown li a {
+/* li 호버 시 드롭다운 표시 */
+nav ul li:hover > .dropdown {
+    display: flex;
+}
+
+/* 드롭다운 내부 링크 스타일 재정의 */
+nav ul .dropdown li {
+    width: 100%;
+}
+
+nav ul .dropdown a {
     display: block;
     padding: 10px 16px;
-    color: var(--text-dark);
-    background: transparent;
     border-radius: 0;
+    background: transparent;
+    color: var(--text-gray);
+    white-space: nowrap;
 }
 
-.dropdown li a:hover {
+nav ul .dropdown a:hover {
     background: var(--bg-color);
     color: var(--accent-blue);
-    transform: none;
-}
-
-/* 호버 시 드롭다운 표시 */
-.nav-item:hover .dropdown {
-    display: block;
-    animation: fadeIn 0.2s ease;
+    transform: none;   /* 부모의 translateY 효과 제거 */
 }
 
 
@@ -734,27 +753,6 @@ nav a:hover {
     color: var(--primary-color);  /* 기본 아이콘 색상 */
 }
 
-/* === 카드별 아이콘 색상 포인트 === */
-/*.card:nth-child(1) .card-header i {*/
-/*    color: var(--primary-color);   !* 첫 번째 카드: 파랑 *!*/
-/*}*/
-
-/*.card:nth-child(2) .card-header i {*/
-/*    color: var(--success-color);   !* 두 번째 카드: 초록 (입차) *!*/
-/*}*/
-
-/*.card:nth-child(3) .card-header i {*/
-/*    color: #36b9cc;                !* 세 번째 카드: 청록 (출차) *!*/
-/*}*/
-
-/*.card:nth-child(4) .card-header i {*/
-/*    color: var(--warning-color);                !* 네 번째 카드: 노랑 (월주차) *!*/
-/*}*/
-
-/*.card:nth-child(5) .card-header i {*/
-/*    color: var(--danger-color);                !* 다섯 번째 카드: 빨강 (삭제) *!*/
-/*}*/
-
 .card-header h2 {
     font-size: 18px;
     margin: 0;
@@ -870,7 +868,7 @@ button {
 
 /* Info 버튼 (정보/보기 등) */
 .btn-info {
-    background: #36b9cc;
+    background: var(--info-color);
     color: var(--white);
 }
 
@@ -1295,7 +1293,7 @@ button {
 
 /* === 정보 버튼 (Info) === */
 .btn-info {
-    background: #36b9cc;
+    background: var(--info-color);
     color: var(--white);
 }
 
@@ -1321,20 +1319,20 @@ button {
 }
 
 /* === 정책 상태 배너 === */
-.policy-status-banner {
+.status-banner {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background: var(--skyblue);
+    background: var(--info-color);
     border-radius: 10px;
     color: var(--white);
     margin-bottom: 5px;
     box-shadow: var(--shadow-sm);
 }
 
-.policy-status-banner .status-text,
-.policy-status-banner .update-time {
+.status-banner .status-text,
+.status-banner .update-time {
     font-size: 14px;
     font-weight: 600;
     display: flex;
@@ -1461,7 +1459,7 @@ button {
         flex-direction: column;
     }
 
-    .policy-status-banner {
+    .status-banner {
         flex-direction: column;
         gap: 10px;
         text-align: center;

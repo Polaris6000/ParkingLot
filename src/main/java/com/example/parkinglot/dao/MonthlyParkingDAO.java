@@ -77,9 +77,10 @@ public class MonthlyParkingDAO {
         }
     }
 
-    // 페이징 처리된 목록 조회
-    public List<MonthlyParkingDTO> selectWithPaging(int offset, int limit) throws SQLException {
-        String sql = "SELECT * FROM monthly_parking ORDER BY expiry_date DESC LIMIT ? OFFSET ?";
+    // 페이징 처리된 목록 조회 (정렬 조건 포함)
+    // sortColumn, sortOrder 는 Service 에서 whitelist 검증 후 전달받으므로 SQL Injection 위험 없음
+    public List<MonthlyParkingDTO> selectWithPaging(int offset, int limit, String sortColumn, String sortOrder) throws SQLException {
+        String sql = "SELECT * FROM monthly_parking ORDER BY " + sortColumn + " " + sortOrder + " LIMIT ? OFFSET ?";
         List<MonthlyParkingDTO> list = new ArrayList<>();
 
         try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
@@ -103,6 +104,53 @@ public class MonthlyParkingDAO {
         try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+            return 0;
+        }
+    }
+
+    // 검색 조건 + 정렬 조건 포함 페이징 목록 조회
+    // keyword 가 null 이거나 빈 문자열이면 전체 조회와 동일하게 동작
+    // sortColumn, sortOrder 는 Service 에서 whitelist 검증 후 전달받으므로 SQL Injection 위험 없음
+    public List<MonthlyParkingDTO> selectWithPagingAndSearch(int offset, int limit, String keyword, String sortColumn, String sortOrder) throws SQLException {
+        String like = "%" + (keyword == null ? "" : keyword.trim()) + "%";
+        String sql = "SELECT * FROM monthly_parking " +
+                "WHERE plate_number LIKE ? OR name LIKE ? OR phone_number LIKE ? " +
+                "ORDER BY " + sortColumn + " " + sortOrder + " LIMIT ? OFFSET ?";
+        List<MonthlyParkingDTO> list = new ArrayList<>();
+
+        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, like);
+            preparedStatement.setString(2, like);
+            preparedStatement.setString(3, like);
+            preparedStatement.setInt(4, limit);
+            preparedStatement.setInt(5, offset);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                list.add(mapToDTO(resultSet));
+            }
+            return list;
+        }
+    }
+
+    // 검색 조건 포함 전체 건수 조회 (페이징 계산용)
+    public int getTotalCountBySearch(String keyword) throws SQLException {
+        String like = "%" + (keyword == null ? "" : keyword.trim()) + "%";
+        String sql = "SELECT COUNT(*) FROM monthly_parking " +
+                "WHERE plate_number LIKE ? OR name LIKE ? OR phone_number LIKE ?";
+
+        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, like);
+            preparedStatement.setString(2, like);
+            preparedStatement.setString(3, like);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt(1);

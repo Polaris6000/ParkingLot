@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -19,18 +18,24 @@
 
     <!-- ========== 오류 메시지 ========== -->
     <%-- register는 redirect로 오기 때문에 param으로 읽음 --%>
-    <c:if test="${not empty param.error}">
-        <div class="alert alert-error">
-            <i class="fa-solid fa-circle-exclamation"></i>
-            <c:choose>
-                <c:when test="${param.error == 'duplicate'}">이미 등록된 차량번호입니다.</c:when>
-                <c:when test="${param.error == 'empty'}">모든 항목을 입력해 주세요.</c:when>
-                <c:when test="${param.error == 'invaliddate'}">날짜 형식이 올바르지 않습니다.</c:when>
-                <c:when test="${param.error == 'daterange'}">만료일은 시작일보다 이후여야 합니다.</c:when>
-                <c:otherwise>입력 오류가 발생했습니다. 다시 시도해 주세요.</c:otherwise>
-            </c:choose>
-        </div>
-    </c:if>
+    <%
+        /* redirect 후 URL 파라미터로 전달된 에러 코드를 읽어 메시지로 변환 */
+        String error = request.getParameter("error");
+        if (error != null && !error.isEmpty()) {
+            String errorMsg;
+            switch (error) {
+                case "duplicate":  errorMsg = "이미 등록된 차량번호입니다.";               break;
+                case "empty":      errorMsg = "모든 항목을 입력해 주세요.";                break;
+                case "invaliddate":errorMsg = "날짜 형식이 올바르지 않습니다.";             break;
+                case "daterange":  errorMsg = "만료일은 시작일보다 이후여야 합니다.";        break;
+                default:           errorMsg = "입력 오류가 발생했습니다. 다시 시도해 주세요."; break;
+            }
+    %>
+    <div class="alert alert-error">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <%= errorMsg %>
+    </div>
+    <% } %>
 
     <!-- ========== 등록 폼 카드 ========== -->
     <div class="policy-form-card">
@@ -109,8 +114,10 @@
             </div>
 
             <!-- 버튼 그룹 -->
+            <%-- [수정] btn-primary + btn-success 중복 클래스 → btn-primary 단독 사용으로 변경 --%>
+            <%-- 원인: CSS에서 btn-success가 btn-primary 이후 선언되어 background를 덮어쓰고 있었음 --%>
             <div class="btn-group">
-                <button type="submit" class="btn btn-primary btn-success">
+                <button type="submit" class="btn btn-primary">
                     <i class="fas fa-save"></i> 등록
                 </button>
                 <a href="${pageContext.request.contextPath}/monthly/list" style="flex: 1;">

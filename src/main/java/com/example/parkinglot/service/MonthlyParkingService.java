@@ -17,11 +17,31 @@ public enum MonthlyParkingService {
     INSTANCE;
 
     private final MonthlyParkingDAO monthlyParkingDAO;
-    private static final int PAGE_SIZE = 5; //한페이지당 표시 건수
+
+    // 허용된 정렬 컬럼 whitelist (SQL Injection 방지)
+    // JSP/Controller 에서 넘어온 값이 이 목록에 없으면 기본값(begin_date)으로 대체
+    private static final java.util.Set<String> ALLOWED_SORT_COLUMNS = new java.util.HashSet<>(
+            java.util.Arrays.asList("id", "plate_number", "name", "phone_number", "begin_date", "expiry_date")
+    );
+    public static final int DEFAULT_PAGE_SIZE = 10; // 기본 페이지당 표시 건수
 
 
     MonthlyParkingService() {
         this.monthlyParkingDAO = new MonthlyParkingDAO();
+    }
+
+    // 정렬 컬럼 whitelist 검증: 허용 목록에 없으면 기본값 반환
+    private String sanitizeSortColumn(String sortColumn) {
+        if (sortColumn == null || !ALLOWED_SORT_COLUMNS.contains(sortColumn)) {
+            return "begin_date"; // 기본 정렬: 시작일 오름차순
+        }
+        return sortColumn;
+    }
+
+    // 정렬 방향 검증: ASC/DESC 외의 값은 ASC 로 대체
+    private String sanitizeSortOrder(String sortOrder) {
+        if ("DESC".equalsIgnoreCase(sortOrder)) return "DESC";
+        return "ASC";
     }
 
     //회원 등록(차량 번호 중복 검사 포함)
@@ -38,10 +58,11 @@ public enum MonthlyParkingService {
         return true;
     }
 
-    //페이징 처리된 회원 목록 조회
-    public List<MonthlyParkingDTO> getPagedList(int page) throws SQLException {
-        int offset = (page - 1) * PAGE_SIZE; //LIMIT 시작 위치 계산
-        return monthlyParkingDAO.selectWithPaging(offset, PAGE_SIZE);
+    // 페이징 + 정렬 처리된 회원 목록 조회
+    public List<MonthlyParkingDTO> getPagedList(int page, int pageSize, String sortColumn, String sortOrder) throws SQLException {
+        int offset = (page - 1) * pageSize; //LIMIT 시작 위치 계산
+        return monthlyParkingDAO.selectWithPaging(offset, pageSize,
+                sanitizeSortColumn(sortColumn), sanitizeSortOrder(sortOrder));
     }
 
     //전체 회원 목록 조회 (페이징 x)
@@ -49,10 +70,10 @@ public enum MonthlyParkingService {
         return monthlyParkingDAO.selectAll();
     }
 
-    //전체 페이지 수 계산
-    public int getTotalPages() throws SQLException {
+    // 전체 페이지 수 계산 (pageSize 동적 처리)
+    public int getTotalPages(int pageSize) throws SQLException {
         int totalCount = monthlyParkingDAO.getTotalCount();
-        return (int) Math.ceil((double) totalCount / PAGE_SIZE);
+        return (int) Math.ceil((double) totalCount / pageSize);
     }
 
     //전체 회원 수
@@ -90,10 +111,23 @@ public enum MonthlyParkingService {
         return monthlyParkingDAO.isValidMember(plateNumber);
     }
 
-    //페이지 사이즈 반환
-    public int getPageSize() {
-        return PAGE_SIZE;
+    // 검색 조건 + 정렬 포함 페이징 목록 조회
+    // keyword 가 null 또는 빈 문자열이면 전체 조회와 동일하게 동작
+    public List<MonthlyParkingDTO> getPagedListBySearch(int page, int pageSize, String keyword, String sortColumn, String sortOrder) throws SQLException {
+        int offset = (page - 1) * pageSize;
+        return monthlyParkingDAO.selectWithPagingAndSearch(offset, pageSize, keyword,
+                sanitizeSortColumn(sortColumn), sanitizeSortOrder(sortOrder));
     }
 
+    // 검색 조건 포함 전체 페이지 수 계산 (pageSize 동적 처리)
+    public int getTotalPagesBySearch(String keyword, int pageSize) throws SQLException {
+        int totalCount = monthlyParkingDAO.getTotalCountBySearch(keyword);
+        return (int) Math.ceil((double) totalCount / pageSize);
+    }
+
+    // 검색 조건 포함 전체 회원 수
+    public int getTotalCountBySearch(String keyword) throws SQLException {
+        return monthlyParkingDAO.getTotalCountBySearch(keyword);
+    }
 
 }

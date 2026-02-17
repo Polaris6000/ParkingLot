@@ -36,7 +36,7 @@ public class MonthlyParkingController extends HttpServlet {
 
         try {
             switch (pathInfo) {
-                case "/monthly_list":
+                case "/list":
                     list(req, resp);
                     break;
                 case "/register":
@@ -65,18 +65,19 @@ public class MonthlyParkingController extends HttpServlet {
             return;
         }
         req.setAttribute("monthlyParkingDTO", monthlyParkingDTO);
-        req.getRequestDispatcher("/WEB-INF/views/monthly/monthly-edit.jsp").forward(req, resp);//경로수정
+        req.getRequestDispatcher("/WEB-INF/web/monthly/monthlyEdit.jsp").forward(req, resp);//경로수정
     }
 
     //등록 폼 표시
     private void showRegisterForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/views/monthly/monthly-register.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/web/monthly/monthlyRegister.jsp").forward(req, resp);
         //경로 수정해야함
 
     }
 
-    //회원 목록 페이징
+    //회원 목록 페이징 (검색 조건 + 정렬 + pageSize 포함)
     private void list(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
+        // 페이지 번호 파싱
         String pageParam = req.getParameter("page");
         int page = 1;
         if (pageParam != null && !pageParam.isEmpty()) {
@@ -88,19 +89,59 @@ public class MonthlyParkingController extends HttpServlet {
                 page = 1;
             }
         }
-        List<MonthlyParkingDTO> memberList = monthlyParkingService.getPagedList(page);
-        int totalPages = monthlyParkingService.getTotalPages();
-        int totalCount = monthlyParkingService.getTotalCount();
+
+        // 페이지당 표시 건수 파싱 (허용값: 10, 20, 30 / 그 외는 기본값 사용)
+        String pageSizeParam = req.getParameter("pageSize");
+        int pageSize = MonthlyParkingService.DEFAULT_PAGE_SIZE;
+        if (pageSizeParam != null) {
+            try {
+                int parsed = Integer.parseInt(pageSizeParam);
+                if (parsed == 10 || parsed == 20 || parsed == 30) pageSize = parsed;
+            } catch (NumberFormatException ignored) { }
+        }
+
+        // 정렬 컬럼/방향 파싱 (기본: begin_date DESC)
+        String sortColumn = req.getParameter("sort");
+        String sortOrder  = req.getParameter("order");
+        if (sortColumn == null || sortColumn.isBlank()) sortColumn = "begin_date";
+        if (sortOrder  == null || sortOrder.isBlank())  sortOrder  = "DESC";
+
+        // 검색 키워드 파싱 (없거나 공백이면 null → 전체 조회)
+        String keyword = req.getParameter("keyword");
+        if (keyword != null && keyword.isBlank()) keyword = null;
+
+        // 검색 여부에 따라 Service 메서드 분기
+        List<MonthlyParkingDTO> memberList;
+        int totalPages;
+        int totalCount;
+
+        if (keyword != null) {
+            // 검색 조건 포함 조회
+            memberList = monthlyParkingService.getPagedListBySearch(page, pageSize, keyword, sortColumn, sortOrder);
+            totalPages = monthlyParkingService.getTotalPagesBySearch(keyword, pageSize);
+            totalCount = monthlyParkingService.getTotalCountBySearch(keyword);
+        } else {
+            // 전체 조회 (기존 로직 유지)
+            memberList = monthlyParkingService.getPagedList(page, pageSize, sortColumn, sortOrder);
+            totalPages = monthlyParkingService.getTotalPages(pageSize);
+            totalCount = monthlyParkingService.getTotalCount();
+        }
 
         if (page > totalPages && totalPages > 0) {
             page = totalPages;
-            memberList = monthlyParkingService.getPagedList(page);
-
+            memberList = (keyword != null)
+                    ? monthlyParkingService.getPagedListBySearch(page, pageSize, keyword, sortColumn, sortOrder)
+                    : monthlyParkingService.getPagedList(page, pageSize, sortColumn, sortOrder);
         }
-        req.setAttribute("memberList", memberList);
+
+        req.setAttribute("memberList",  memberList);
         req.setAttribute("currentPage", page);
-        req.setAttribute("totalPages", totalPages);
-        req.setAttribute("totalCount", totalCount);
+        req.setAttribute("totalPages",  totalPages);
+        req.setAttribute("totalCount",  totalCount);
+        req.setAttribute("keyword",     keyword);  // JSP에서 검색어 유지에 사용
+        req.setAttribute("pageSize",    pageSize); // JSP에서 페이지당 건수 유지에 사용
+        req.setAttribute("sort",        sortColumn); // JSP에서 정렬 상태 표시에 사용
+        req.setAttribute("order",       sortOrder);  // JSP에서 정렬 방향 표시에 사용
 
         //message 바꾸면 컨트롤러, jsp 맞춰야함
         String message = req.getParameter("message");
@@ -108,9 +149,8 @@ public class MonthlyParkingController extends HttpServlet {
         String error = req.getParameter("error");
         if (error != null) req.setAttribute("error", error);
 
-        req.getRequestDispatcher("/WEB-INF/views/monthly/monthly-list.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/web/monthly/monthlyList.jsp").forward(req, resp);
         //경로 수정해야함
-
 
     }
 

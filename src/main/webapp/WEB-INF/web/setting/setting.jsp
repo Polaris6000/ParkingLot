@@ -157,7 +157,7 @@
 
         <!-- 통계 정보 -->
         <c:if test="${not empty currentPolicy}">
-            <div class="policy-status-banner">
+            <div class="status-banner">
                 <span class="status-text">
                     <i class="fas fa-check-circle"></i>
                     현재 적용 중인 요금 정책입니다.
