@@ -208,6 +208,46 @@ nav a:hover {
     transform: translateY(-2px);   /* 살짝 위로 뜨는 효과 */
 }
 
+.nav-item {
+    position: relative;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-hover);
+    min-width: 160px;
+    z-index: 200;
+    padding: 8px 0;
+    list-style: none;
+}
+
+.dropdown li a {
+    display: block;
+    padding: 10px 16px;
+    color: var(--text-dark);
+    background: transparent;
+    border-radius: 0;
+}
+
+.dropdown li a:hover {
+    background: var(--bg-color);
+    color: var(--accent-blue);
+    transform: none;
+}
+
+/* 호버 시 드롭다운 표시 */
+.nav-item:hover .dropdown {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+
 /* === 대시보드 헤더 === */
 .dashboard-header {
     background: var(--white);
