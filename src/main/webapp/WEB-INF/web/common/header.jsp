@@ -21,8 +21,8 @@ login 해야 들어올 수 있으니 logout만 구성하면 됌.
                         <li><a href="/monthly/register">회원 등록</a></li>
                     </ul>
                 </li>
-                <li><a href="/statistics">통계</a></li>
                 <li><a href="/setting">요금 정책</a></li>
+                <li><a href="/statistics">통계</a></li>
                 <li><a href="/test">테스트 센터</a></li>
                 <li><a href="/admin/logout">로그아웃</a></li>
             </ul>
