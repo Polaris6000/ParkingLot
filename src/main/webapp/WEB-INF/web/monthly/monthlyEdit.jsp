@@ -135,7 +135,7 @@
             <%-- 원인: CSS에서 btn-success가 btn-primary 이후 선언되어 background를 덮어쓰고 있었음 --%>
             <div class="btn-group">
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> 수정 완료
+                    <i class="fas fa-save"></i> 수정
                 </button>
                 <a href="${pageContext.request.contextPath}/monthly/list" style="flex: 1;">
                     <button type="button" class="btn btn-secondary" style="width: 100%;">
