@@ -1,5 +1,6 @@
 package com.example.parkinglot.dao;
 
+import com.example.parkinglot.util.ConnectionUtil;
 import com.example.parkinglot.vo.StatisticsVO;
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,7 +14,6 @@ public class StatisticsDAO {
     
     // 생성자 - DB 연결 객체 주입
     public StatisticsDAO(Connection conn) {
-        this.conn = conn;
     }
     
     /**
@@ -33,7 +33,9 @@ public class StatisticsDAO {
                      "GROUP BY DATE(pay_time) " +
                      "ORDER BY date DESC";
         
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (
+                Connection conn = ConnectionUtil.INSTANCE.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, startDate);
             pstmt.setString(2, endDate);
             

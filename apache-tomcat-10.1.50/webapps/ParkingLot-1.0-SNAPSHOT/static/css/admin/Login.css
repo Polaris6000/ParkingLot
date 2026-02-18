@@ -1,0 +1,204 @@
+
+/*전체 아이템 위치*/
+main{
+    position: absolute;
+    top: calc(50% - 250px);
+    left: calc(50% - 200px);
+    display: inline-block;
+    flex: 1;
+    text-align: center;
+    align-items: center;
+    font-family: 'Bookk Gothic', sans-serif;
+}
+/************************************************************/
+
+/*사이트 이름 표기 위치*/
+.site-name{
+    /*background-color: brown;*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 130px;
+}
+
+.site-name-span{
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+/*********************************************************/
+
+/*사이트 이름 배고 나머지 다 묶음.*/
+.input-space{
+    border: 1px solid black;
+    border-radius: 15px;
+    height: 280px;
+    padding-top: 20px;
+}
+/*로그인 + findwrap*/
+/*.content{*/
+/*    background-color: aliceblue;*/
+/*}*/
+
+
+/*********************************************************/
+
+
+/*아이디 비번 로그인버튼*/
+.login_wrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /*background-color: yellow;*/
+    width: 400px;
+    height: 200px;
+
+}
+
+/*아이디 입력 공간*/
+div[id="input_item_id"]{
+    position : relative;
+    /*background-color: silver;*/
+    display: inline-block;
+    width: 100%;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    margin: 3px 0;
+}
+
+div[id="input_item_id"] label{
+    position: absolute;
+    top: calc(50% - 14px);
+    left: calc(50% - 22px);
+}
+
+div[id="input_item_id"] input{
+    width: 245px;
+    height: 35px;
+    padding: 5px;
+
+    border-radius: 10px;
+    border : 1px solid black;
+
+}
+div[id="input_item_id"] input:focus{
+    outline: none;
+}
+
+button[id='id_clear'], button[id='pw_clear']{
+    position: absolute;
+    top: calc(50% - 18px);
+    right: calc(50% - 115px);
+    border : none;
+    background-color : white;
+    font-size: large;
+}
+button[id='id_clear'], button[id='pw_clear']:hover{
+    cursor: pointer;
+}
+
+button[id='pw_hide']{
+    position: absolute;
+    top: calc(50% - 18px );
+    right: calc(50% - 88px);
+    border : none;
+    background-color : white;
+    font-size: large;
+}
+button[id='pw_hide']:hover{
+    cursor: pointer;
+}
+
+/*********************************************************/
+input[type=password]{
+    font-family: sans-serif;
+}
+
+/*비밀번호 입력 공간*/
+div[id="input_item_pw"]{
+    position : relative;
+    /*background-color: orangered;*/
+    display: inline-block;
+    width: 100%;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+div[id="input_item_pw"] label{
+    position: absolute;
+    top: calc(50% - 14px);
+    left: calc(50% - 29px);
+}
+
+div[id="input_item_pw"] input{
+    width: 245px;
+    height: 35px;
+    padding: 5px;
+
+    border-radius: 10px;
+    border : 1px solid black;
+
+
+}
+div[id="input_item_pw"] input:focus{
+    outline: none;
+}
+
+
+/*********************************************************/
+
+.login_keep_wrap{
+    /*background-color: cornsilk;*/
+}
+/*********************************************************/
+
+/*로그인 할 때 오류가 생기면 나타나는 부분*/
+.login_error_wrap{
+    margin-top: 5px;
+    display: block;
+    height: 20px;
+    color: red;
+}
+/*********************************************************/
+
+
+
+/*로그인 버튼*/
+.btn_login_wrap button[id="log.login"]{
+    background-color: #1f2d3d;
+    color : white;
+    outline: none;
+    border: none;
+    width: 250px;
+    height: 50px;
+    font-size: x-large;
+    border-radius: 10px;
+    margin: 8px 0;
+
+}
+
+.btn_login_wrap button[id="log.login"]:hover{
+    cursor: pointer;
+}
+/*********************************************************/
+
+
+/*아이디 찾기, 비번찾기, 회원가입*/
+ul[id="find_wrap"]{
+    margin-top: 20px;
+    /*background-color: aqua;*/
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+
+
+
+
+/*********************************************************/

@@ -1,117 +1,85 @@
 package com.example.parkinglot.dao;
 
-import com.example.parkinglot.dto.CarInfoDTO;
 import com.example.parkinglot.util.ConnectionUtil;
+import com.example.parkinglot.vo.CarInfoVO;
+import lombok.Cleanup;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 //차량 기본 정보 DAO 구현체
 public class CarInfoDAO {
 
+    public void insert(CarInfoVO carInfoVO){
+        String sql = "insert into car_info (plate_number, parking_spot) " +
+                "VALUES (?,?) ";
 
-    public int insert(CarInfoDTO carInfoDTO) throws SQLException {
-        String sql = "INSERT INTO car_info (plate_number, parking_spot) VALUES (?, ?)";
+        try {
+            //connection 연결해서 아이디 값 찾아오기
+            @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+            @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, carInfoVO.getPlateNumber());
+            preparedStatement.setString(2, carInfoVO.getParkingSpot());
 
-        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
-
-            preparedStatement.setString(1, carInfoDTO.getPlateNumber());
-            preparedStatement.setString(2, carInfoDTO.getParkingSpot());
             preparedStatement.executeUpdate();
 
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
-            }
-            throw new SQLException("차량 등록 실패");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-
     }
 
-    public CarInfoDTO selectByPlateNumber(String plateNumber) throws SQLException {
-        String sql = "SELECT * FROM car_info WHERE plate_number = ?";
+    public CarInfoVO selectByPlateNumber(String plateNumber){
+        CarInfoVO carInfoVO = null;
+        String sql = "select * from car_info where plate_number = ? order by id desc limit 1";
 
-        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
+        try {
+            //connection 연결해서 아이디 값 찾아오기
+            @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+            @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, plateNumber);
-            ResultSet resultSet = preparedStatement.executeQuery();
+
+            @Cleanup ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                return CarInfoDTO.builder()
+                carInfoVO = CarInfoVO.builder()
                         .id(resultSet.getInt("id"))
                         .plateNumber(resultSet.getString("plate_number"))
                         .parkingSpot(resultSet.getString("parking_spot"))
                         .build();
             }
-            return null;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+        return carInfoVO;
     }
 
-    public CarInfoDTO selectById(int id) throws SQLException {
-        String sql = "SELECT * FROM car_info WHERE id = ?";
+    public CarInfoVO selectById(int id) {
+        CarInfoVO carInfoVO = null;
+        String sql = "select * from car_info where id = ?";
 
-        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
+        try {
+            //connection 연결해서 아이디 값 찾아오기
+            @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+            @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+
+            @Cleanup ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                return CarInfoDTO.builder()
+                carInfoVO = CarInfoVO.builder()
                         .id(resultSet.getInt("id"))
                         .plateNumber(resultSet.getString("plate_number"))
                         .parkingSpot(resultSet.getString("parking_spot"))
                         .build();
             }
-            return null;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-    }
-
-    public List<CarInfoDTO> selectAll() throws SQLException {
-        String sql = "SELECT * FROM car_info ORDER BY id DESC";
-        List<CarInfoDTO> list = new ArrayList<>();
-
-        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-
-            while (resultSet.next()) {
-                list.add(CarInfoDTO.builder()
-                        .id(resultSet.getInt("id"))
-                        .plateNumber(resultSet.getString("plate_number"))
-                        .parkingSpot(resultSet.getString("parking_spot"))
-                        .build());
-            }
-        }
-        return list;
-    }
-
-    public void updateParkingSpot(int id, String parkingSpot) throws SQLException {
-        String sql = "UPDATE car_info SET parking_spot = ? WHERE id = ?";
-
-        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-            preparedStatement.setString(1, parkingSpot);
-            preparedStatement.setInt(2, id);
-            preparedStatement.executeUpdate();
-        }
-    }
-
-    public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM car_info WHERE id = ?";
-
-        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-        }
+        return carInfoVO;
     }
 }

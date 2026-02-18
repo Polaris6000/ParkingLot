@@ -1,0 +1,394 @@
+/* ========================================
+   테스트 데이터 관리 페이지 CSS (Re-design)
+   - Dashboard.css의 룩앤필(Look & Feel) 계승
+======================================== */
+
+/* ========================================
+   1. 폰트 및 변수 (Dashboard와 통일)
+======================================== */
+@font-face {
+    font-family: 'BookkGothic';
+    src: url('../font/BookkGothic/BookkGothic_Light.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'BookkGothic';
+    src: url('../font/BookkGothic/BookkGothic_Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'ChosunCentennial';
+    src: url('../font/ChosunCentennial_ttf/ChosunCentennial_ttf.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --bg-color: #f8f9fc;          /* 대시보드 배경색 */
+    --card-bg: #ffffff;           /* 카드 배경 */
+    --primary-color: #4e73df;     /* 메인 블루 */
+    --success-color: #1cc88a;     /* 성공 그린 */
+    --danger-color: #e74a3b;      /* 위험 레드 */
+    --warning-color: #f6c23e;     /* 경고 옐로우 */
+    --text-dark: #333333;         /* 기본 텍스트 */
+    --text-gray: #858796;         /* 회색 텍스트 */
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
+    --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.1);
+    --radius-md: 15px;            /* 둥근 모서리 */
+}
+
+/* ========================================
+   2. 기본 레이아웃
+======================================== */
+* {
+
+    font-family: 'ChosunCentennial', serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    color: var(--text-dark);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* ========================================
+   3. 헤더 영역 (대시보드 스타일 적용)
+======================================== */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e3e6f0;
+}
+
+.page-header h1 {
+    font-family: 'ChosunCentennial', serif;
+    font-size: 28px;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+/* 개발 전용 배지 스타일 */
+.warning-badge {
+    background-color: rgba(246, 194, 62, 0.2);
+    color: #d68b00;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px; /* 제목 위로 배치 */
+    width: fit-content;
+}
+
+.btn-back {
+    background-color: #fff;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-back:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+/* ========================================
+   4. 알림 및 통계 박스
+======================================== */
+
+/* 통계 헤더: 제목과 버튼을 양 끝으로 배치 */
+.stats-header {
+    display: flex;
+    justify-content: space-between; /* 좌우 끝으로 정렬 */
+    align-items: center;            /* 세로 중앙 정렬 */
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #555;  /* 헤더 구분선 */
+}
+
+/* 현황 제목 스타일 */
+.stats-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--warning-color);    /* 강조색 적용 */
+}
+
+/* 새로고침 버튼 전용 스타일 */
+.btn-refresh {
+    background-color: var(--warning-color);
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+
+    /* 핵심 설정: 너비를 글자 수만큼만 차지하도록 설정 */
+    width: auto;             /* 기존 button { width: 100% } 설정을 덮어씀 */
+    display: inline-flex;    /* 내부 아이콘과 텍스트 정렬 */
+    align-items: center;
+    gap: 6px;                /* 아이콘과 글자 간격 */
+    transition: opacity 0.2s ease;
+}
+
+.btn-refresh:hover {
+    opacity: 0.8;            /* 호버 시 살짝 투명하게 효과 */
+    background-color: var(--warning-color); /* 기존 배경 유지 또는 다크닝 */
+}
+
+/* 회전 애니메이션 클래스 (나중에 JS에서 활용 가능) */
+.btn-refresh i.spinning {
+    animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.stats-box {
+    background: var(--text-dark);
+    color: #fff;
+    padding: 20px;
+    border-radius: var(--radius-md);
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-sm);
+    line-height: 1.6;
+}
+
+/* ========================================
+   5. 컨트롤 패널 (그리드 레이아웃)
+======================================== */
+.control-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 반응형 그리드 */
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.03);
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* 호버 시 살짝 뜸 */
+    box-shadow: var(--shadow-hover);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 15px;
+}
+
+.card-header i {
+    font-size: 24px;
+    color: var(--primary-color); /* 기본 아이콘 색상 */
+}
+
+/* 카드별 아이콘 색상 포인트 */
+.card:nth-child(1) .card-header i { color: var(--primary-color); } /* 입차 */
+.card:nth-child(2) .card-header i { color: var(--success-color); } /* 출차 */
+.card:nth-child(3) .card-header i { color: #36b9cc; } /* 월주차 */
+.card:nth-child(4) .card-header i { color: #f6c23e; } /* 정책 */
+.card:nth-child(5) .card-header i { color: #e74a3b; } /* 삭제 */
+
+.card-header h2 {
+    font-size: 18px;
+    margin: 0;
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+/* ========================================
+   기능 그리드
+======================================== */
+.actions-grid {
+    display: grid;
+    /* 수정된 부분: 카드의 최소 너비를 240px로 설정하여 한 줄에 더 많이 배치 */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px; /* 카드 사이 간격 */
+    margin-bottom: 25px;
+    /* 옵션: 카드들을 가운데 정렬하고 싶다면 주석 해제 */
+    /* justify-content: center; */
+}
+
+.action-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    /* width 관련 속성이 있다면 제거 (그리드가 알아서 조절함) */
+    display: flex; /* 내부 요소 정렬을 위해 flex 사용 */
+    flex-direction: column; /* 위에서 아래로 쌓이도록 설정 */
+}
+
+/* ========================================
+   6. 폼 요소 (인풋 & 버튼)
+======================================== */
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    background: #f8f9fc;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #e3e6f0;
+}
+
+.input-group input {
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    width: 100%;
+    outline: none;
+    /*font-family: 'BookkGothic', sans-serif;*/
+    text-align: right;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.input-group span {
+    font-size: 14px;
+    color: var(--text-gray);
+    white-space: nowrap;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-family: 'BookkGothic', sans-serif;
+}
+
+/* 버튼 스타일 변형 */
+.btn-primary { background: var(--primary-color); color: white; }
+.btn-primary:hover { background: #2e59d9; }
+
+.btn-success { background: var(--success-color); color: white; }
+.btn-success:hover { background: #17a673; }
+
+.btn-info { background: #36b9cc; color: white; }
+.btn-info:hover { background: #2c9faf; }
+
+.btn-warning { background: #f6c23e; color: white; }
+.btn-warning:hover { background: #dda20a; }
+
+.hint {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #858796;
+    text-align: center;
+}
+
+/* ========================================
+   7. 위험 구역 (Danger Zone)
+======================================== */
+.danger-zone {
+    background: #fff;
+    border: 2px solid var(--danger-color); /* 빨간 테두리 */
+    border-radius: var(--radius-md);
+    padding: 30px;
+    margin-top: 40px;
+    box-shadow: 0 4px 15px rgba(231, 74, 59, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 빗금 패턴 배경 효과 */
+.danger-zone::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 5px;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--danger-color),
+        var(--danger-color) 10px,
+        #fff 10px,
+        #fff 20px
+    );
+}
+
+.danger-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    color: var(--danger-color);
+}
+
+.danger-header i {
+    font-size: 28px;
+}
+
+.danger-header h2 {
+    margin: 0;
+    font-family: 'ChosunCentennial', serif;
+}
+
+.danger-description {
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.btn-danger {
+    background: var(--danger-color);
+    color: white;
+    font-size: 16px;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-danger:hover {
+    background: #c0392b;
+}
+
+/* ========================================
+   8. 애니메이션
+======================================== */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

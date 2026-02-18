@@ -74,36 +74,39 @@ public class MonthlyParkingDAO {
         }
     }
 
-    public boolean isValidMember(String plateNumber) throws SQLException {
-        String sql = "SELECT expiry_date FROM monthly_parking WHERE plate_number = ?";
+    public boolean isValidMember(String plateNumber) {
+        String sql = "SELECT expiry_date FROM monthly_parking WHERE plate_number = ? order by expiry_date desc limit 1";
 
-        try(Connection connection = ConnectionUtil.INSTANCE.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, plateNumber);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 LocalDate expireDate = resultSet.getDate("expiry_date").toLocalDate();
                 return expireDate.isAfter(LocalDate.now());
             }
-            return false;
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
+        return false;
     }
 
     public boolean update(MonthlyParkingDTO monthlyParkingDTO) throws SQLException {
         String sql = "UPDATE monthly_parking SET name = ?, phone_number = ?, " +
                 "begin_date = ?, expiry_date = ? WHERE id = ?";
 
-        try(Connection connection = ConnectionUtil.INSTANCE.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, monthlyParkingDTO.getPlateNumber());
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 LocalDate expiryDate = resultSet.getDate("expiry_date").toLocalDate();
-                return  !expiryDate.isBefore(LocalDate.now());
+                return !expiryDate.isBefore(LocalDate.now());
             }
             return false;
         }
@@ -112,8 +115,8 @@ public class MonthlyParkingDAO {
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM monthly_parking WHERE id = ?";
 
-        try(Connection connection = ConnectionUtil.INSTANCE.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();

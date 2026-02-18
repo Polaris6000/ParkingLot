@@ -35,7 +35,6 @@ public class AdminController extends HttpServlet {
 
         //command는 루트 경로 이후를 다루게 되는 상황.
         switch (command) {
-//
             case "/admin/login" -> {
                 log.info("로그인 페이지 이동2");
                 req.getRequestDispatcher("/WEB-INF/web/admin/Login.jsp").forward(req, resp);

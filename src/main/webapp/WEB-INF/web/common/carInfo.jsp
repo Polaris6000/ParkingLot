@@ -86,37 +86,42 @@
     }
 </style>
 <body>
-<form class="info-box">
-    <input type="text" style="display: none" value="">
+<form class="info-box" method="post">
+<%--    숨김영역--%>
+    <div style="display: none;" id="hiddenData">
+        <input type="text" id="id" value="" name="id" readonly>
+        <input type="text" id="enterTimeBackUp" value="" name="enterTimeBackUp" readonly>
+        <input type="datetime-local" id="payTime" value="" name="payTime" readonly>
+    </div>
 
     <div class="info-row">
         <label for="today" class="info-label">날짜</label>
-        <input type="text" class="info-value value-green" id="today" value="" readonly/>
+        <input type="text" class="info-value value-green" id="today" readonly/>
     </div>
 
     <div class="info-row">
         <label for="carNumber" class="info-label">차량 번호</label>
-        <input type="text" class="info-value value-green" id="carNumber"/>
+        <input type="text" class="info-value value-green" id="carNumber" name="carNumber"/>
     </div>
 
     <div class="info-row">
         <label for="status" class="info-label">상태</label>
-        <input type="text" class="info-value value-green" id="status" value="" readonly/>
+        <input type="text" class="info-value value-green" id="status" name="stat" readonly/>
     </div>
 
     <div class="info-row">
         <label class="info-label">할인 정보</label>
-        <select class="info-value value-green">
-            <option value="normal" selected>
+        <select class="info-value value-green" id="discount" name="discount">
+            <option value="normal">
                 일반
             </option>
-            <option value="help">
+            <option value="disabled">
                 장애인
             </option>
-            <option value="compact">
+            <option value="light">
                 경차
             </option>
-            <option value="Monthly">
+            <option value="monthly">
                 월간 회원(무료 적용)
             </option>
         </select>
@@ -134,10 +139,9 @@
 
     <div class="info-row">
         <label class="info-label">비용</label>
-        <input type="text" class="info-value value-green" id="cost" readonly/>
+        <input type="text" class="info-value value-green" id="cost" name="cost" readonly/>
     </div>
 </form>
 
-<script src="parking.js"></script>
 </body>
 </html>
