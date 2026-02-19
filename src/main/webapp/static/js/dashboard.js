@@ -36,7 +36,7 @@ const cost_r = right_infoForm.querySelector('#cost'); //주차 비용
 let normalCost = 0; //기준값이 되는 비용.
 
 //정산하기 버튼
-const moneyBtn = document.querySelector(".dashboard-header").querySelector('button');
+const moneyBtn = document.querySelector("#execute-btn");
 //여길 누르면 입력부분에 있던 데이터들을 가져와서 모달창을 띄워야 한다.
 
 //초기화 작업

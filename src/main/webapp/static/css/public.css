@@ -1445,6 +1445,40 @@ button {
     margin: 0;
 }
 
+/* ========================================
+   17. 모달창 확인용 (대시보드)
+======================================== */
+
+.modal{
+    display: none;
+    position: absolute;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.58);
+    width: 100%;
+    height: 100%;
+    align-content: center;
+}
+
+.modal-content{
+    margin: 0 auto;
+    width: 500px;
+    height: 600px;
+    text-align: center;
+}
+
+.modal-content > button{
+    background: var(--accent-blue);
+    width: 100px;
+    margin: 10px;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
 /* === 모바일 반응형 (설정 페이지) === */
 @media (max-width: 768px) {
     .page-title {

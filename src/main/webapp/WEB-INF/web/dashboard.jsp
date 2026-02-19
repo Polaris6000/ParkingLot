@@ -10,7 +10,7 @@
     <title>스마트주차 반월당점 - 주차장 대시보드</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/dashboard.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/public.css">
 
     <!-- Font Awesome (아이콘) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,8 +19,6 @@
     <script defer src="${pageContext.request.contextPath}/static/js/dashboard.js"></script>
 </head>
 <body>
-<%--헤더 불러오기--%>
-<%@include file="common/header.jsp" %>
 
 <div style="display: none" id="jsonData-car">
     ${carData}
@@ -42,27 +40,10 @@
 </div>
 
 <div class="container">
-    <!-- ========== 헤더 영역 ========== -->
-    <div class="dashboard-header">
-        <h1><i class="fas fa-parking" style="color: black"></i> 스마트주차 반월당점</h1>
 
-        <div class="header-buttons">
-            <!-- 새로고침 버튼 -->
-            <%--                <button class="icon-btn" id="refreshBtn" title="새로고침">--%>
-            <%--                    <i class="fas fa-sync-alt"></i>--%>
-            <%--                </button>--%>
-
-            <%--                <!-- 설정 버튼 -->--%>
-            <%--                <button class="icon-btn" onclick="location.href='${pageContext.request.contextPath}/settings'" title="설정">--%>
-            <%--                    <i class="fas fa-cog"></i>--%>
-            <%--                </button>--%>
-
-            <!-- 나가기 버튼 -->
-            <button class="exit-btn" style="background: gray; cursor: not-allowed;" disabled>
-                <i class="fas fa-sign-out-alt"></i> <span>정산하기</span>
-            </button>
-        </div>
-    </div>
+    <header class="dashboard-header">
+        <%@include file="common/header.jsp" %>
+    </header>
 
     <!-- ========== 메인 컨텐츠 ========== -->
     <div class="main-content">
@@ -217,7 +198,12 @@
             <%--                    <p>주차 구역을 클릭하면<br>상세 정보가 표시됩니다</p>--%>
             <%--                </div>--%>
             <%@include file="common/carInfo.jsp" %>
-
+            <div class="info-row">
+                <!-- 정산 버튼 -->
+                <button id="execute-btn" class="exit-btn" style="background: gray; cursor: not-allowed;" disabled>
+                    <i class="fas fa-sign-out-alt"></i> <span>정산하기</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>

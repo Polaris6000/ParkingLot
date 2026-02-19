@@ -1,2 +1,2 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<%response.sendRedirect("/dashboard/main");%>
+<%response.sendRedirect("/admin/login");%>
