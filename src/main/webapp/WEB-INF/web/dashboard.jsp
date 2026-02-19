@@ -217,6 +217,7 @@
             <%--                    <p>주차 구역을 클릭하면<br>상세 정보가 표시됩니다</p>--%>
             <%--                </div>--%>
             <%@include file="common/carInfo.jsp" %>
+
         </div>
     </div>
 </div>

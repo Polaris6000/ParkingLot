@@ -61,8 +61,8 @@ const enterTime_m = modal_infoForm.querySelector('#enterTime'); // 입차 시간
 const exitTime_m = modal_infoForm.querySelector('#exitTime'); // 출차 시간
 const cost_m = modal_infoForm.querySelector('#cost'); //주차 비용
 
-const submit_modal_btn =modalDiv.querySelectorAll('button')[0]
-const cancle_modal_btn =modalDiv.querySelectorAll('button')[1]
+const submit_modal_btn = modalDiv.querySelectorAll('button')[0]
+const cancle_modal_btn = modalDiv.querySelectorAll('button')[1]
 
 
 /*****************************************************************************/
@@ -85,7 +85,7 @@ parkingData.forEach(item => {
 /*****************************************************************************/
 
 //할인정보가 변경되면 자동으로 비용 계산 다시 해줘.
-discountInfo_r.onchange = () =>{
+discountInfo_r.onchange = () => {
     discountCost(discountInfo_r.value)
 };
 
@@ -98,7 +98,7 @@ function enterProcess(event) {
     const day = now.getFullYear() + "-" + ("" + (now.getMonth() + 1)).padStart(2, "0") + "-" + ("" + now.getDay()).padStart(2, "0");
     //시간 저장
     // console.log(now);
-    const time = now.getHours() + ":" + ("" + (now.getMinutes() + 1)).padStart(2, "0");
+    const time = ("" + now.getHours()).padStart(2, "0") + ":" + ("" + (now.getMinutes() + 1)).padStart(2, "0");
 
     idInput_r.value = "";
     dateBackUp_r.value = now;
@@ -139,12 +139,12 @@ function exitProcess(event) {
     //날짜 저장.
     const day = now.getFullYear() + "-" + ("" + (now.getMonth() + 1)).padStart(2, "0") + "-" + ("" + now.getDay()).padStart(2, "0");
     //시간 저장
-    const time = now.getHours() + ":" + ("" + (now.getMinutes() + 1)).padStart(2, "0");
+    const time = ("" + now.getHours()).padStart(2, "0") + ":" + ("" + (now.getMinutes() + 1)).padStart(2, "0");
 
     //input 값들을 설정.
     id.value = thisTarget.id
     dateBackUp_r.value = entryTime;
-    payTimeInput_r.value = day + 'T' + time + ':'+now.getSeconds();
+    payTimeInput_r.value = day + 'T' + time + ':' + now.getSeconds();
     date_r.value = entryTime.split(' ')[0];
     carNumber_r.value = thisTarget.plateNumber; //수정못하게 readonly추가
     carNumber_r.setAttribute("readonly", "");
@@ -189,7 +189,7 @@ function exitProcess(event) {
 }
 
 //할인에 따른 정산 갱신
-function discountCost(kindOfDiscount){
+function discountCost(kindOfDiscount) {
     // console.log(kindOfDiscount) //받은값 확인    //할인율 반영
     switch (kindOfDiscount) {
         case "normal" :
@@ -242,7 +242,7 @@ moneyBtn.onclick = () => {
             //서밋해서 데이터 보내기
             right_infoForm.submit();
             break;
-            //우선 출차처리는 만들어 놓고, 이걸 옮기는거임. 모달로.
+        //우선 출차처리는 만들어 놓고, 이걸 옮기는거임. 모달로.
         case '출차처리':
             //여긴 모달창을 띄우고, 모달창에서 해당 코드가 실행ㅎ해야함.
             console.log("출차내요");
@@ -256,13 +256,13 @@ moneyBtn.onclick = () => {
 
 }
 
-submit_modal_btn.onclick = ()=>{
+submit_modal_btn.onclick = () => {
     //액션 주소 바꿔주기
     modal_infoForm.setAttribute("action", '/dashboard/exit');
     //서밋해서 데이터 보내기
     modal_infoForm.submit();
 }
-cancle_modal_btn.onclick = () =>{
+cancle_modal_btn.onclick = () => {
     modalDiv.style.display = 'none';
 }
 
@@ -273,14 +273,14 @@ cancle_modal_btn.onclick = () =>{
 //모달창 설정 관련
 //데이터 복사를 하는 함수
 function modalDataInput() {
-    idInput_m.value =idInput_r.value
-    dateBackUp_m.value =dateBackUp_r.value
+    idInput_m.value = idInput_r.value
+    dateBackUp_m.value = dateBackUp_r.value
     payTimeInput_m.value = payTimeInput_r.value
-    date_m .value=date_r .value
-    carNumber_m .value=carNumber_r .value
-    parkingStat_m.value=parkingStat_r.value
-    discountInfo_m.value=discountInfo_r.value
-    enterTime_m .value=enterTime_r .value
-    exitTime_m.value=exitTime_r.value
-    cost_m.value=cost_r.value
+    date_m.value = date_r.value
+    carNumber_m.value = carNumber_r.value
+    parkingStat_m.value = parkingStat_r.value
+    discountInfo_m.value = discountInfo_r.value
+    enterTime_m.value = enterTime_r.value
+    exitTime_m.value = exitTime_r.value
+    cost_m.value = cost_r.value
 }
