@@ -22,6 +22,7 @@
    16. 테이블 개선 스타일
    17. 포커스 및 입력 개선
    18. 애니메이션
+   19. 설정 페이지 전용 스타일
    19. 반응형 디자인 (태블릿 & 모바일)
    20. 프린트 스타일
 ======================================== */
@@ -53,6 +54,10 @@
     src: url('../font/ChosunCentennial_ttf/ChosunCentennial_ttf.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+}
+
+input [type= password] {
+    font-family: sans-serif;
 }
 
 
@@ -126,6 +131,15 @@ body {
 .container {
     width: 1200px; /* 기본 너비 (대시보드용) */
     max-width: 1200px; /* 최대 너비 (테스트 페이지용) */
+    margin: 0 auto; /* 중앙 정렬 */
+    padding: 40px 20px; /* 상하 여백 */
+    display: flex;
+    flex-direction: column;
+}
+
+.login-container {
+    width: 600px; /* 로그인 페이지 용 */
+    max-width: 600px; /* 최대 너비 (테스트 페이지용) */
     margin: 0 auto; /* 중앙 정렬 */
     padding: 40px 20px; /* 상하 여백 */
     display: flex;
@@ -388,7 +402,9 @@ nav ul .dropdown a:hover {
     padding: 20px;
     gap: 16px;
 }
-
+#input_item_id, #input_item_pw{
+    width: 400px;
+}
 .info-box {
     background: #FFFFFF;
     border: 1px solid #E8E8E8;
@@ -891,6 +907,10 @@ select {
     order: 2; /* "대" 같은 단위가 뒤에 오게 하려면 순서 조절 (필요시) */
 }
 
+.input-group div {
+
+}
+
 /* === 버튼 기본 스타일 === */
 button {
     width: 100%;
@@ -912,7 +932,7 @@ button {
 }
 
 .btn-primary:hover {
-    background: #2e59d9; /* 호버 시 어두운 블루 */
+    background: var(--occupied-blue); /* 호버 시 어두운 블루 */
 }
 
 .btn-primary i {
@@ -1047,7 +1067,7 @@ button {
 .tab-btn {
     width: auto;
     background: var(--bg-color);
-    color: #495057;
+    color: #444;
     padding: 10px 25px;
     border-radius: 8px;
     transition: all 0.3s;
@@ -1458,7 +1478,7 @@ button {
     padding: 12px 10px;
     text-align: center;
     border-bottom: 1px solid var(--border-color);
-    color: #495057;
+    color: #444;
     font-size: 13px;
 }
 
@@ -1496,7 +1516,7 @@ button {
 
 /* === 현재 배지 === */
 .current-badge {
-    background: linear-gradient(135deg, var(--success-color) 0%, #17a673 100%);
+    background: var(--success-color);
     color: var(--white);
     padding: 4px 12px;
     border-radius: 20px;
@@ -1533,10 +1553,15 @@ button {
     display: none;
     position: absolute;
     z-index: 999;
-    background: rgba(0, 0, 0, 0.58);
+    background: var(--bg-color);
     width: 100%;
     height: 100%;
     align-content: center;
+/*    실험*/
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
@@ -1550,7 +1575,7 @@ button {
     background: var(--accent-blue);
     width: 100px;
     margin: 10px;
-    color: white;
+    color: var(--white);
     border: none;
     padding: 10px 20px;
     border-radius: 8px;
@@ -1592,6 +1617,136 @@ button {
         flex-wrap: wrap;
     }
 }
+
+/* ========================================
+   20. 인증 페이지 공통 (Login / SignUp / FindInfo)
+   - 세 페이지가 공유하는 레이아웃 및 컴포넌트
+   - 사용 시 <body class="auth-page"> 필수
+======================================== */
+
+/* ── body / main 레이아웃 ────────────────────────────────
+   public.css의 body는 이미 flex + justify-content:center
+   .auth-page 에서 세로 중앙 정렬만 추가                   */
+body.auth-page {
+    min-height: 100vh;
+    align-items: center;
+}
+
+body.auth-page main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ── 상단 로고/타이틀 ────────────────────────────────────
+   section.page-title 을 래퍼로 쓸 경우 텍스트 스타일 리셋  */
+section.page-title {
+    font-size: unset;
+    margin-bottom: unset;
+    text-align: center;
+    text-shadow: none;
+}
+
+/* 사이트명 로고 텍스트 */
+.site-name-span {
+    font-family: var(--main-font), sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--primary-color);
+    letter-spacing: 2px;
+}
+
+/* ── 인증 카드 래퍼 ──────────────────────────────────────
+   .policy-form-card(public.css)를 감싸는 중앙 정렬 컨테이너 */
+.auth-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* .policy-form-card 너비/패딩 인증 페이지 전용 오버라이드  */
+.auth-container .policy-form-card {
+    width: 460px;
+    padding: 36px 40px 28px;
+}
+
+/* ── 입력 아이템 (라벨 + 입력 필드 + 아이콘 버튼 묶음) ───*/
+.input-item {
+    position: relative;         /* 내부 .btn-delete/.btn-view 절대 위치 기준 */
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* 입력 필드 상단 라벨 */
+.text-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-gray);
+}
+
+/* ── 공통 입력 필드 ──────────────────────────────────────
+   .input-group input(public.css) 와 별개로 인증 페이지 전용 */
+.auth-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 40px 11px 14px;   /* 우측 아이콘 버튼 공간 확보 */
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: var(--main-font), sans-serif;
+    color: var(--text-dark);
+    background: var(--white);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.auth-input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(92, 124, 250, 0.12);
+}
+
+/* ── 입력 필드 우측 아이콘 버튼 (✕ 지우기 / 👁 비번 보기) ─
+   .btn-delete : id_clear, pw_clear 용 (✕)
+   .btn-view   : pw_hide 용 (눈)                              */
+.btn-delete,
+.btn-view {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: var(--text-gray);
+    cursor: pointer;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: color 0.2s;
+}
+
+.btn-delete:hover,
+.btn-view:hover {
+    color: var(--danger-color);
+}
+
+/* ── 에러 메시지 영역 ────────────────────────────────────
+   .alert.alert-error(public.css)를 그대로 사용
+   error == null → <strong> 없음 → :not(:has(strong))으로 자동 숨김 */
+.auth-error-wrap {
+    margin: 8px 0;
+}
+
+.auth-error-wrap .alert:not(:has(strong)) {
+    display: none;
+}
+
 
 /* ========================================
    탭 UI 스타일 (설정 페이지용)

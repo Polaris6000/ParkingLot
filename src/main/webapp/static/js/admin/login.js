@@ -1,9 +1,11 @@
 //id입력칸 관련 변수
-const idInput = document.querySelector("input.input_id");
+// 수정: id 기반으로 변경 (다른 셀렉터들과 일관성 유지)
+const idInput = document.querySelector("input#id");
 const idLabel = document.querySelector("label[id='id_label']");
 const idDelBtn = document.querySelector("button[id='id_clear']");
 //pw입력칸 관련 변수
-const pwInput = document.querySelector("input.input_pw");
+// 수정: id 기반으로 변경 (다른 셀렉터들과 일관성 유지)
+const idInput = document.querySelector("input#pw");
 const pwLabel = document.querySelector("label[id='pw_label']");
 const pwDelBtn = document.querySelector("button[id='pw_clear']");
 const pwViewBtn = document.querySelector("button[id='pw_hide']")
@@ -15,18 +17,17 @@ const pwError = document.querySelector("div [id='err_empty_pw']");
 const dataError = document.querySelector("div [id='err_wrong_data']");
 
 
-
 //키다운이 시작되면 아이디가 사라져야함.
-idInput.onkeydown = () =>{
-    if (idInput.value !== ""){
+idInput.onkeydown = () => {
+    if (idInput.value !== "") {
         idLabel.style.display = "none"
         idDelBtn.style.display = "block";
     }
 }
 
 //아이디 칸에서 값이 사라져야 원상태로 복구시킴.
-idInput.onchange = () =>{
-    if (idInput.value === ""){
+idInput.onchange = () => {
+    if (idInput.value === "") {
         idDelBtn.style.display = "none";
         idLabel.style.display = "block";
     }
@@ -43,8 +44,8 @@ idDelBtn.onclick = () => {
 
 //위 과정을 동일하게 해줘야함. + view 기능까지
 //키다운이 시작되면 비밀번호 가 사라져야함.
-pwInput.onkeydown = () =>{
-    if (pwInput.value !== ""){
+pwInput.onkeydown = () => {
+    if (pwInput.value !== "") {
         pwLabel.style.display = "none"
         pwDelBtn.style.display = "block";
         pwViewBtn.style.display = "block";
@@ -52,8 +53,8 @@ pwInput.onkeydown = () =>{
 }
 
 //비밀번호 칸에서 값이 사라져야 원상태로 복구시킴.
-pwInput.onchange = () =>{
-    if (pwInput.value === ""){
+pwInput.onchange = () => {
+    if (pwInput.value === "") {
         pwDelBtn.style.display = "none";
         pwViewBtn.style.display = "none";
         pwLabel.style.display = "block";
@@ -71,16 +72,16 @@ pwDelBtn.onclick = () => {
     pwInput.focus();
 }
 //비번을 보고 싶다구요? 바로 보여줘. 숨기고 싶어? 바로 숨겨
-pwViewBtn.onclick = () =>{
+pwViewBtn.onclick = () => {
 
-    if (eyeView.className === "bi bi-eye"){
-        eyeView.className = "bi bi-eye-slash";
+    // 수정: FA 아이콘 기준으로 변경
+    if (eyeView.classList.contains("fa-eye")) {
+        eyeView.classList.replace("fa-eye", "fa-eye-slash");
         pwInput.type = "text";
         return;
     }
-
-    if (eyeView.className === "bi bi-eye-slash"){
-        eyeView.className = "bi bi-eye";
+    if (eyeView.classList.contains("fa-eye-slash")) {
+        eyeView.classList.replace("fa-eye-slash", "fa-eye");
         pwInput.type = "password";
         return;
     }
@@ -97,18 +98,18 @@ pwViewBtn.onclick = () =>{
  - 성공 : main으로 돌려 보내고
  - 실패 : 로그인에 실패했습니다! 하고나서 다시 로그인 화면으로
 * */
-loginBtn.onclick = event =>{
+loginBtn.onclick = event => {
     idError.style.display = "none";
     pwError.style.display = "none";
     dataError.style.display = "none";
 
 
-    if (idInput.value === ''){
+    if (idInput.value === '') {
         idError.style.display = "block";
         event.preventDefault();
         return
     }
-    if (pwInput.value === ''){
+    if (pwInput.value === '') {
         pwError.style.display = "block";
         event.preventDefault();
         return

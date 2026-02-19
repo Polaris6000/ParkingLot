@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>스마트주차 반월당점</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/public.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/admin/ChangePw.css">
-    <script defer src="${pageContext.request.contextPath}/static/js/admin/ChangePw.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/admin/change-pw.css">
+    <script defer src="${pageContext.request.contextPath}/static/js/admin/change-pw.js"></script>
 </head>
 <body>
 <main>
@@ -13,8 +13,8 @@
         <input type="text" name="uuid" readonly style="display: none" value="<%=(String) request.getParameter("uuid")%>">
         <p>비밀번호 변경</p>
         <div>
-            <label><span>비밀번호</span> <input type="password" name="pw"></label> <br>
-            <label><span>비밀번호 확인</span> <input type="password"> <br></label>
+            <label><span>비밀번호</span> <input type="password" name="pw" style="font-family: sans-serif"></label> <br>
+            <label><span>비밀번호 확인</span> <input type="password" style="font-family: sans-serif"> <br></label>
         </div>
         <article>
         </article>

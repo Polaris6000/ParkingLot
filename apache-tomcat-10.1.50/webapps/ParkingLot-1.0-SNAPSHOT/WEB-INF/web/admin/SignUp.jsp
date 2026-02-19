@@ -7,7 +7,7 @@
     <title>스마트주차 반월당점</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/public.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/admin/SignUp.css">
-    <script defer src="${pageContext.request.contextPath}/static/js/admin/SignUp.js"></script>
+    <script defer src="${pageContext.request.contextPath}/static/js/admin/sign-up.js"></script>
 </head>
 <body>
 <%

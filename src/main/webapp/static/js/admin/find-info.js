@@ -1,9 +1,9 @@
 //상부의 분류를 나누는 곳.
-const findIdBtn = document.querySelector(".find_id button");
-const findPwBtn = document.querySelector(".find_pw button");
+const findIdBtn = document.querySelector(".find-id button");
+const findPwBtn = document.querySelector(".find-pw button");
 //데이터 양식 영역
-const findIdForm = document.querySelector(".find_id_group");
-const findPwForm = document.querySelector(".find_pw_group");
+const findIdForm = document.querySelector(".find-id-group");
+const findPwForm = document.querySelector(".find-pw-group");
 //데이터 입력 영역
 const findIdInputEmail = findIdForm.querySelector("input");
 const findPwInputId = findPwForm.querySelectorAll("input")[0];

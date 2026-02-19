@@ -193,8 +193,8 @@
 
         <!-- 우측 패널: 상세 정보 -->
         <div class="right-panel">
-<%--            carInfo.jsp 페이지 불러오기 --%>
-            <%@include file="common/carInfo.jsp" %>
+<%--            car-info.jsp 페이지 불러오기 --%>
+            <%@include file="common/car-info.jsp" %>
             <div>
                 <!-- 정산 버튼 -->
                 <button id="execute-btn" class="exit-btn" style="background: gray; cursor: not-allowed;" disabled>
@@ -208,7 +208,7 @@
 <%--모달창 제어를 위한 공간--%>
 <div class="modal">
     <div class="modal-content">
-        <%@include file="common/carInfo.jsp" %>
+        <%@include file="common/car-info.jsp" %>
         <button>결제</button>
         <button>취소</button>
     </div>

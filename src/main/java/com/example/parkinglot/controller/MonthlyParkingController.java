@@ -65,12 +65,12 @@ public class MonthlyParkingController extends HttpServlet {
             return;
         }
         req.setAttribute("monthlyParkingDTO", monthlyParkingDTO);
-        req.getRequestDispatcher("/WEB-INF/web/monthly/monthlyEdit.jsp").forward(req, resp);//경로수정
+        req.getRequestDispatcher("/WEB-INF/web/monthly/monthly-edit.jsp").forward(req, resp);//경로수정
     }
 
     //등록 폼 표시
     private void showRegisterForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/web/monthly/monthlyRegister.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/web/monthly/monthly-register.jsp").forward(req, resp);
         //경로 수정해야함
 
     }
@@ -149,7 +149,7 @@ public class MonthlyParkingController extends HttpServlet {
         String error = req.getParameter("error");
         if (error != null) req.setAttribute("error", error);
 
-        req.getRequestDispatcher("/WEB-INF/web/monthly/monthlyList.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/web/monthly/monthly-list.jsp").forward(req, resp);
         //경로 수정해야함
 
     }

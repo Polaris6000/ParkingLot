@@ -38,7 +38,7 @@ public class AuthenticationController extends HttpServlet {
                 //dto 찾았으면 이제 이걸로 확인하고나서 리다리엑트
 
                 if (authDTO == null){
-                    req.getRequestDispatcher("/WEB-INF/web/admin/TokenCanNotUse.jsp").forward(req,resp);
+                    req.getRequestDispatcher("/WEB-INF/web/admin/token-can-not-use.jsp").forward(req,resp);
                 }
 
                 //update하는거지
@@ -52,7 +52,7 @@ public class AuthenticationController extends HttpServlet {
                 req.setAttribute("admin",adminDTO);
 
 
-                req.getRequestDispatcher("/WEB-INF/web/admin/SignUpAccept.jsp").forward(req,resp);
+                req.getRequestDispatcher("/WEB-INF/web/admin/sign-up-accept.jsp").forward(req,resp);
             }
         }
     }

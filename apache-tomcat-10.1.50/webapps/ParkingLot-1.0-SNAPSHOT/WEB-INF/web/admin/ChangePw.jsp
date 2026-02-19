@@ -5,7 +5,7 @@
     <title>스마트주차 반월당점</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/public.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/admin/ChangePw.css">
-    <script defer src="${pageContext.request.contextPath}/static/js/admin/ChangePw.js"></script>
+    <script defer src="${pageContext.request.contextPath}/static/js/admin/change-pw.js"></script>
 </head>
 <body>
 <main>

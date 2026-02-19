@@ -35,25 +35,25 @@ public class AdminController extends HttpServlet {
         switch (command) {
             case "/admin/login" -> {
                 log.info("로그인 페이지 이동2");
-                req.getRequestDispatcher("/WEB-INF/web/admin/Login.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/web/admin/login.jsp").forward(req, resp);
             }
             case "/admin/findinfo" -> {
                 log.info("아이디, 비번 찾기로 이동");
-                req.getRequestDispatcher("/WEB-INF/web/admin/FindInfo.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/web/admin/find-info.jsp").forward(req, resp);
             }
             case "/admin/signup" -> {
                 log.info("회원가입 들어감.");
                 List<AdminDTO> adminDTOList = adminService.mastersInfo();
                 req.setAttribute("masters", adminDTOList);
-                req.getRequestDispatcher("/WEB-INF/web/admin/SignUp.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/web/admin/sign-up.jsp").forward(req, resp);
             }
             case "/admin/signupfin" -> {
                 log.info("회원가입 완료됨.");
-                req.getRequestDispatcher("/WEB-INF/web/admin/SignUpFin.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/web/admin/sign-up-fin.jsp").forward(req, resp);
             }
             case "/admin/changepw" -> {
                 log.info("비밀번호 변경을 위해 들어감.");
-                req.getRequestDispatcher("/WEB-INF/web/admin/ChangePw.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/web/admin/change-pw.jsp").forward(req, resp);
             }
 
             case "/admin/logout" -> {
@@ -129,7 +129,7 @@ public class AdminController extends HttpServlet {
                 mailService.sendAuthEmail(req.getParameter("master"), AuthKind.SIGNUP, adminDTO, uuid);
 
                 log.info("서비스까지 전달 완료");
-                req.getRequestDispatcher("/WEB-INF/web/admin/SignUpFin.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/web/admin/sign-up-fin.jsp").forward(req, resp);
             }
 
             case "/admin/login" -> {
@@ -176,7 +176,7 @@ public class AdminController extends HttpServlet {
                     log.info("로그인 실패");
                     req.setAttribute("error", "1");
 
-                    req.getRequestDispatcher("/WEB-INF/web/admin/Login.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/WEB-INF/web/admin/login.jsp").forward(req, resp);
                 }
 
             }
@@ -250,7 +250,7 @@ public class AdminController extends HttpServlet {
                 log.info(authDTO);
                 log.info("토큰 검증");
                 if (authDTO == null) {
-                    req.getRequestDispatcher("/WEB-INF/web/admin/TokenCanNotUse.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/WEB-INF/web/admin/token-can-not-use.jsp").forward(req, resp);
                 }
 
                 log.info("비밀번호 변경을 실행함.");
