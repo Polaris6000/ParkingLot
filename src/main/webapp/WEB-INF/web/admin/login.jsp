@@ -113,7 +113,7 @@
     <section class="page-title">
         <div>
             <%-- .site-name-span : public.css 섹션 20 공통 스타일 --%>
-            <span class="site-name-span">스마트주차 반월당점</span>
+            <span class="site-name-span"><i class="fas fa-parking"></i> 스마트주차 반월당점</span>
         </div>
     </section>
 
