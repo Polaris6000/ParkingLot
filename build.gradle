@@ -34,29 +34,18 @@ dependencies {
     compileOnly 'jakarta.websocket:jakarta.websocket-api:2.0.0'
 
     // Source: https://mvnrepository.com/artifact/org.projectlombok/lombok
-//    implementation 'org.projectlombok:lombok:1.18.30'
-//    annotationProcessor 'org.projectlombok:lombok:1.18.30'
-//    testCompileOnly 'org.projectlombok:lombok:1.18.30'
-//    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
-
-    // Lombok - compileOnly로 변경 권장
-    compileOnly 'org.projectlombok:lombok:1.18.30'
+    implementation 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 
-    // MariaDB Driver
     // Source: https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.5.7'
 
     // Log4j2 라이브러리 추가
-//    implementation 'org.slf4j:slf4j-api:2.0.7'
-//    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.25.3'
-//    implementation 'org.apache.logging.log4j:log4j-api:2.25.3'
-//    implementation 'org.apache.logging.log4j:log4j-core:2.25.3'
-
-    // Log4j2 - 버전 통일 및 중복 제거
-    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.25.3'
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.25.0'
+    implementation 'org.apache.logging.log4j:log4j-api:2.25.3'
     implementation 'org.apache.logging.log4j:log4j-core:2.25.3'
 
     //dto, vo 간에 전환을 해주는 어노테이션
@@ -65,6 +54,16 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
     implementation("com.zaxxer:HikariCP:5.0.1")
+
+    //메일 발송을 위한 api
+    // Source: https://mvnrepository.com/artifact/jakarta.mail/jakarta.mail-api
+    implementation 'jakarta.mail:jakarta.mail-api:2.1.3'
+    // Jakarta Mail API + Implementation (Angus Mail)
+    implementation 'org.eclipse.angus:jakarta.mail:2.0.4'
+
+    //암호화 기능
+    // Source: https://mvnrepository.com/artifact/org.mindrot/jbcrypt
+    implementation 'org.mindrot:jbcrypt:0.4'
 
     // JSTL 추가
     implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
@@ -77,7 +76,6 @@ dependencies {
 
     // JSON 처리를 위한 Gson 추가
     implementation 'com.google.code.gson:gson:2.10.1'
-
 
 }
 

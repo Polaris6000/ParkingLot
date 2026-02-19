@@ -1,0 +1,198 @@
+/* ========================================
+   1. 폰트 등록
+======================================== */
+
+/* 부크고딕 Light - 기본 텍스트용 가느다란 서체 */
+@font-face {
+    font-family: 'BookkGothic';
+    src: url('../../font/BookkGothic/BookkGothic_Light.ttf') format('truetype');
+    font-weight: normal;
+}
+
+/* 부크고딕 Bold - 강조 텍스트용 두꺼운 서체 */
+@font-face {
+    font-family: 'BookkGothic';
+    src: url('../../font/BookkGothic/BookkGothic_Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+/* 조선센티널 - 제목용 고급스러운 명조체 */
+@font-face {
+    font-family: 'ChosunCentennial';
+    src: url('../../font/ChosunCentennial_ttf/ChosunCentennial_ttf.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* ========================================
+   2. CSS 변수 정의 (전역 색상 및 폰트)
+   - 유지보수 편의성을 위해 자주 사용하는 값을 변수로 관리
+======================================== */
+:root {
+    /* 배경 및 기본 색상 */
+    --bg-color: #f8f9fc; /* 페이지 배경색 (밝은 회색) */
+    --white: #ffffff; /* 카드 배경색 */
+    --radius-md: 15px; /* 둥근 모서리 */
+
+    /* 주차 상태 색상 */
+    --accent-blue: #5c7cfa; /* 강조 색상 (버튼, 라벨 등) */
+    --occupied-blue: #3b5bdb; /* 일반차량 점유 (진한 파랑) */
+    --ev-green: #52c41a; /* 전기차 점유 (초록) */
+    --empty-gray: #dee2e6; /* 빈 주차공간 (회색) */
+    --primary-color: #4e73df; /* 메인 블루 */
+    --success-color: #1cc88a; /* 성공 그린 */
+    --danger-color: #e74a3b; /* 위험 레드 */
+    --warning-color: #f6c23e; /* 경고 옐로우 */
+    --text-dark: #333333; /* 기본 텍스트 */
+    --text-gray: #858796; /* 회색 텍스트 */
+
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
+    --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.1);
+
+    /* 폰트 */
+    --main-font: 'BookkGothic', sans-serif;
+}
+
+/* ========================================
+   3. 기본 레이아웃 설정
+======================================== */
+body {
+    background: var(--bg-color);
+    font-family: var(--main-font), sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/* 전체 페이지를 감싸는 컨테이너 (최대 너비 1200px) */
+.container {
+    /*width: 1200px;*/
+    display: flex;
+    flex-direction: column;
+}
+
+/* ========================================
+   13. 페이지 제목 (h1)
+   - 부크크 고딕 폰트 적용
+======================================== */
+h1 {
+    font-family: 'BookkGothic', sans-serif;
+    color: #333;
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* ========================================
+   4. 헤더 영역
+   - 페이지 제목 및 액션 버튼 배치
+======================================== */
+.dashboard-header {
+    background: var(--white);
+    border-radius: 15px;
+    border: 1px solid #eee;
+    display: flex;
+    justify-content: space-between; /* 좌우 양쪽 끝 정렬 */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.top-nav {
+    background: var(--white);
+    border-radius: 15px;
+}
+
+
+/* 헤더 우측 버튼 그룹 */
+.header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* 나가기 버튼 (Primary 액션) */
+.exit-btn {
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.exit-btn:hover {
+    background: #4c6cef;
+}
+
+/* 아이콘 버튼 (설정, 새로고침 등) */
+.icon-btn {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    color: var(--accent-blue);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.icon-btn:hover {
+    background: #f0f4ff;
+    border-color: var(--accent-blue);
+}
+
+.li {
+    list-style-type: none;
+}
+
+/* ========================================
+   헤더 영역 추가
+======================================== */
+header {
+    background: white;
+    padding: 20px 0;
+    /*box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);*/
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-container {
+    /*max-width: 1200px;*/
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--accent-blue);
+    cursor: pointer;
+}
+
+/* 네비게이션 */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s;
+    background: #f8f9fa;
+}
+
+nav a:hover {
+    background: var(--accent-blue);
+    color: white;
+    transform: translateY(-2px);
+}
