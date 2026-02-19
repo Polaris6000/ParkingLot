@@ -8,9 +8,7 @@ import com.example.parkinglot.service.AuthService;
 import com.example.parkinglot.service.MailService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 import lombok.extern.log4j.Log4j2;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -57,9 +55,29 @@ public class AdminController extends HttpServlet {
                 log.info("비밀번호 변경을 위해 들어감.");
                 req.getRequestDispatcher("/WEB-INF/web/admin/ChangePw.jsp").forward(req, resp);
             }
+
+            case "/admin/logout" -> {
+                log.info("로그아웃 시작하기");
+                HttpSession session = req.getSession();
+                Cookie rememberCookie = findCookie(req.getCookies(), "remember-me");
+                log.info("쿠키 정보 : {}", rememberCookie);
+                if (rememberCookie != null) {
+                    rememberCookie.setPath("/"); // 쿠키 생성 시 설정했던 경로와 일치시켜야 함
+                    rememberCookie.setMaxAge(0);
+                    resp.addCookie(rememberCookie);
+                    log.info("remember-me 쿠키 삭제 시도 완료");
+                }
+
+                log.info("세션 값 확인.. : {}" , session.getAttribute("loginInfo"));
+                session.removeAttribute("loginInfo");
+                session.invalidate();
+
+
+                log.info("잘가용");
+
+                resp.sendRedirect("/admin/login");
+            }
         }
-
-
     }
 
     @Override
@@ -118,6 +136,10 @@ public class AdminController extends HttpServlet {
                 log.info("로그인 승인을 위해서 이동.");
                 //아이디랑 비밀번호 확인
 
+                String remember = req.getParameter("remember-me");
+                boolean rememberMe = remember != null;
+                log.info("로그인 정보를 저장할지 확인 : {}", rememberMe);
+
                 AdminDTO adminDTO = AdminDTO.builder()
                         .id(req.getParameter("id"))
                         .password(req.getParameter("pw"))
@@ -133,6 +155,22 @@ public class AdminController extends HttpServlet {
                     log.info("로그인 성공");
                     //이후로 로그인 되어 있음을 증명. >> 쿠키와 세션을 이용하기.
 
+                    HttpSession session = req.getSession();
+                    session.setAttribute("loginInfo", adminDTO);
+                    //자동 로그인 첫 처리
+                    if (rememberMe) {
+                        //UUID 생성
+                        String uuid = UUID.randomUUID().toString();
+                        //문자열을 DB에 저장.
+                        adminService.modifyUUID(adminDTO.getId(), uuid);
+
+                        //문자열을 쿠키에 저장.
+                        Cookie rememberCookie = new Cookie("remember-me", uuid);
+                        rememberCookie.setMaxAge(60 * 60 * 24 * 7); // 저장 기간 일주일
+                        rememberCookie.setPath("/");
+
+                        resp.addCookie(rememberCookie); //응답에 쿠키 추가
+                    }
                     resp.sendRedirect("/dashboard");
                 } else {
                     log.info("로그인 실패");
@@ -204,15 +242,15 @@ public class AdminController extends HttpServlet {
                 log.info("uuid값을 확인하기");
                 String uuid = req.getParameter("uuid");
                 String changePw = req.getParameter("pw");
-                log.info("uuid 값 확인 : {}",uuid);
-                log.info("비번 확인 : {}" , changePw);
+                log.info("uuid 값 확인 : {}", uuid);
+                log.info("비번 확인 : {}", changePw);
 
                 log.info("해당하는 계정 정보 확인하기");
                 AuthDTO authDTO = authService.findAuthInfo(uuid);
                 log.info(authDTO);
                 log.info("토큰 검증");
-                if (authDTO == null){
-                    req.getRequestDispatcher("/WEB-INF/web/admin/TokenCanNotUse.jsp").forward(req,resp);
+                if (authDTO == null) {
+                    req.getRequestDispatcher("/WEB-INF/web/admin/TokenCanNotUse.jsp").forward(req, resp);
                 }
 
                 log.info("비밀번호 변경을 실행함.");
@@ -221,7 +259,7 @@ public class AdminController extends HttpServlet {
                 AdminDTO adminDTO = adminService.findAdminById(authDTO.getId());
 
                 log.info("비밀번호 암호화 해서 변경 시키기");
-                adminDTO.setPassword(BCrypt.hashpw(changePw,BCrypt.gensalt()));
+                adminDTO.setPassword(BCrypt.hashpw(changePw, BCrypt.gensalt()));
                 adminService.changeAdmin(adminDTO);
 
                 log.info("토큰 만료시키기");
@@ -231,5 +269,25 @@ public class AdminController extends HttpServlet {
                 resp.sendRedirect(command + "?result=success");
             }
         }
+    }
+
+    private Cookie findCookie(Cookie[] cookies, String cookieName) {
+        /*
+        매배변수로 받은 cookies 배열에서 cookiename과 일치하는 쿠키를 찾아 반환.
+        없으면 cookieNmae으로 이름이 지엉된 새로운 쿠키를 생성해서 반환
+         */
+        log.info("쿠키 찾기 확인");
+        Cookie targetCookie = null;
+
+        if (cookies != null) { //매개변수로 받은 쿠기가 존재함.
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(cookieName)) {
+                    log.info("있네? : {}", cookie);
+                    targetCookie = cookie; //쿠키의 이름이 일치하는 경우
+                    break;
+                }
+            }
+        }
+        return targetCookie;
     }
 }

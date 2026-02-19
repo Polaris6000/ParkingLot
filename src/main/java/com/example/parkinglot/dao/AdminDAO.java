@@ -153,4 +153,52 @@ public class AdminDAO {
 
         return adminVO;
     }
+
+    public void insertUUID(String id, String uuid) {
+        String sql = "update admin set uuid = ? where id = ?";
+
+        try{
+            @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+            @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,uuid);
+            preparedStatement.setString(2,id);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public AdminVO selectOneByUUID(String uuid) {
+        AdminVO adminVO = null;
+
+        String sql = "select * from admin where uuid = ?";
+
+        try {
+            //connection 연결해서 아이디 값 찾아오기
+            @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+            @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, uuid);
+
+            @Cleanup ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                adminVO = AdminVO.builder()
+                        .id(resultSet.getString("id"))
+                        .name(resultSet.getString("name"))
+                        .password(resultSet.getString("password"))
+                        .email(resultSet.getString("email"))
+                        .authorization((resultSet.getString("authorization")))
+                        .authentication((resultSet.getBoolean("authentication")))
+                        .build();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return adminVO;
+    }
 }
