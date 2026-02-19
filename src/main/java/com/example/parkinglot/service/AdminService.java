@@ -77,6 +77,19 @@ public class AdminService {
         return adminDTO;
     }
 
+    public void modifyUUID(String id, String uuid) {
+        adminDAO.insertUUID(id,uuid);
+    }
+
+    public AdminDTO getAdminByUUID(String uuid) {
+        AdminDTO adminDTO = null;
+        AdminVO adminVO = adminDAO.selectOneByUUID(uuid);
+        if (adminVO != null){
+            adminDTO = modelMapper.map(adminVO, AdminDTO.class);
+        }
+        return adminDTO;
+    }
+
     //비밀번호 바꿀 때 사용하는 기능
 
 }
