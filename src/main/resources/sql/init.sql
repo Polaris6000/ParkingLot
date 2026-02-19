@@ -64,6 +64,8 @@ CREATE TABLE if not exists fee_policy
     update_date           datetime default now() comment '요금 정책 변경 시간을 기록'
 ) COMMENT ='주차 요금 산정 정책';
 
+insert into fee_policy (base_fee, basic_unit_minute, unit_fee, billing_unit_minutes, help_discount_rate, compact_discount_rate, grace_period_minutes, max_cap_amount, update_date) values (default,default,default,default,default,default,default,default,default);
+
 -- member
 create table if not exists admin
 (

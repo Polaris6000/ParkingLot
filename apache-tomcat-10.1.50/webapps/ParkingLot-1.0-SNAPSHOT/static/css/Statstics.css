@@ -1,0 +1,143 @@
+@import "public.css";
+/* Stastics.css - Statistics Page Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Bookk Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f9fafb;
+    color: #1f2937;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Top Section - 주은씨 구역 */
+.top-section {
+    margin-bottom: 2rem;
+}
+
+/* Header Section */
+.statistics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.statistics-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: 'Bookk Gothic', sans-serif;
+    color: #111827;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.notification-btn {
+    width: 48px;
+    height: 48px;
+    border: 1px solid #e5e7eb;
+    background-color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.notification-btn:hover {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+    transform: translateY(-1px);
+}
+
+.notification-btn:active {
+    transform: translateY(0);
+}
+
+.export-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: 'Bookk Gothic', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.export-btn:hover {
+    background-color: #4f46e5;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.export-btn:active {
+    transform: translateY(0);
+}
+
+/* Statistics Summary Cards */
+.statistics-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-right: 1.5rem;
+    border-right: 1px solid #e5e7eb;
+}
+
+.summary-card:last-child {
+    border-right: none;
+    padding-right: 0;
+}
+
+.summary-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    font-family: 'Bookk Gothic', sans-serif;
+}
+
+.summary-value.revenue {
+    color: #ef4444;
+}
+
+.summary-value.count {
+    color: #3b82f6;
+}
+
+.summary-value.period {
+    color: #111827;
+    font-size: 1.5rem;
+}
+
+.summary-label {
+    font-size: 0.95rem;
+    color: #6b7280;
+    font-weight: 300;
+    font-family: 'Bookk Gothic', sans-serif;
+}

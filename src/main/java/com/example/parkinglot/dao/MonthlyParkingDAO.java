@@ -55,7 +55,14 @@ public class MonthlyParkingDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                return mapToDTO(resultSet);
+                return MonthlyParkingDTO.builder()
+                        .id(resultSet.getInt("id"))
+                        .plateNumber(resultSet.getString("plate_number"))
+                        .name(resultSet.getString("name"))
+                        .phoneNumber(resultSet.getString("phone_number"))
+                        .beginDate(resultSet.getDate("begin_date").toLocalDate())
+                        .expiryDate(resultSet.getDate("expiry_date").toLocalDate())
+                        .build();
             }
             return null;
         }
@@ -69,13 +76,19 @@ public class MonthlyParkingDAO {
         try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
+            {
 
-            while (resultSet.next()) {
-                list.add(mapToDTO(resultSet));
-            }
-            return list;
-        }
-    }
+                while (resultSet.next()) {
+
+                    list.add(MonthlyParkingDTO.builder()
+                            .id(resultSet.getInt("id"))
+                            .plateNumber(resultSet.getString("plate_number"))
+                            .name(resultSet.getString("name"))
+                            .phoneNumber(resultSet.getString("phone_number"))
+                            .beginDate(resultSet.getDate("begin_date").toLocalDate())
+                            .expiryDate(resultSet.getDate("expiry_date").toLocalDate())
+                            .build());
+                }
 
     // 페이징 처리된 목록 조회 (정렬 조건 포함)
     // sortColumn, sortOrder 는 Service 에서 whitelist 검증 후 전달받으므로 SQL Injection 위험 없음
@@ -160,11 +173,11 @@ public class MonthlyParkingDAO {
     }
 
     //월정액 회원 유효성 확인
-    public boolean isValidMember(String plateNumber) throws SQLException {
-        String sql = "SELECT expiry_date FROM monthly_parking WHERE plate_number = ?";
+    public boolean isValidMember(String plateNumber) {
+        String sql = "SELECT expiry_date FROM monthly_parking WHERE plate_number = ? order by expiry_date desc limit 1";
 
-        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try(Connection connection = ConnectionUtil.INSTANCE.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)){
 
             preparedStatement.setString(1, plateNumber);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -173,8 +186,11 @@ public class MonthlyParkingDAO {
                 LocalDate expireDate = resultSet.getDate("expiry_date").toLocalDate();
                 return !expireDate.isBefore(LocalDate.now());
             }
-            return false;
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
+        return false;
     }
 
     //회원 정보 수정

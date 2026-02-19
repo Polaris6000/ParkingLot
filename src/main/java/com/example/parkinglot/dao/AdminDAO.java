@@ -20,7 +20,7 @@ public class AdminDAO {
         AdminVO adminVO = null;
         String sql = "select * from admin where id = ?";
 
-        try {
+        try{
             //connection 연결해서 아이디 값 찾아오기
             @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
             @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(sql);

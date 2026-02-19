@@ -1,558 +1,286 @@
-/**
- * 주차장 대시보드 클라이언트 스크립트
- *
- * 기능:
- * - 페이지 로딩 시 대시보드 데이터 자동 로딩
- * - 실시간 데이터 갱신 (자동 새로고침)
- * - 차량 검색 기능
- * - 주차 구역 시각화 및 인터랙션
- *
- * API 엔드포인트:
- * - /api/dashboard/all      : 전체 데이터 조회
- * - /api/dashboard/stats    : 통계만 조회
- * - /api/dashboard/spots    : 주차 구역만 조회
- * - /api/dashboard/search   : 차량 검색
- *
- * @author 팀 프로젝트
- * @version 1.0
+/*
+변화가 생기는 부분 : 약식 통계
+
+차량 주차 부분
+
+오른쪽 정산 부분
+
+정산하기 버튼 부분
  */
+//약식 통계 >> 이건 자바에서 바로 정보 받아서 처리
+// const statisticsArea = document.querySelector('.stats-container');
+// //이건 정보를 받아와서 약식으로 통계를 내야하니까 ajax를 쓰면 되는거고.
+// const currentCount = statisticsArea.querySelector('#currentParkedCount');
+// const availableCount = statisticsArea.querySelector('#availableSpots');
+// const todayCount = statisticsArea.querySelector('#todayVisitorCount');
+// const valiPercent = statisticsArea.querySelector('#occupancyRate');
 
-// ========== 전역 변수 ==========
+//주차 현황 부분
+const parkingArea = document.querySelector('div.occupancy-section');
+//여긴 버튼 클릭하면 오른쪽 입력부분이 바뀌어야 하니까 그것을 이용
+const parkingSpot = parkingArea.querySelectorAll('div.spot');
 
-/**
- * 컨텍스트 경로
- * JSP에서 ${pageContext.request.contextPath}로 설정됨
- */
-let contextPath = '';
+//입력 부분 form의 action을 바꿔서 submit 하는 식으로 기능.
+const right_infoForm = document.querySelector('div.right-panel > form.info-box');
+const idInput_r = right_infoForm.querySelector('#id');
+const dateBackUp_r = right_infoForm.querySelector('#enterTimeBackUp');
+const payTimeInput_r = right_infoForm.querySelector('#payTime');
+const date_r = right_infoForm.querySelector('#today'); //날짜 인풋
+const carNumber_r = right_infoForm.querySelector('#carNumber'); //차량 번호
+const parkingStat_r = right_infoForm.querySelector('#status'); // 차량 상태(입차, 출차)
+const discountInfo_r = right_infoForm.querySelector('#discount'); // 할인 정보 : 일반/경차/장애인/월주차
+const enterTime_r = right_infoForm.querySelector('#enterTime'); // 입차 시간
+const exitTime_r = right_infoForm.querySelector('#exitTime'); // 출차 시간
+const cost_r = right_infoForm.querySelector('#cost'); //주차 비용
 
-/**
- * 자동 새로고침 타이머 ID
- */
-let autoRefreshTimer = null;
+let normalCost = 0; //기준값이 되는 비용.
 
-/**
- * 현재 검색된 주차 구역 번호
- */
-let currentSearchSpot = null;
+//정산하기 버튼
+const moneyBtn = document.querySelector(".dashboard-header").querySelector('button');
+//여길 누르면 입력부분에 있던 데이터들을 가져와서 모달창을 띄워야 한다.
 
-// ========== 페이지 초기화 ==========
+//초기화 작업
+const parkingJSON = document.querySelector('div#jsonData-car').textContent;
+const feeJSON = document.querySelector('div#jsonData-fee').textContent;
+// console.log(parkingJSON);
 
-/**
- * 페이지 로드 시 실행
- * - 초기 데이터 로딩
- * - 이벤트 리스너 등록
- * - 자동 새로고침 시작
- */
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('대시보드 초기화 시작');
+const parkingData = parkingJSON ? JSON.parse(parkingJSON) : [];
+const feeData = feeJSON ? JSON.parse(feeJSON) : [];
 
-    // 컨텍스트 경로 설정 (JSP에서 주입)
-    contextPath = document.getElementById('contextPath')?.value || '';
+//모달창 값 불러오기
+const modalDiv = document.querySelector('div.modal');
+const modal_infoForm = modalDiv.querySelector('form.info-box');
+const idInput_m = modal_infoForm.querySelector('#id');
+const dateBackUp_m = modal_infoForm.querySelector('#enterTimeBackUp');
+const payTimeInput_m = modal_infoForm.querySelector('#payTime');
+const date_m = modal_infoForm.querySelector('#today'); //날짜 인풋
+const carNumber_m = modal_infoForm.querySelector('#carNumber'); //차량 번호
+const parkingStat_m = modal_infoForm.querySelector('#status'); // 차량 상태(입차, 출차)
+const discountInfo_m = modal_infoForm.querySelector('#discount'); // 할인 정보 : 일반/경차/장애인/월주차
+const enterTime_m = modal_infoForm.querySelector('#enterTime'); // 입차 시간
+const exitTime_m = modal_infoForm.querySelector('#exitTime'); // 출차 시간
+const cost_m = modal_infoForm.querySelector('#cost'); //주차 비용
 
-    // 초기 데이터 로딩
-    loadDashboardData();
+const submit_modal_btn = modalDiv.querySelectorAll('button')[0]
+const cancle_modal_btn = modalDiv.querySelectorAll('button')[1]
 
-    // 이벤트 리스너 등록
-    initEventListeners();
 
-    // 자동 새로고침 시작 (30초마다)
-    // startAutoRefresh(30000);
+/*****************************************************************************/
+//초기화
+parkingSpot.forEach(item => {
+    item.onclick = enterProcess;
+})
 
-    console.log('대시보드 초기화 완료');
+parkingData.forEach(item => {
+    // console.log("주차 ID:", item.id);
+    const spot = Number(item.parkingSpot.replaceAll("A", ''));
+    // console.log(spot);
+    // console.log(parkingSpot[spot - 1].querySelector('div').textContent);
+    //저 값으로 이제 색상을 찾으면 되겠네?
+    parkingSpot[spot - 1].classList.add('occupied');
+    // parkingSpot[spot-1].classList.remove('occupied')
+    //얘들은 onclick을 갱신해주면 되겠다.
+    parkingSpot[spot - 1].onclick = exitProcess;
 });
+/*****************************************************************************/
 
-/**
- * 이벤트 리스너 초기화
- */
-function initEventListeners() {
-    // 검색 버튼 클릭
-    const searchBtn = document.getElementById('searchBtn');
-    if (searchBtn) {
-        searchBtn.addEventListener('click', handleSearch);
-    }
+//할인정보가 변경되면 자동으로 비용 계산 다시 해줘.
+discountInfo_r.onchange = () => {
+    discountCost(discountInfo_r.value)
+};
 
-    // 검색창 엔터키
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                handleSearch();
-            }
-        });
-    }
+//빈 차량 부분을 선택했을 때 일어날 일.
+function enterProcess(event) {
+    //왼쪽의 버튼을 클리갛면 오른쪽 데이터들을 채워주는 역할
+    //입차 처리 중
+    const now = new Date();
+    //날짜 저장.
+    const day = now.getFullYear() + "-" + ("" + (now.getMonth() + 1)).padStart(2, "0") + "-" + ("" + now.getDay()).padStart(2, "0");
+    //시간 저장
+    // console.log(now);
+    const time = ("" + now.getHours()).padStart(2, "0") + ":" + ("" + (now.getMinutes() + 1)).padStart(2, "0");
 
-    // 새로고침 버튼
-    const refreshBtn = document.getElementById('refreshBtn');
-    if (refreshBtn) {
-        refreshBtn.addEventListener('click', function() {
-            loadDashboardData();
-            showNotification('데이터를 새로고침했습니다.');
-        });
-    }
+    idInput_r.value = "";
+    dateBackUp_r.value = now;
+    date_r.value = day;
+    carNumber_r.value = ""; //공백으로 초기화. + 자동 포커스
+    carNumber_r.setAttribute("autofocus", "");
+    carNumber_r.removeAttribute("readonly"); //수정할 수 있게 바꾸기.
+    parkingStat_r.value = "입차(" + event.currentTarget.getAttribute('data-spot') + ")";
+    discountInfo_r.value = "normal";
+    enterTime_r.value = time;
+    exitTime_r.value = "";
+    cost_r.value = "0원";
 
-    // 검색 초기화 버튼
-    const clearSearchBtn = document.getElementById('clearSearchBtn');
-    if (clearSearchBtn) {
-        clearSearchBtn.addEventListener('click', clearSearch);
-    }
+    //버튼 활성화 및 이름 바꾸기
+    moneyBtn.removeAttribute('disabled');
+    moneyBtn.removeAttribute('style');
+    moneyBtn.removeAttribute('cursor');
+    moneyBtn.innerHTML = `<i class="fas fa-sign-out-alt"></i> <span>입차처리</span>`;
 }
 
-// ========== 데이터 로딩 ==========
+//데이터가 있는 곳을 선택했을 때 생기는 일.
+function exitProcess(event) {
+    //왼쪽의 버튼을 클리갛면 오른쪽 데이터들을 채워주는 역할
+    //출차 처리 중
+    //지금 클릭된 곳의 위치를 알아야해. node정보가 필요하다.
+    // console.log(event.currentTarget);
+    // console.log(parkingData[findSpot(event.currentTarget.getAttribute('data-spot'))]);
+    // console.log(feeData);
 
-/**
- * 대시보드 전체 데이터 로딩
- * - 통계 정보와 주차 구역 정보를 한 번에 가져옴
- */
-function loadDashboardData() {
-    console.log('대시보드 데이터 로딩 시작');
+    //현재 대상을 지정.
+    const thisTarget = parkingData[findSpot(event.currentTarget.getAttribute('data-spot'))];
+    //입차시간을 받아오기.
+    const entryTime = thisTarget.entryTime;
 
-    // 로딩 인디케이터 표시
-    showLoadingIndicator();
+    //현재 시간을 확인.
+    const now = new Date();
+    // console.log(now)
+    //날짜 저장.
+    const day = now.getFullYear() + "-" + ("" + (now.getMonth() + 1)).padStart(2, "0") + "-" + ("" + now.getDay()).padStart(2, "0");
+    //시간 저장
+    const time = ("" + now.getHours()).padStart(2, "0") + ":" + ("" + (now.getMinutes() + 1)).padStart(2, "0");
 
-    // Ajax 요청
-    fetch(contextPath + '/api/dashboard/all', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
-        // HTTP 응답 상태 확인
-        if (!response.ok) {
-            throw new Error('서버 응답 오류: ' + response.status);
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('데이터 수신 성공:', data);
+    //input 값들을 설정.
+    id.value = thisTarget.id
+    dateBackUp_r.value = entryTime;
+    payTimeInput_r.value = day + 'T' + time + ':' + now.getSeconds();
+    date_r.value = entryTime.split(' ')[0];
+    carNumber_r.value = thisTarget.plateNumber; //수정못하게 readonly추가
+    carNumber_r.setAttribute("readonly", "");
+    carNumber_r.setAttribute("autofocus", "");
 
-        // 성공 응답 확인
-        if (data.success) {
-            // 통계 정보 업데이트
-            updateStatsDisplay(data.stats);
 
-            // 주차 구역 시각화
-            renderParkingSpots(data.parkingSpots);
+    //시간에 대한 값을 지정.
+    const allTime = entryTime.split(' ')[1];
+    [hr, min, sec] = allTime.split(':');
+    enterTime_r.value = hr + ":" + min;
+    exitTime_r.value = time;
 
-        } else {
-            throw new Error(data.error || '데이터 로딩 실패');
-        }
-    })
-    .catch(error => {
-        console.error('데이터 로딩 오류:', error);
-        showErrorNotification('데이터를 불러오는데 실패했습니다: ' + error.message);
-    })
-    .finally(() => {
-        // 로딩 인디케이터 숨김
-        hideLoadingIndicator();
-    });
-}
+    //시간 차이 계산
+    const enterMin = hr * 60 + min * 1;
+    const exiteMin = time.split(':')[0] * 60 + time.split(':')[1] * 1;
 
-/**
- * 통계 정보만 업데이트
- * (주차 구역 정보는 변경하지 않음)
- */
-function loadStatsOnly() {
-    console.log('통계 정보만 업데이트');
+    const payTime = exiteMin - enterMin;
 
-    fetch(contextPath + '/api/dashboard/stats', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            updateStatsDisplay(data.data);
-        }
-    })
-    .catch(error => {
-        console.error('통계 로딩 오류:', error);
-    });
-}
-
-// ========== 통계 정보 표시 ==========
-
-/**
- * 통계 정보 화면 업데이트
- *
- * @param {Object} stats - 통계 데이터 객체
- * @param {number} stats.currentParkedCount - 현재 주차 대수
- * @param {number} stats.totalSpots - 전체 주차 면수
- * @param {number} stats.todayVisitorCount - 금일 방문자 수
- * @param {number} stats.availableSpots - 주차 가능 대수
- */
-function updateStatsDisplay(stats) {
-    console.log('통계 정보 업데이트:', stats);
-
-    // 현재 주차 대수
-    const currentParkedEl = document.getElementById('currentParkedCount');
-    if (currentParkedEl) {
-        currentParkedEl.textContent = stats.currentParkedCount || 0;
-    }
-
-    // 주차 가능 대수
-    const availableSpotsEl = document.getElementById('availableSpots');
-    if (availableSpotsEl) {
-        availableSpotsEl.textContent = stats.availableSpots || 0;
-    }
-
-    // 금일 방문자 수
-    const todayVisitorEl = document.getElementById('todayVisitorCount');
-    if (todayVisitorEl) {
-        todayVisitorEl.textContent = stats.todayVisitorCount || 0;
-    }
-
-    // 점유율 계산 및 표시
-    const occupancyRate = stats.totalSpots > 0
-        ? Math.round((stats.currentParkedCount / stats.totalSpots) * 100)
-        : 0;
-
-    const occupancyRateEl = document.getElementById('occupancyRate');
-    if (occupancyRateEl) {
-        occupancyRateEl.textContent = occupancyRate + '%';
-    }
-
-    // 점유율에 따른 색상 변경
-    updateOccupancyColor(occupancyRate);
-}
-
-/**
- * 점유율에 따라 색상 변경
- * - 80% 이상: 빨간색 (혼잡)
- * - 50% ~ 79%: 노란색 (보통)
- * - 50% 미만: 파란색 (여유)
- *
- * @param {number} rate - 점유율 (0-100)
- */
-function updateOccupancyColor(rate) {
-    const occupancyCard = document.getElementById('occupancyCard');
-    if (!occupancyCard) return;
-
-    // 기존 색상 클래스 제거
-    occupancyCard.classList.remove('occupancy-low', 'occupancy-medium', 'occupancy-high');
-
-    // 점유율에 따라 클래스 추가
-    if (rate >= 80) {
-        occupancyCard.classList.add('occupancy-high');
-    } else if (rate >= 50) {
-        occupancyCard.classList.add('occupancy-medium');
+    //회차 시간 계산하지
+    if (payTime <= feeData.gracePeriodMinutes) {
+        parkingStat_r.value = "회차(" + event.currentTarget.getAttribute('data-spot') + ")";
+        normalCost = 0;
     } else {
-        occupancyCard.classList.add('occupancy-low');
-    }
-}
-
-// ========== 주차 구역 시각화 ==========
-
-/**
- * 주차 구역 시각화
- * - 20개 주차 구역(A01~A20)을 2개 행으로 표시
- * - 각 구역의 상태에 따라 다른 스타일 적용
- *
- * @param {Array} parkingSpots - 주차 구역 배열
- */
-function renderParkingSpots(parkingSpots) {
-    console.log('주차 구역 렌더링:', parkingSpots.length + '개');
-
-    // A구역 (A01~A10)
-    const rowA = document.getElementById('parkingRowA');
-    if (rowA) {
-        rowA.innerHTML = renderParkingRow(parkingSpots.slice(0, 10));
-    }
-
-    // B구역 (A11~A20) - 이름은 A구역이지만 두 번째 행
-    const rowB = document.getElementById('parkingRowB');
-    if (rowB) {
-        rowB.innerHTML = renderParkingRow(parkingSpots.slice(10, 20));
-    }
-}
-
-/**
- * 주차 구역 행 HTML 생성
- *
- * @param {Array} spots - 해당 행의 주차 구역 배열 (10개)
- * @returns {string} HTML 문자열
- */
-function renderParkingRow(spots) {
-    return spots.map(spot => {
-        // 빈 자리 / 점유 상태 결정
-        const isOccupied = spot.occupied;
-        const spotClass = isOccupied ? 'spot occupied' : 'spot';
-
-        // 검색 결과 강조
-        const isSearchResult = currentSearchSpot === spot.spotNumber;
-        const finalClass = isSearchResult ? spotClass + ' search-hit' : spotClass;
-
-        // 툴팁 텍스트 생성
-        let tooltipText = spot.spotNumber;
-        if (isOccupied) {
-            tooltipText += '\n차량번호: ' + (spot.plateNumber || '정보없음');
-            tooltipText += '\n입차시간: ' + (spot.entryTime || '정보없음');
+        parkingStat_r.value = "입차(" + event.currentTarget.getAttribute('data-spot') + ")";
+        if (payTime <= feeData.basicUnitMinute) {
+            normalCost = feeData.baseFee;
         } else {
-            tooltipText += '\n(사용 가능)';
+            normalCost = feeData.baseFee + Math.ceil((payTime - feeData.basicUnitMinute) / feeData.billingUnitMinutes) * feeData.unitFee
         }
-
-        // HTML 생성
-        return `
-            <div class="${finalClass}" 
-                 data-spot="${spot.spotNumber}"
-                 data-occupied="${isOccupied}"
-                 data-plate="${spot.plateNumber || ''}"
-                 onclick="handleSpotClick('${spot.spotNumber}')"
-                 title="${tooltipText}">
-                <i class="fas fa-car"></i>
-                <div class="spot-label">${spot.spotNumber}</div>
-            </div>
-        `;
-    }).join('');
-}
-
-/**
- * 주차 구역 클릭 이벤트 처리
- *
- * @param {string} spotNumber - 클릭된 주차 구역 번호 (예: 'A01')
- */
-function handleSpotClick(spotNumber) {
-    console.log('주차 구역 클릭:', spotNumber);
-
-    // 상세 정보 패널 표시
-    showSpotDetails(spotNumber);
-}
-
-/**
- * 주차 구역 상세 정보 표시
- * (우측 패널에 표시)
- *
- * @param {string} spotNumber - 주차 구역 번호
- */
-function showSpotDetails(spotNumber) {
-    const detailPanel = document.getElementById('detailPanel');
-    if (!detailPanel) return;
-
-    // 해당 주차 구역 데이터 찾기
-    const spotElement = document.querySelector(`[data-spot="${spotNumber}"]`);
-    if (!spotElement) return;
-
-    const isOccupied = spotElement.dataset.occupied === 'true';
-    const plateNumber = spotElement.dataset.plate;
-
-    if (isOccupied) {
-        // 점유 중인 경우: 차량 정보 표시
-        detailPanel.innerHTML = `
-            <h3>주차 구역: ${spotNumber}</h3>
-            <div class="detail-content">
-                <p><strong>상태:</strong> <span class="status-occupied">사용 중</span></p>
-                <p><strong>차량번호:</strong> ${plateNumber || '정보없음'}</p>
-                <hr>
-                <button class="btn-primary" onclick="navigateToExit('${plateNumber}')">
-                    <i class="fas fa-sign-out-alt"></i> 출차 처리
-                </button>
-            </div>
-        `;
-    } else {
-        // 빈 자리인 경우: 입차 안내
-        detailPanel.innerHTML = `
-            <h3>주차 구역: ${spotNumber}</h3>
-            <div class="detail-content">
-                <p><strong>상태:</strong> <span class="status-available">사용 가능</span></p>
-                <hr>
-                <button class="btn-primary" onclick="navigateToEntry('${spotNumber}')">
-                    <i class="fas fa-car"></i> 입차 등록
-                </button>
-            </div>
-        `;
     }
+    discountCost(thisTarget.kindOfDiscount);
+
+
+    //비용과 관련된 부분을 설정.
+
+    //버튼 활성화 및 이름 바꾸기
+    moneyBtn.removeAttribute('disabled');
+    moneyBtn.removeAttribute('style');
+    moneyBtn.removeAttribute('cursor');
+    moneyBtn.innerHTML = `<i class="fas fa-sign-out-alt"></i> <span>출차처리</span>`;
+
 }
 
-// ========== 검색 기능 ==========
-
-/**
- * 차량 번호 검색 처리
- */
-function handleSearch() {
-    const searchInput = document.getElementById('searchInput');
-    const keyword = searchInput?.value.trim();
-
-    if (!keyword) {
-        showErrorNotification('검색어를 입력해주세요.');
-        return;
+//할인에 따른 정산 갱신
+function discountCost(kindOfDiscount) {
+    // console.log(kindOfDiscount) //받은값 확인    //할인율 반영
+    switch (kindOfDiscount) {
+        case "normal" :
+            discountInfo_r.value = "normal";
+            cost_r.value = normalCost;
+            break;
+        case "disabled" :
+            discountInfo_r.value = "disabled";
+            cost_r.value = Math.ceil(normalCost * (100 - feeData.helpDiscountRate) / 100 / 100) * 100 //십의자리 절삭을 위해 100으로 나고 다시 곱.
+            break;
+        case "light" :
+            discountInfo_r.value = "light";
+            cost_r.value = Math.ceil(normalCost * (100 - feeData.compactDiscountRate) / 100 / 100) * 100
+            break;
+        case "monthly" :
+            discountInfo_r.value = "monthly";
+            cost_r.value = 0;
+            break;
     }
+    cost_r.value += "원";
+}
 
-    console.log('차량 검색:', keyword);
-
-    // 로딩 표시
-    showLoadingIndicator();
-
-    // API 호출
-    fetch(contextPath + `/api/dashboard/search?keyword=${encodeURIComponent(keyword)}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
+//장소의 정보를 찾는 함수
+function findSpot(spot) {
+    //문자열을 찾아서 해당하는 배열의 인덱스 반환하기.
+    for (let i = 0; i < parkingData.length; i++) {
+        // console.log(parkingData[i].parkingSpot);
+        if (parkingData[i].parkingSpot === spot) {
+            return i;
         }
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('검색 결과:', data);
-
-        if (data.success) {
-            // 검색 성공: 해당 주차 구역 강조
-            currentSearchSpot = data.data.spotNumber;
-
-            // 주차 구역 다시 렌더링 (강조 표시 적용)
-            loadDashboardData();
-
-            // 검색된 구역으로 스크롤
-            scrollToSpot(data.data.spotNumber);
-
-            // 상세 정보 표시
-            showSpotDetails(data.data.spotNumber);
-
-            showNotification(`차량을 찾았습니다: ${data.data.spotNumber}`);
-
-        } else {
-            // 검색 실패
-            showErrorNotification(data.message || '차량을 찾을 수 없습니다.');
-            currentSearchSpot = null;
-        }
-    })
-    .catch(error => {
-        console.error('검색 오류:', error);
-        showErrorNotification('검색 중 오류가 발생했습니다.');
-    })
-    .finally(() => {
-        hideLoadingIndicator();
-    });
-}
-
-/**
- * 검색 초기화
- */
-function clearSearch() {
-    // 검색어 삭제
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.value = '';
     }
 
-    // 강조 표시 제거
-    currentSearchSpot = null;
-
-    // 데이터 다시 로딩
-    loadDashboardData();
-
-    showNotification('검색이 초기화되었습니다.');
+    // console.log(spot);
+    // console.log(parkingData[0].parkingSpot);
+    //
+    // return 1;
+    return -1;
 }
 
-/**
- * 특정 주차 구역으로 스크롤
- *
- * @param {string} spotNumber - 주차 구역 번호
- */
-function scrollToSpot(spotNumber) {
-    const spotElement = document.querySelector(`[data-spot="${spotNumber}"]`);
-    if (spotElement) {
-        spotElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-        });
+//위쪽 버튼 클릭했을 때 실행할 함수들
+moneyBtn.onclick = () => {
+    //내부 글자에 따라 진행하기
+    const word = moneyBtn.querySelector('span');
+    // console.log(word.textContent);
+    switch (word.textContent) {
+        case '입차처리':
+            // console.log("입차내요");
+            //액션 주소 바꿔주기
+            right_infoForm.setAttribute("action", '/dashboard/enter');
+            //서밋해서 데이터 보내기
+            right_infoForm.submit();
+            break;
+        //우선 출차처리는 만들어 놓고, 이걸 옮기는거임. 모달로.
+        case '출차처리':
+            //여긴 모달창을 띄우고, 모달창에서 해당 코드가 실행ㅎ해야함.
+            console.log("출차내요");
+            //데이터 복사하기 전에 한번 더 갱신
+            modalDataInput(); //데이터를 복사하기.
+            modalDiv.style.display = 'block';
+            //모달창이 보이게 하면 됌.
+
+            break;
     }
+
 }
 
-// ========== 자동 새로고침 ==========
-
-/**
- * 자동 새로고침 시작
- *
- * @param {number} interval - 새로고침 간격 (밀리초)
- */
-function startAutoRefresh(interval) {
-    console.log(`자동 새로고침 시작: ${interval/1000}초 간격`);
-
-    // 기존 타이머가 있으면 중지
-    stopAutoRefresh();
-
-    // 새 타이머 시작
-    autoRefreshTimer = setInterval(() => {
-        console.log('자동 새로고침 실행');
-        loadDashboardData();
-    }, interval);
+submit_modal_btn.onclick = () => {
+    //액션 주소 바꿔주기
+    modal_infoForm.setAttribute("action", '/dashboard/exit');
+    //서밋해서 데이터 보내기
+    modal_infoForm.submit();
+}
+cancle_modal_btn.onclick = () => {
+    modalDiv.style.display = 'none';
 }
 
-/**
- * 자동 새로고침 중지
- */
-function stopAutoRefresh() {
-    if (autoRefreshTimer) {
-        clearInterval(autoRefreshTimer);
-        autoRefreshTimer = null;
-        console.log('자동 새로고침 중지');
-    }
-}
+// document.addEventListener("click",(event) =>{
+//     console.log(event.currentTarget);
+// })
 
-// ========== 페이지 이동 ==========
-
-/**
- * 입차 등록 페이지로 이동
- *
- * @param {string} spotNumber - 선택된 주차 구역 번호
- */
-function navigateToEntry(spotNumber) {
-    window.location.href = contextPath + `/entry?spot=${spotNumber}`;
-}
-
-/**
- * 출차 처리 페이지로 이동
- *
- * @param {string} plateNumber - 차량 번호
- */
-function navigateToExit(plateNumber) {
-    window.location.href = contextPath + `/exit?plate=${plateNumber}`;
-}
-
-// ========== UI 헬퍼 함수 ==========
-
-/**
- * 로딩 인디케이터 표시
- */
-function showLoadingIndicator() {
-    const indicator = document.getElementById('loadingIndicator');
-    if (indicator) {
-        indicator.style.display = 'block';
-    }
-}
-
-/**
- * 로딩 인디케이터 숨김
- */
-function hideLoadingIndicator() {
-    const indicator = document.getElementById('loadingIndicator');
-    if (indicator) {
-        indicator.style.display = 'none';
-    }
-}
-
-/**
- * 성공 알림 표시
- *
- * @param {string} message - 알림 메시지
- */
-function showNotification(message) {
-    // 간단한 알림 (실제로는 Toast UI 라이브러리 사용 권장)
-    console.log('[알림]', message);
-
-    // TODO: Toast 알림 구현
-    alert(message);
-}
-
-/**
- * 에러 알림 표시
- *
- * @param {string} message - 에러 메시지
- */
-function showErrorNotification(message) {
-    console.error('[에러]', message);
-
-    // TODO: 에러 Toast 구현
-    alert('오류: ' + message);
+//모달창 설정 관련
+//데이터 복사를 하는 함수
+function modalDataInput() {
+    idInput_m.value = idInput_r.value
+    dateBackUp_m.value = dateBackUp_r.value
+    payTimeInput_m.value = payTimeInput_r.value
+    date_m.value = date_r.value
+    carNumber_m.value = carNumber_r.value
+    parkingStat_m.value = parkingStat_r.value
+    discountInfo_m.value = discountInfo_r.value
+    enterTime_m.value = enterTime_r.value
+    exitTime_m.value = exitTime_r.value
+    cost_m.value = cost_r.value
 }

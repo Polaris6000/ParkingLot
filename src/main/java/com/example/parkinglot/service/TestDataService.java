@@ -16,6 +16,8 @@ public enum TestDataService {
         dao = new TestDataDAO();
     }
 
+
+
     // 대량 입차 생성
     public int bulkInsertParking(int count) throws Exception {
         try (Connection conn = ConnectionUtil.INSTANCE.getConnection()) {
