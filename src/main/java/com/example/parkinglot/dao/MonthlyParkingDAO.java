@@ -89,6 +89,11 @@ public class MonthlyParkingDAO {
                             .expiryDate(resultSet.getDate("expiry_date").toLocalDate())
                             .build());
                 }
+            }
+        }
+
+        return list;
+    }
 
     // 페이징 처리된 목록 조회 (정렬 조건 포함)
     // sortColumn, sortOrder 는 Service 에서 whitelist 검증 후 전달받으므로 SQL Injection 위험 없음
@@ -128,7 +133,8 @@ public class MonthlyParkingDAO {
     // 검색 조건 + 정렬 조건 포함 페이징 목록 조회
     // keyword 가 null 이거나 빈 문자열이면 전체 조회와 동일하게 동작
     // sortColumn, sortOrder 는 Service 에서 whitelist 검증 후 전달받으므로 SQL Injection 위험 없음
-    public List<MonthlyParkingDTO> selectWithPagingAndSearch(int offset, int limit, String keyword, String sortColumn, String sortOrder) throws SQLException {
+    public List<MonthlyParkingDTO> selectWithPagingAndSearch(int offset, int limit, String keyword, String
+            sortColumn, String sortOrder) throws SQLException {
         String like = "%" + (keyword == null ? "" : keyword.trim()) + "%";
         String sql = "SELECT * FROM monthly_parking " +
                 "WHERE plate_number LIKE ? OR name LIKE ? OR phone_number LIKE ? " +
@@ -176,8 +182,8 @@ public class MonthlyParkingDAO {
     public boolean isValidMember(String plateNumber) {
         String sql = "SELECT expiry_date FROM monthly_parking WHERE plate_number = ? order by expiry_date desc limit 1";
 
-        try(Connection connection = ConnectionUtil.INSTANCE.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (Connection connection = ConnectionUtil.INSTANCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, plateNumber);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -186,7 +192,7 @@ public class MonthlyParkingDAO {
                 LocalDate expireDate = resultSet.getDate("expiry_date").toLocalDate();
                 return !expireDate.isBefore(LocalDate.now());
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
