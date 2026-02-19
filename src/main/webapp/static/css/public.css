@@ -63,40 +63,40 @@
 ======================================== */
 :root {
     /* === 배경 및 기본 색상 === */
-    --white: #fff;           /* 카드 및 컴포넌트 배경색 */
-    --black: #000;           /* 검정색 */
-    --bg-color: #f8f9fc;        /* 페이지 배경색 (밝은 회색-블루 톤) */
+    --white: #fff; /* 카드 및 컴포넌트 배경색 */
+    --black: #000; /* 검정색 */
+    --bg-color: #f8f9fc; /* 페이지 배경색 (밝은 회색-블루 톤) */
     --border-color: #eee;
-    --pastelblue: #b3d4ff;     /* 파스텔 블루  */
+    --pastelblue: #b3d4ff; /* 파스텔 블루  */
     --skyblue: #7fa3f5;
 
     /* === 주차 상태별 색상 === */
-    --accent-blue: #5c7cfa;     /* 강조 색상 (버튼, 라벨, 포인트 컬러) */
-    --occupied-blue: #3b5bdb;   /* 일반 차량 점유 상태 (진한 파랑) */
-    --ev-green: #52c41a;        /* 전기차 점유 상태 (초록) */
-    --empty-gray: #ddd;      /* 빈 주차 공간 (회색) */
+    --accent-blue: #5c7cfa; /* 강조 색상 (버튼, 라벨, 포인트 컬러) */
+    --occupied-blue: #3b5bdb; /* 일반 차량 점유 상태 (진한 파랑) */
+    --ev-green: #52c41a; /* 전기차 점유 상태 (초록) */
+    --empty-gray: #ddd; /* 빈 주차 공간 (회색) */
 
     /* === 시맨틱 색상 (기능별) === */
-    --primary-color: #4e73df;   /* 주요 액션 (메인 블루) */
-    --info-color: #36b9cc;      /*
-    --success-color: #1cc88a;   /* 성공 상태 (그린) */
-    --danger-color: #e74a3b;    /* 위험/삭제 액션 (레드) */
-    --warning-color: #f6c23e;   /* 경고/주의 (옐로우) */
+    --primary-color: #4e73df; /* 주요 액션 (메인 블루) */
+    --info-color: #36b9cc;      /* 정보 (청록) */
+  --success-color: #1cc88a;   /* 성공 상태 (그린) */
+    --danger-color: #e74a3b; /* 위험/삭제 액션 (레드) */
+    --warning-color: #f6c23e; /* 경고/주의 (옐로우) */
 
     /* === 텍스트 색상 === */
-    --text-dark: #333;       /* 기본 텍스트 (진한 회색) */
-    --text-gray: #888;       /* 보조 텍스트 (회색) */
+    --text-dark: #333; /* 기본 텍스트 (진한 회색) */
+    --text-gray: #888; /* 보조 텍스트 (회색) */
 
     /* === 그림자 효과 === */
-    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);    /* 부드러운 그림자 (기본) */
-    --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.1);  /* 호버 시 강조 그림자 */
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 (기본) */
+    --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.1); /* 호버 시 강조 그림자 */
 
     /* === 레이아웃 관련 === */
-    --radius-md: 15px;          /* 기본 둥근 모서리 크기 */
+    --radius-md: 15px; /* 기본 둥근 모서리 크기 */
 
     /* === 폰트 패밀리 === */
-    --main-font: 'BookkGothic', sans-serif;         /* 메인 UI 폰트 */
-    --chosun-font: 'ChosunCentennial', serif;          /* 서브 폰트 */
+    --main-font: 'BookkGothic', sans-serif; /* 메인 UI 폰트 */
+    --chosun-font: 'ChosunCentennial', serif; /* 서브 폰트 */
 }
 
 
@@ -116,7 +116,7 @@ body {
     background: var(--bg-color);
     font-family: var(--main-font), sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0px;
     display: flex;
     justify-content: center;
     color: var(--text-dark);
@@ -124,10 +124,10 @@ body {
 
 /* 전체 페이지를 감싸는 메인 컨테이너 */
 .container {
-    width: 1200px;              /* 기본 너비 (대시보드용) */
-    max-width: 1200px;          /* 최대 너비 (테스트 페이지용) */
-    margin: 0 auto;             /* 중앙 정렬 */
-    padding: 40px 20px;         /* 상하 여백 */
+    width: 1200px; /* 기본 너비 (대시보드용) */
+    max-width: 1200px; /* 최대 너비 (테스트 페이지용) */
+    margin: 0 auto; /* 중앙 정렬 */
+    padding: 40px 20px; /* 상하 여백 */
     display: flex;
     flex-direction: column;
 }
@@ -162,9 +162,9 @@ a {
 header {
     background: var(--white);
     padding: 10px 0;
-    position: sticky;          /* 스크롤 시 상단 고정 */
+    position: sticky; /* 스크롤 시 상단 고정 */
     top: 0;
-    z-index: 100;              /* 다른 요소 위에 표시 */
+    z-index: 100; /* 다른 요소 위에 표시 */
 }
 
 /* 헤더 내부 컨테이너 */
@@ -172,7 +172,7 @@ header {
     margin: 0 auto;
     padding: 0 20px;
     display: flex;
-    justify-content: space-between;  /* 로고와 네비게이션 양 끝 배치 */
+    justify-content: space-between; /* 로고와 네비게이션 양 끝 배치 */
     align-items: center;
 }
 
@@ -190,7 +190,7 @@ nav ul {
     list-style: none;
     display: flex;
     flex-wrap: wrap; /* 자리가 없으면 다음 줄로 넘김 */
-    gap: 20px;                 /* 메뉴 항목 간격 */
+    gap: 20px; /* 메뉴 항목 간격 */
 }
 
 nav a {
@@ -200,13 +200,13 @@ nav a {
     padding: 10px 20px;
     border-radius: 8px;
     background: var(--bg-color);
-    transition: all 0.3s;      /* 부드러운 호버 효과 */
+    transition: all 0.3s; /* 부드러운 호버 효과 */
 }
 
 nav a:hover {
     background: var(--accent-blue);
     color: var(--white);
-    transform: translateY(-2px);   /* 살짝 위로 뜨는 효과 */
+    transform: translateY(-2px); /* 살짝 위로 뜨는 효과 */
 }
 
 .nav-item {
@@ -226,7 +226,7 @@ nav ul li {
 nav ul .dropdown {
     display: none;
     position: absolute;
-    top: 100%;           /* 부모 li 바로 아래 */
+    top: 100%; /* 부모 li 바로 아래 */
     left: 0;
     z-index: 200;
 
@@ -263,7 +263,7 @@ nav ul .dropdown a {
 nav ul .dropdown a:hover {
     background: var(--bg-color);
     color: var(--accent-blue);
-    transform: none;   /* 부모의 translateY 효과 제거 */
+    transform: none; /* 부모의 translateY 효과 제거 */
 }
 
 
@@ -273,7 +273,7 @@ nav ul .dropdown a:hover {
     border-radius: 15px;
     border: 1px solid var(--border-color);
     display: flex;
-    justify-content: space-between;  /* 제목과 버튼 양 끝 배치 */
+    justify-content: space-between; /* 제목과 버튼 양 끝 배치 */
     align-items: center;
     margin-bottom: 20px;
 }
@@ -315,13 +315,13 @@ nav ul .dropdown a:hover {
 }
 
 .icon-btn:hover {
-    background: #f0f4ff;       /* 호버 시 연한 블루 배경 */
+    background: #f0f4ff; /* 호버 시 연한 블루 배경 */
     border-color: var(--accent-blue);
 }
 
 /* 개발 전용 경고 배지 */
 .warning-badge {
-    background-color: rgba(246, 194, 62, 0.2);  /* 반투명 옐로우 배경 */
+    background-color: rgba(246, 194, 62, 0.2); /* 반투명 옐로우 배경 */
     color: #d68b00;
     padding: 6px 12px;
     border-radius: 20px;
@@ -331,7 +331,7 @@ nav ul .dropdown a:hover {
     align-items: center;
     gap: 6px;
     margin-bottom: 10px;
-    width: fit-content;        /* 내용물만큼만 너비 차지 */
+    width: fit-content; /* 내용물만큼만 너비 차지 */
 }
 
 /* 뒤로가기 버튼 */
@@ -367,7 +367,7 @@ nav ul .dropdown a:hover {
 
 /* === 좌측 패널 - 통계와 주차장 현황 표시 === */
 .left-panel {
-    flex: 1.5;                 /* 우측 패널보다 1.5배 넓게 */
+    flex: 1.5; /* 우측 패널보다 1.5배 넓게 */
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -376,16 +376,79 @@ nav ul .dropdown a:hover {
 /* === 우측 패널 - 선택된 주차 공간의 상세 정보 === */
 .right-panel {
     flex: 1;
+    width: auto;
     background: var(--white);
     border-radius: 15px;
     border: 1px solid var(--border-color);
     min-height: 500px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
     padding: 20px;
+    gap: 16px;
 }
 
+.info-box {
+    background: #FFFFFF;
+    border: 1px solid #E8E8E8;
+    border-radius: 12px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.info-row {
+    display: flex;
+    border-bottom: 1px solid #F0F0F0;
+    height: calc(100% / 7);
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    display: block;
+    flex: 0 0 30%;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--primary-color);
+    background-color: var(--bg-color);
+    align-content: center;
+}
+
+.info-value {
+    display: block;
+    align-items: center;
+    flex: 0 0 70%;
+    border: none;
+    padding: 0 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--info-color);
+    background-color: var(--white);
+    text-align: center;
+}
+
+select {
+    width: 100%;
+}
+
+.info-value:focus {
+    outline: none;
+    box-shadow: none;   /* 추가 */
+}
+
+.value-green {
+    color: var(--success-color);
+}
 
 /* ========================================
    6. 통계 카드 섹션
@@ -395,7 +458,7 @@ nav ul .dropdown a:hover {
 /* 통계 카드 그리드 컨테이너 */
 .stats-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;  /* 2열 균등 분할 */
+    grid-template-columns: 1fr 1fr; /* 2열 균등 분할 */
     gap: 15px;
 }
 
@@ -440,8 +503,8 @@ nav ul .dropdown a:hover {
 }
 
 .card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  /* 호버 시 그림자 강조 */
-    transform: translateY(-5px);                 /* 살짝 위로 뜨는 효과 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 호버 시 그림자 강조 */
+    transform: translateY(-5px); /* 살짝 위로 뜨는 효과 */
 }
 
 /* 전체 너비 카드 (2개 열 모두 차지) */
@@ -495,11 +558,11 @@ nav ul .dropdown a:hover {
     display: flex;
     /*justify-content: space-between;  !* 제목과 버튼을 양 끝으로 *!*/
     flex-wrap: wrap; /* 자리가 없으면 다음 줄로 넘김 */
-    gap: 10px;       /* 요소 사이 간격 */
+    gap: 10px; /* 요소 사이 간격 */
     align-items: center;
     margin-bottom: 15px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #555;   /* 하단 구분선 */
+    border-bottom: 1px solid #555; /* 하단 구분선 */
 }
 
 /* 통계 제목 */
@@ -518,7 +581,7 @@ nav ul .dropdown a:hover {
     border-radius: 5px;
     cursor: pointer;
     font-size: 12px;
-    width: auto;               /* 글자 수만큼만 너비 차지 */
+    width: auto; /* 글자 수만큼만 너비 차지 */
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -563,11 +626,11 @@ nav ul .dropdown a:hover {
 
 /* 주차 구역 레이블 (A구역, B구역 등) */
 .row-label {
-    background: #e7f0ff;       /* 연한 블루 배경 */
+    background: #e7f0ff; /* 연한 블루 배경 */
     color: var(--accent-blue);
     display: inline-block;
     padding: 4px 12px;
-    border-radius: 20px;       /* 둥근 알약 모양 */
+    border-radius: 20px; /* 둥근 알약 모양 */
     font-size: 12px;
     font-weight: bold;
     margin-bottom: 10px;
@@ -615,7 +678,7 @@ nav ul .dropdown a:hover {
 /* === 주차 공간 그리드 (한 행에 10개 배치) === */
 .parking-row {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);  /* 10개 열 균등 분할 */
+    grid-template-columns: repeat(10, 1fr); /* 10개 열 균등 분할 */
     gap: 10px;
     margin-bottom: 20px;
 }
@@ -623,7 +686,7 @@ nav ul .dropdown a:hover {
 /* === 개별 주차 공간 아이콘 (Font Awesome 차량 아이콘 사용) === */
 .spot {
     font-size: 40px;
-    color: var(--empty-gray);  /* 기본: 빈 공간 (회색) */
+    color: var(--empty-gray); /* 기본: 빈 공간 (회색) */
     text-align: center;
     padding: 5px;
     cursor: pointer;
@@ -733,7 +796,7 @@ nav ul .dropdown a:hover {
 /* === 컨트롤 패널 그리드 === */
 .control-panel {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  /* 반응형 그리드 */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 반응형 그리드 */
     gap: 25px;
     margin-bottom: 40px;
 }
@@ -750,7 +813,7 @@ nav ul .dropdown a:hover {
 
 .card-header i {
     font-size: 24px;
-    color: var(--primary-color);  /* 기본 아이콘 색상 */
+    color: var(--primary-color); /* 기본 아이콘 색상 */
 }
 
 .card-header h2 {
@@ -763,7 +826,7 @@ nav ul .dropdown a:hover {
 /* === 액션 그리드 (기능 카드 배치) === */
 .actions-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));  /* 최소 240px, 반응형 */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* 최소 240px, 반응형 */
     gap: 20px;
     margin-bottom: 25px;
 }
@@ -780,7 +843,7 @@ nav ul .dropdown a:hover {
 }
 
 .action-card:hover {
-    transform: translateY(-3px);   /* 호버 시 살짝 위로 */
+    transform: translateY(-3px); /* 호버 시 살짝 위로 */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
@@ -849,11 +912,11 @@ button {
 }
 
 .btn-primary:hover {
-    background: #2e59d9;       /* 호버 시 어두운 블루 */
+    background: #2e59d9; /* 호버 시 어두운 블루 */
 }
 
 .btn-primary i {
-    margin-right: 5px;         /* 아이콘과 텍스트 간격 */
+    margin-right: 5px; /* 아이콘과 텍스트 간격 */
 }
 
 /* Success 버튼 (확인/입차 등) */
@@ -863,7 +926,7 @@ button {
 }
 
 .btn-success:hover {
-    background: #17a673;       /* 호버 시 어두운 그린 */
+    background: #17a673; /* 호버 시 어두운 그린 */
 }
 
 /* Info 버튼 (정보/보기 등) */
@@ -873,7 +936,7 @@ button {
 }
 
 .btn-info:hover {
-    background: #2c9faf;       /* 호버 시 어두운 청록 */
+    background: #2c9faf; /* 호버 시 어두운 청록 */
 }
 
 /* Warning 버튼 (경고/주의 액션) */
@@ -883,7 +946,7 @@ button {
 }
 
 .btn-warning:hover {
-    background: #dda20a;       /* 호버 시 어두운 옐로우 */
+    background: #dda20a; /* 호버 시 어두운 옐로우 */
 }
 
 /* Danger 버튼 (삭제/위험 액션) */
@@ -899,7 +962,7 @@ button {
 }
 
 .btn-danger:hover {
-    background: #c0392b;       /* 호버 시 더 어두운 레드 */
+    background: #c0392b; /* 호버 시 더 어두운 레드 */
 }
 
 /* 힌트 텍스트 (버튼 아래 작은 설명) */
@@ -917,11 +980,11 @@ button {
 ======================================== */
 .danger-zone {
     background: var(--white);
-    border: 2px solid var(--danger-color);  /* 빨간 테두리 강조 */
+    border: 2px solid var(--danger-color); /* 빨간 테두리 강조 */
     border-radius: var(--radius-md);
     padding: 30px;
     margin-top: 40px;
-    box-shadow: 0 4px 15px rgba(231, 74, 59, 0.15);  /* 빨간 그림자 */
+    box-shadow: 0 4px 15px rgba(231, 74, 59, 0.15); /* 빨간 그림자 */
     position: relative;
     overflow: hidden;
 }
@@ -935,11 +998,11 @@ button {
     right: 0;
     height: 5px;
     background: repeating-linear-gradient(
-        45deg,
-        var(--danger-color),
-        var(--danger-color) 10px,
-        var(--white) 10px,
-        var(--white) 20px
+            45deg,
+            var(--danger-color),
+            var(--danger-color) 10px,
+            var(--white) 10px,
+            var(--white) 20px
     );
 }
 
@@ -958,7 +1021,7 @@ button {
 
 .danger-header h2 {
     margin: 0;
-    font-family: var(--chosun-font), serif;  /* 명조체로 강조 */
+    font-family: var(--chosun-font), serif; /* 명조체로 강조 */
 }
 
 /* 위험 구역 설명 텍스트 */
@@ -1030,13 +1093,13 @@ button {
 
 .search-form .input-group span {
     white-space: nowrap;
-    order: -1;  /* span을 input보다 먼저 배치 */
+    order: -1; /* span을 input보다 먼저 배치 */
 }
 
 .search-form .btn-primary {
     width: auto;
     padding: 10px 25px;
-    flex-shrink: 0;  /* 버튼 크기 고정 */
+    flex-shrink: 0; /* 버튼 크기 고정 */
 }
 
 /* 통계 테이블 스타일 */
@@ -1113,10 +1176,21 @@ button {
     transition: width 1s ease-in-out;
 }
 
-.bar-normal { background: var(--occupied-blue); }
-.bar-light { background: var(--ev-green); }
-.bar-disabled { background: var(--danger-color); }
-.bar-monthly { background: var(--warning-color); }
+.bar-normal {
+    background: var(--occupied-blue);
+}
+
+.bar-light {
+    background: var(--ev-green);
+}
+
+.bar-disabled {
+    background: var(--danger-color);
+}
+
+.bar-monthly {
+    background: var(--warning-color);
+}
 
 .type-count {
     width: 60px;
@@ -1125,8 +1199,14 @@ button {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ========================================
@@ -1449,7 +1529,7 @@ button {
    17. 모달창 확인용 (대시보드)
 ======================================== */
 
-.modal{
+.modal {
     display: none;
     position: absolute;
     z-index: 999;
@@ -1459,14 +1539,14 @@ button {
     align-content: center;
 }
 
-.modal-content{
+.modal-content {
     margin: 0 auto;
     width: 500px;
     height: 600px;
     text-align: center;
 }
 
-.modal-content > button{
+.modal-content > button {
     background: var(--accent-blue);
     width: 100px;
     margin: 10px;

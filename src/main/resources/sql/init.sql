@@ -74,12 +74,15 @@ create table if not exists admin
     `name`           varchar(30) not null comment '사용자의 이름',
     `email`          varchar(50) not null unique comment '이메일 정보',
     `authorization`  enum ('user','master') default 'user' comment '권한정보',
-    `authentication` boolean comment '로그인 가능 여부'
+    `authentication` boolean comment '로그인 가능 여부',
+    `uuid` char(36) comment '자동로그인 코드'
+
 );
 
 -- 로그인용 계정을 추가
 insert into admin (id, password, name, email, authorization, authentication)
-values ('1','1','실험자','testmail@test.com','master',true);
+values ('1','$2a$10$.WhdtJ5oz2ZIbtIAlOH54.OtuOA1.IAfzmnTdQZxNs0DVO19h5NAC','실험자','testmail@test.com','master',true);
+delete FROM admin where id = '1';
 
 
 create table if not exists auth_token

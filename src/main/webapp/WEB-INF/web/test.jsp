@@ -10,10 +10,10 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/public.css">
 </head>
 <body>
-<header class="dashboard-header">
-    <%@include file="common/header.jsp" %>
-</header>
 <div class="container">
+    <header class="dashboard-header">
+        <%@include file="common/header.jsp" %>
+    </header>
 
     <!-- 알림 메시지 -->
     <c:if test="${not empty message}">

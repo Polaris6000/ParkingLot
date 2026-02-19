@@ -82,6 +82,8 @@ parkingData.forEach(item => {
     //얘들은 onclick을 갱신해주면 되겠다.
     parkingSpot[spot - 1].onclick = exitProcess;
 });
+
+console.log(parkingJSON);
 /*****************************************************************************/
 
 //할인정보가 변경되면 자동으로 비용 계산 다시 해줘.
@@ -95,10 +97,11 @@ function enterProcess(event) {
     //입차 처리 중
     const now = new Date();
     //날짜 저장.
-    const day = now.getFullYear() + "-" + ("" + (now.getMonth() + 1)).padStart(2, "0") + "-" + ("" + now.getDay()).padStart(2, "0");
+    const day = now.getFullYear() + "-" + ("" + (now.getMonth() + 1)).padStart(2, "0") + "-" + ("" + now.getDate()).padStart(2, "0");
     //시간 저장
     // console.log(now);
     const time = ("" + now.getHours()).padStart(2, "0") + ":" + ("" + (now.getMinutes() + 1)).padStart(2, "0");
+
 
     idInput_r.value = "";
     dateBackUp_r.value = now;
@@ -137,12 +140,12 @@ function exitProcess(event) {
     const now = new Date();
     // console.log(now)
     //날짜 저장.
-    const day = now.getFullYear() + "-" + ("" + (now.getMonth() + 1)).padStart(2, "0") + "-" + ("" + now.getDay()).padStart(2, "0");
+    const day = now.getFullYear() + "-" + ("" + (now.getMonth() + 1)).padStart(2, "0") + "-" + ("" + now.getDate()).padStart(2, "0");
     //시간 저장
     const time = ("" + now.getHours()).padStart(2, "0") + ":" + ("" + (now.getMinutes() + 1)).padStart(2, "0");
 
     //input 값들을 설정.
-    id.value = thisTarget.id
+    idInput_r.value = thisTarget.id
     dateBackUp_r.value = entryTime;
     payTimeInput_r.value = day + 'T' + time + ':' + now.getSeconds();
     date_r.value = entryTime.split(' ')[0];
@@ -250,7 +253,6 @@ moneyBtn.onclick = () => {
             modalDataInput(); //데이터를 복사하기.
             modalDiv.style.display = 'block';
             //모달창이 보이게 하면 됌.
-
             break;
     }
 

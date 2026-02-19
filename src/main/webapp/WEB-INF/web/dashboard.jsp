@@ -193,12 +193,9 @@
 
         <!-- 우측 패널: 상세 정보 -->
         <div class="right-panel">
-            <%--                <div class="detail-placeholder" id="detailPanel">--%>
-            <%--                    <i class="fas fa-info-circle"></i>--%>
-            <%--                    <p>주차 구역을 클릭하면<br>상세 정보가 표시됩니다</p>--%>
-            <%--                </div>--%>
+<%--            carInfo.jsp 페이지 불러오기 --%>
             <%@include file="common/carInfo.jsp" %>
-            <div class="info-row">
+            <div>
                 <!-- 정산 버튼 -->
                 <button id="execute-btn" class="exit-btn" style="background: gray; cursor: not-allowed;" disabled>
                     <i class="fas fa-sign-out-alt"></i> <span>정산하기</span>

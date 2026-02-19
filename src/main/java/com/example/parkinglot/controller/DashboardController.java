@@ -41,17 +41,8 @@ public class DashboardController extends HttpServlet {
 
                 log.info("현재 차량관련 정보를 가져오기");
                 List<ParkingCarDTO> parkings = dashboardService.getCurrentParking();
-//                List<ParkingCarDTO> parkings = new ArrayList<>();
-//                List<String> kind = List.of("normal", "disabled", "light", "monthly");
-//                for (int i = 1; i < 10; i++) {
-//                    parkings.add(ParkingCarDTO.builder()
-//                            .id(i)
-//                            .parkingSpot("A0" + i)
-//                            .plateNumber("test" + i)
-//                            .entryTime(LocalDateTime.now())
-//                            .kindOfDiscount(kind.get(i % 4))
-//                            .build());
-//                }
+                log.info("현재 주차된 정보 : {}", parkings);
+
 
                 int currentParking = parkings.size();
                 int todayVisitor = dashboardService.getTodayVisitor();
