@@ -2,13 +2,13 @@ package com.example.parkinglot.vo;
 
 import lombok.*;
 
-@Getter
-@ToString
+// discount_info 테이블과 매핑되는 VO
+// 기존 is_disability_discount, is_compact_car boolean → kind enum으로 통합 변경
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class DiscountInfoVO {
-    Integer id; //차량의 할인 정보
-    boolean disabilityDiscount; // 장애인 할인 여부
-    boolean compactCar; // 경차 할인 여부
+    private Integer id;
+    private String kind; // normal / light / disabled / monthly / turn
 }

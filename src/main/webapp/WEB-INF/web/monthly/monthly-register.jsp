@@ -24,11 +24,11 @@
         if (error != null && !error.isEmpty()) {
             String errorMsg;
             switch (error) {
-                case "duplicate":  errorMsg = "이미 등록된 차량번호입니다.";               break;
-                case "empty":      errorMsg = "모든 항목을 입력해 주세요.";                break;
-                case "invaliddate":errorMsg = "날짜 형식이 올바르지 않습니다.";             break;
-                case "daterange":  errorMsg = "만료일은 시작일보다 이후여야 합니다.";        break;
-                default:           errorMsg = "입력 오류가 발생했습니다. 다시 시도해 주세요."; break;
+                case "duplicate":     errorMsg = "이미 등록된 기간과 겹칩니다. 날짜를 확인해 주세요."; break;
+                case "empty":         errorMsg = "모든 항목을 입력해 주세요.";                        break;
+                case "invaliddate":   errorMsg = "날짜 형식이 올바르지 않습니다.";                    break;
+                case "invalidmonths": errorMsg = "개월 수는 1~12 사이로 입력해 주세요.";              break;
+                default:              errorMsg = "입력 오류가 발생했습니다. 다시 시도해 주세요.";      break;
             }
     %>
     <div class="alert alert-error">
@@ -49,7 +49,7 @@
 
             <div class="form-row">
 
-                <!-- 차량번호 -->
+                <!-- 차량번호: blur 시 기존 회원 정보 자동 조회 -->
                 <div class="form-group">
                     <label for="plateNumber"><i class="fas fa-car"></i> 차량번호 <span style="color: var(--danger-color);">*</span></label>
                     <input type="text"
@@ -58,7 +58,8 @@
                            placeholder="예) 123가4567"
                            maxlength="20"
                            required>
-                    <p class="help-text">차량번호는 중복 등록이 불가합니다.</p>
+                    <%-- 기존 회원 조회 결과 표시 (연장 시 이름/연락처 자동 입력, 다음 시작일 안내) --%>
+                    <p class="help-text" id="memberHint" style="color: var(--primary-color);"></p>
                 </div>
 
                 <!-- 이름 -->
@@ -92,7 +93,7 @@
 
             <div class="form-row">
 
-                <!-- 시작일 -->
+                <!-- 시작일: 연장 회원이면 AJAX로 자동 세팅 -->
                 <div class="form-group">
                     <label for="beginDate"><i class="fas fa-calendar-plus"></i> 시작일 <span style="color: var(--danger-color);">*</span></label>
                     <input type="date"
@@ -101,14 +102,19 @@
                            required>
                 </div>
 
-                <!-- 만료일 -->
+                <!-- 개월 수: 기존 만료일 직접 입력 방식 → 개월 수 입력으로 변경 -->
+                <%-- Service에서 개월 수만큼 행 분리 후 INSERT --%>
+                <%-- ex) 3개월 → 3행: 1개월씩 begin/expiry 계산 후 저장 --%>
                 <div class="form-group">
-                    <label for="expiryDate"><i class="fas fa-calendar-xmark"></i> 만료일 <span style="color: var(--danger-color);">*</span></label>
-                    <input type="date"
-                           id="expiryDate"
-                           name="expiryDate"
+                    <label for="months"><i class="fas fa-calendar-alt"></i> 등록 개월 수 <span style="color: var(--danger-color);">*</span></label>
+                    <input type="number"
+                           id="months"
+                           name="months"
+                           min="1"
+                           max="12"
+                           value="1"
                            required>
-                    <p class="help-text">만료일은 시작일보다 이후여야 합니다.</p>
+                    <p class="help-text" id="expiryPreview">만료 예정일이 여기에 표시됩니다.</p>
                 </div>
 
             </div>
@@ -133,18 +139,63 @@
 </div>
 
 <script>
-    // 시작일 선택 시 만료일 최솟값 자동 설정
-    document.getElementById('beginDate').addEventListener('change', function () {
-        const beginDate = this.value;
-        const expiryDateInput = document.getElementById('expiryDate');
-        if (beginDate) {
-            expiryDateInput.min = beginDate;
-            // 만료일이 시작일보다 이전이면 초기화
-            if (expiryDateInput.value && expiryDateInput.value < beginDate) {
-                expiryDateInput.value = '';
-            }
-        }
+    const contextPath = "${pageContext.request.contextPath}";
+
+    // 차량번호 blur 시 기존 회원 정보 조회 (연장 여부 확인)
+    document.getElementById('plateNumber').addEventListener('blur', function () {
+        const plateNumber = this.value.trim();
+        if (!plateNumber) return;
+
+        fetch(contextPath + '/monthly/getNextBeginDate?plateNumber=' + encodeURIComponent(plateNumber))
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                // 시작일 자동 세팅
+                document.getElementById('beginDate').value = data.nextBeginDate;
+
+                // 기존 회원이면 이름/연락처 자동 입력 + 안내 문구 표시
+                if (data.name) {
+                    document.getElementById('name').value        = data.name;
+                    document.getElementById('phoneNumber').value = data.phoneNumber;
+                    document.getElementById('memberHint').textContent =
+                        '기존 회원 정보를 불러왔습니다. 시작일: ' + data.nextBeginDate;
+                } else {
+                    document.getElementById('memberHint').textContent =
+                        '신규 회원입니다.';
+                }
+
+                // 만료 예정일 미리보기 갱신
+                updateExpiryPreview();
+            })
+            .catch(function() {
+                // 조회 실패 시 오늘 날짜로 초기화
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('beginDate').value = today;
+            });
     });
+
+    // 시작일 또는 개월 수 변경 시 만료 예정일 미리보기 갱신
+    document.getElementById('beginDate').addEventListener('change', updateExpiryPreview);
+    document.getElementById('months').addEventListener('input',  updateExpiryPreview);
+
+    function updateExpiryPreview() {
+        const beginVal = document.getElementById('beginDate').value;
+        const months   = parseInt(document.getElementById('months').value);
+
+        if (!beginVal || isNaN(months) || months < 1) {
+            document.getElementById('expiryPreview').textContent = '만료 예정일이 여기에 표시됩니다.';
+            return;
+        }
+
+        // 익월 같은 날 -1일 계산 (Service의 calcExpiryDate와 동일 로직)
+        const begin  = new Date(beginVal);
+        const expiry = new Date(begin);
+        expiry.setMonth(expiry.getMonth() + months);
+        expiry.setDate(expiry.getDate() - 1);
+
+        const expiryStr = expiry.toISOString().split('T')[0];
+        document.getElementById('expiryPreview').textContent =
+            months + '개월 등록 → 만료 예정일: ' + expiryStr;
+    }
 
     // 페이지 로드 시 오늘 날짜를 시작일 기본값으로
     window.addEventListener('DOMContentLoaded', function () {
@@ -152,7 +203,7 @@
         const beginDateInput = document.getElementById('beginDate');
         if (!beginDateInput.value) {
             beginDateInput.value = today;
-            document.getElementById('expiryDate').min = today;
+            updateExpiryPreview();
         }
     });
 </script>

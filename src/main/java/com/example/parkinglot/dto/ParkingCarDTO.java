@@ -1,11 +1,13 @@
 package com.example.parkinglot.dto;
 
-import com.example.parkinglot.dao.DiscountInfoDAO;
 import com.example.parkinglot.vo.CarInfoVO;
 import com.example.parkinglot.vo.DiscountInfoVO;
 import com.example.parkinglot.vo.ParkingTimesVO;
 import com.example.parkinglot.vo.PayLogsVO;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -23,21 +25,20 @@ public class ParkingCarDTO {
     private Integer cost; //비용 받기
 
 
-    public void setData(CarInfoVO carInfoVO, DiscountInfoVO discountInfoVO, ParkingTimesVO parkingTimesVO, boolean isMember) {
+    public void setData(CarInfoVO carInfoVO, DiscountInfoVO discountInfoVO,
+                        ParkingTimesVO parkingTimesVO, boolean isMember) {
         this.id = carInfoVO.getId();
         this.plateNumber = carInfoVO.getPlateNumber();
         this.parkingSpot = carInfoVO.getParkingSpot();
 
+        // 월정액 우선, 이후 discount_info의 kind 값 그대로 사용
         if (isMember) {
             kindOfDiscount = "monthly";
-        } else if (discountInfoVO.isDisabilityDiscount()) {
-            kindOfDiscount = "disabled";
-        } else if (discountInfoVO.isCompactCar()) {
-            kindOfDiscount = "light";
+        } else if (discountInfoVO != null) {
+            kindOfDiscount = discountInfoVO.getKind();
         } else {
             kindOfDiscount = "normal";
         }
-
 
         this.entryTime = parkingTimesVO.getEntryTime();
         this.exitTime = parkingTimesVO.getExitTime();
@@ -52,33 +53,10 @@ public class ParkingCarDTO {
     }
 
     public DiscountInfoVO toDiscountInfoVO() {
-        DiscountInfoVO discountInfoVO = null;
-
-        switch (kindOfDiscount){
-            case "disabled" ->{
-                discountInfoVO = DiscountInfoVO.builder()
-                        .id(id)
-                        .disabilityDiscount(true)
-                        .compactCar(false)
-                        .build();
-            }
-            case "light" ->{
-                discountInfoVO = DiscountInfoVO.builder()
-                        .id(id)
-                        .disabilityDiscount(false)
-                        .compactCar(true)
-                        .build();
-            }
-
-            default -> {
-                discountInfoVO = DiscountInfoVO.builder()
-                        .id(id)
-                        .disabilityDiscount(false)
-                        .compactCar(false)
-                        .build();
-            }
-        }
-         return discountInfoVO;
+        return DiscountInfoVO.builder()
+                .id(id)
+                .kind(kindOfDiscount)
+                .build();
     }
 
     public ParkingTimesVO toparkingTimesVO() {

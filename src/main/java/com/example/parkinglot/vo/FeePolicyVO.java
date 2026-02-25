@@ -8,15 +8,16 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class FeePolicyVO {
-
-    private int baseFee;                // '기본 요금'
-    private int basicUnitMinute;        // '최초 1시간(60분)'
-    private int unitFee;                // '단위당 요금 (예: 10분당 1000원)'
-    private int billingUnitMinutes;     // '추가 과금 단위 (예: 30분당)'
-    private int helpDiscountRate;       // '장애인 할인 비율 (%)'
-    private int compactDiscountRate;    // '경차 할인 비율 (%)'
-    private int gracePeriodMinutes;     // '회차인정시간 (분)'
-    private int maxCapAmount;           // '하루 최대 비용(cap)'
-    LocalDateTime updateDate;           // '요금 정책 변경 시간을 기록'
+    private int id; // 관리번호
+    private int baseFee; // 기본요금
+    private int basicUnitMinute; // 최초 1시간(60분)
+    private int unitFee; // 단위당 요금
+    private int billingUnitMinutes; // 추과 과금 단위
+    private int helpDiscountRate; // 장애인 할인비율
+    private int compactDiscountRate; // 경차 할인비율
+    private int gracePeriodMinutes; // 회차 인정 시간
+    private int maxCapAmount; // 최대비용(cap)
+    private Integer monthlyPay; // 월주차 비용
+    private LocalDateTime updateDate; // 정책 등록 날짜
 
 }
