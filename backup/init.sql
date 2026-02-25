@@ -24,7 +24,7 @@ CREATE TABLE if not exists car_info
 CREATE TABLE if not exists monthly_parking
 (
     id           INT AUTO_INCREMENT PRIMARY KEY COMMENT 'PK: 월주차 등록 번호',
-    plate_number VARCHAR(20)        NOT NULL COMMENT '차량번호',
+    plate_number VARCHAR(20) UNIQUE NOT NULL COMMENT '차량번호',
     name         VARCHAR(20)        NOT NULL COMMENT '회원 이름',
     phone_number CHAR(13)           NOT NULL COMMENT '연락처',
     begin_date   DATE               NOT NULL COMMENT '시작날짜',
@@ -43,8 +43,9 @@ CREATE TABLE if not exists parking_times
 -- 4. 할인정보: 차량별 할인 대상 여부 (순화된 표현 반영) */
 CREATE TABLE if not exists discount_info
 (
-    id   INT PRIMARY KEY COMMENT 'PK: car_info의 id와 매칭',
-    kind enum ('normal', 'light','disabled','monthly','turn'), # 할인 정보 통합해서 관리하기
+    id                     INT PRIMARY KEY COMMENT 'PK: car_info의 id와 매칭',
+    is_disability_discount boolean  default false COMMENT '장애인 할인 대상 ("True"|"False")',
+    is_compact_car         boolean  default false COMMENT '경차 여부 ("True"|"False")',
     CONSTRAINT fk_car_discount FOREIGN KEY (id) REFERENCES car_info (id)
 ) COMMENT ='차량별 할인 대상 정보';
 
@@ -60,31 +61,27 @@ CREATE TABLE if not exists fee_policy
     compact_discount_rate INT      DEFAULT 30 COMMENT '경차 할인 비율 (%)',
     grace_period_minutes  INT      DEFAULT 10 COMMENT '회차인정시간 (분)',
     max_cap_amount        INT      DEFAULT 15000 COMMENT '하루 최대 비용(cap)',
-    monthly_pay           INT      DEFAULT 200000 comment '월주차 비용',
-    update_date           DATETIME DEFAULT now() comment '요금 정책 변경 시간을 기록'
+    update_date           datetime default now() comment '요금 정책 변경 시간을 기록'
 ) COMMENT ='주차 요금 산정 정책';
 
-insert into fee_policy (base_fee, basic_unit_minute, unit_fee, billing_unit_minutes, help_discount_rate,
-                        compact_discount_rate, grace_period_minutes, max_cap_amount, update_date)
-values (default, default, default, default, default, default, default, default, default);
+insert into fee_policy (base_fee, basic_unit_minute, unit_fee, billing_unit_minutes, help_discount_rate, compact_discount_rate, grace_period_minutes, max_cap_amount, update_date) values (default,default,default,default,default,default,default,default,default);
 
 -- member
 create table if not exists admin
 (
     `id`             varchar(20) primary key comment '아이디',
     `password`       varchar(100) not null comment '비밀번호',
-    `name`           varchar(30)  not null comment '사용자의 이름',
-    `email`          varchar(50)  not null unique comment '이메일 정보',
+    `name`           varchar(30) not null comment '사용자의 이름',
+    `email`          varchar(50) not null unique comment '이메일 정보',
     `authorization`  enum ('user','master') default 'user' comment '권한정보',
     `authentication` boolean comment '로그인 가능 여부',
-    `uuid`           char(36) comment '자동로그인 코드'
+    `uuid` char(36) comment '자동로그인 코드'
 
 );
 
 -- 로그인용 계정을 추가
 insert into admin (id, password, name, email, authorization, authentication)
-values ('1', '$2a$10$.WhdtJ5oz2ZIbtIAlOH54.OtuOA1.IAfzmnTdQZxNs0DVO19h5NAC', '실험자', 'testmail@test.com', 'master',
-        true);
+values ('1','$2a$10$.WhdtJ5oz2ZIbtIAlOH54.OtuOA1.IAfzmnTdQZxNs0DVO19h5NAC','실험자','testmail@test.com','master',true);
 # delete FROM admin where id = '1';
 
 
@@ -95,12 +92,12 @@ create table if not exists auth_token
 #         회원가입, 비번 찾기, master등업 신청?
 #
 #     토큰, 유저아이디, 용도, 신청시간, 만료시간, 사용여부
-    `token`         char(36) primary key comment 'uuid를 받아서 사용.', #어차피 얘가 uuid임.
-    `id`            varchar(20) not null comment '신청자의 아이디',
-    `use`           enum ('signUp','findPw','upgrade') comment '회원가입용, 비번찾기용, 등급업',
-    `register_time` datetime    not null comment '신청시간',
-    `expiry_time`   datetime    not null comment '만료시간',
-    `is_can_use`    boolean default true comment '사용 가능 여부',
+    `token` char(36) primary key comment 'uuid를 받아서 사용.', #어차피 얘가 uuid임.
+    `id`    varchar(20) not null comment '신청자의 아이디',
+    `use`   enum ('signUp','findPw','upgrade') comment '회원가입용, 비번찾기용, 등급업',
+    `register_time` datetime not null comment '신청시간',
+    `expiry_time` datetime not null comment '만료시간',
+    `is_can_use` boolean default true comment '사용 가능 여부',
     CONSTRAINT fk_admin_id FOREIGN KEY (id) REFERENCES admin (id)
 );
 
@@ -108,42 +105,31 @@ create table if not exists pay_logs
 (
     id               int auto_increment primary key comment '관리번호',
     pay_time         datetime not null comment '결제 시간',
-    kind_of_discount enum ('normal','light','disabled','monthly','turn') comment '차종 유형',
+    kind_of_discount enum ('normal','light','disabled','monthly') comment '차종 유형',
     pay_log          int comment '결제 금액'
 ) comment ='차량 1대 결제에 대한 기록';
 
 
 -- 1. 오늘 데이터 (오늘 이용 차량 대수 및 매출 확인용)
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log)
-VALUES (NOW(), 'normal', 2000);
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log)
-VALUES (NOW(), 'light', 1400);
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log)
-VALUES (NOW(), 'disabled', 1000);
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log)
-VALUES (NOW(), 'monthly', 0);
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log)
-VALUES (DATE_SUB(NOW(), INTERVAL 1 HOUR), 'normal', 3000);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (NOW(), 'normal', 2000);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (NOW(), 'light', 1400);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (NOW(), 'disabled', 1000);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (NOW(), 'monthly', 0);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (DATE_SUB(NOW(), INTERVAL 1 HOUR), 'normal', 3000);
 
 -- 2. 어제 데이터 (일별 통계 그래프/목록 확인용)
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log)
-VALUES (DATE_SUB(CURDATE(), INTERVAL 1 SECOND), 'normal', 5000);
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log)
-VALUES (DATE_SUB(CURDATE(), INTERVAL 12 HOUR), 'light', 2100);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (DATE_SUB(CURDATE(), INTERVAL 1 SECOND), 'normal', 5000);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (DATE_SUB(CURDATE(), INTERVAL 12 HOUR), 'light', 2100);
 
 -- 3. 지난주 데이터 (일별 추이 확인용)
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log)
-VALUES (DATE_SUB(NOW(), INTERVAL 2 DAY), 'disabled', 4000);
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log)
-VALUES (DATE_SUB(NOW(), INTERVAL 3 DAY), 'normal', 2000);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (DATE_SUB(NOW(), INTERVAL 2 DAY), 'disabled', 4000);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (DATE_SUB(NOW(), INTERVAL 3 DAY), 'normal', 2000);
 
 -- 4. 지난달 데이터 (월별 통계 확인용)
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log)
-VALUES (DATE_SUB(NOW(), INTERVAL 1 MONTH), 'normal', 15000);
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES (DATE_SUB(NOW(), INTERVAL 1 MONTH), 'normal', 15000);
 
 -- 데이터 예시
-INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log)
-VALUES
+INSERT INTO pay_logs (pay_time, kind_of_discount, pay_log) VALUES
 
 -- 2025년 12월 데이터
 -- 12월 1일

@@ -15,10 +15,10 @@
 |---|---|---|
 | `car_info` | id(PK, AUTO), plate_number, parking_spot | 입차 시 INSERT |
 | `parking_times` | id(FK→car_info), entry_time, exit_time | 출차 전 exit_time IS NULL |
-| `discount_info` | id(FK→car_info), is_disability_discount, is_compact_car | boolean |
+| `discount_info` | id(FK→car_info), kind | enum('normal','light','disabled','monthly','turn') — 할인 정보 단일 컬럼으로 통합 관리 |
 | `monthly_parking` | id, plate_number(UNIQUE), name, phone_number, begin_date, expiry_date | |
-| `fee_policy` | base_fee(2000), basic_unit_minute(60), unit_fee(1000), billing_unit_minutes(30), help_discount_rate(50), compact_discount_rate(30), grace_period_minutes(10), max_cap_amount(15000) | |
-| `pay_logs` | id, pay_time, kind_of_discount(normal/light/disabled/monthly), pay_log | 출차 시 INSERT |
+| `fee_policy` | base_fee(2000), basic_unit_minute(60), unit_fee(1000), billing_unit_minutes(30), help_discount_rate(50), compact_discount_rate(30), grace_period_minutes(10), max_cap_amount(15000), monthly_pay(200000) | monthly_pay 컬럼 추가 |
+| `pay_logs` | id, pay_time, kind_of_discount(normal/light/disabled/monthly/turn), pay_log | 출차 시 INSERT |
 | `admin` | id(PK), password(bcrypt), name, email, authorization(user/master), authentication, uuid | |
 | `auth_token` | token(uuid), id(FK→admin), use(signUp/findPw/upgrade), register_time, expiry_time, is_can_use | |
 
