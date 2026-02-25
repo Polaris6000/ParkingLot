@@ -82,7 +82,7 @@ create table if not exists admin
 -- 로그인용 계정을 추가
 insert into admin (id, password, name, email, authorization, authentication)
 values ('1','$2a$10$.WhdtJ5oz2ZIbtIAlOH54.OtuOA1.IAfzmnTdQZxNs0DVO19h5NAC','실험자','testmail@test.com','master',true);
-delete FROM admin where id = '1';
+# delete FROM admin where id = '1';
 
 
 create table if not exists auth_token
