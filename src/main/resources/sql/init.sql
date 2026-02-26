@@ -24,7 +24,7 @@ CREATE TABLE if not exists car_info
 CREATE TABLE if not exists monthly_parking
 (
     id           INT AUTO_INCREMENT PRIMARY KEY COMMENT 'PK: 월주차 등록 번호',
-    plate_number VARCHAR(20) UNIQUE NOT NULL COMMENT '차량번호',
+    plate_number VARCHAR(20)        NOT NULL COMMENT '차량번호',
     name         VARCHAR(20)        NOT NULL COMMENT '회원 이름',
     phone_number CHAR(13)           NOT NULL COMMENT '연락처',
     begin_date   DATE               NOT NULL COMMENT '시작날짜',

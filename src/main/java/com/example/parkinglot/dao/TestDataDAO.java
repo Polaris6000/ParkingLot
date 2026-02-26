@@ -98,15 +98,22 @@ public class TestDataDAO {
             pstmt2.setObject(2, entryTime);
             pstmt2.executeUpdate();
 
-            // 3) discount_info 테이블에 입력 (랜덤 할인 정보)
-            boolean isDisability = random.nextInt(10) < 2; // 20% 확률
-            boolean isCompact = random.nextInt(10) < 3; // 30% 확률
+            // 3) discount_info 테이블에 입력 (ENUM 기반 랜덤 할인 정보)
+            String kind;
+            int rand = random.nextInt(100); // 100분율로 계산하는 게 확률 조정하기 편함
 
-            String sql3 = "INSERT INTO discount_info (id, is_disability_discount, is_compact_car) VALUES (?, ?, ?)";
+            if (rand < 20) {
+                kind = "disabled"; // 20% 확률
+            } else if (rand < 50) {
+                kind = "light";    // 30% 확률 (20~49)
+            } else {
+                kind = "normal";   // 나머지 50%는 일반
+            }
+
+            String sql3 = "INSERT INTO discount_info (id, kind) VALUES (?, ?)";
             @Cleanup PreparedStatement pstmt3 = conn.prepareStatement(sql3);
             pstmt3.setInt(1, carId);
-            pstmt3.setBoolean(2, isDisability);
-            pstmt3.setBoolean(3, isCompact);
+            pstmt3.setString(2, kind);
             pstmt3.executeUpdate();
 
             insertedCount++;
